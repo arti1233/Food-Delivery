@@ -28,9 +28,9 @@ class Router: ViewsRouterProtocol {
     
     func initialViewControllers() {
         guard let builder = builder, let navigationTabBarController = navigationTabBarController else { return }
-        let menuVC = UINavigationController(rootViewController: builder.createMenuVC(title: "Menu", image: UIImage(systemName: "menucard")))
+        let menuVC = UINavigationController(rootViewController: builder.createMenuVC(title: "Menu", image: UIImage(named: "menu")))
         let profileVC = UINavigationController(rootViewController: builder.createProfileVC(title: "Profile", image: UIImage(systemName: "person.fill")))
-        let basketVC = UINavigationController(rootViewController: builder.createBasketVC(title: "Basket", image: UIImage(systemName: "basket.fill")))
+        let basketVC = UINavigationController(rootViewController: builder.createBasketVC(title: "Basket", image: UIImage(named: "CustomBasket")))
         navigationTabBarController.viewControllers = [menuVC, profileVC, basketVC]
     }
 }
