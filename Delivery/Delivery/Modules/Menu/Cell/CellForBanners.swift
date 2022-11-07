@@ -9,10 +9,15 @@ import Foundation
 import SnapKit
 import UIKit
 
-class CellForBanners: UITableViewCell {
+protocol CellForBannersProtocol {
+    func configureCellForBanner(bannersArray: [UIImage])
+}
+
+class CellForBanners: UITableViewCell, CellForBannersProtocol {
     
     static var key = "CellForBanners"
-    
+    private var banners: [UIImage] = []
+ 
     private lazy var collectonForBanner: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -20,7 +25,7 @@ class CellForBanners: UITableViewCell {
         layout.minimumLineSpacing = 16
         layout.sectionInset = UIEdgeInsets(top: 24,
                                            left: 16,
-                                           bottom: 0,
+                                           bottom: 8,
                                            right: 16)
         
         var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -49,18 +54,23 @@ class CellForBanners: UITableViewCell {
             $0.height.equalTo(136)
         }
     }
+    
+    func configureCellForBanner(bannersArray: [UIImage]) {
+        banners = bannersArray
+        collectonForBanner.reloadData()
+    }
 }
 
 //MARK: - Extension for CellForBanners
-
 extension CellForBanners: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        5
+        banners.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.key, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
         cell.updateConstraints()
+        cell.configureCell(image: banners[indexPath.row])
         return cell
     }
 }

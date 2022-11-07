@@ -9,7 +9,11 @@ import Foundation
 import UIKit
 import SnapKit
 
-class BannerCell: UICollectionViewCell {
+protocol BannerCellProtocol {
+    func configureCell(indexPath: IndexPath, cell: BannerCell)
+}
+
+class BannerCell: UICollectionViewCell, BannerCellProtocol {
     
     static var key = "BannerCell"
     
@@ -18,8 +22,7 @@ class BannerCell: UICollectionViewCell {
         view.layoutIfNeeded()
         view.contentMode = .scaleToFill
         view.layer.masksToBounds = true
-        view.layer.cornerRadius = 10 
-        view.image = UIImage(named: "banner")
+        view.layer.cornerRadius = 10
         return view
     }()
     
@@ -37,5 +40,13 @@ class BannerCell: UICollectionViewCell {
         imageView.snp.makeConstraints {
             $0.trailing.leading.bottom.top.equalToSuperview()
         }
+    }
+    
+    func configureCell(indexPath: IndexPath, cell: BannerCell) {
+        
+    }
+    
+    func configureCell(image: UIImage) {
+        imageView.image = image
     }
 }

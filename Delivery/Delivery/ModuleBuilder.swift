@@ -17,10 +17,11 @@ protocol ModuleBuilderProtocol {
 class ModuleBuilder: ModuleBuilderProtocol {
     func createMenuVC(title: String, image: UIImage?) -> UIViewController {
         let view = MenuVC()
+        let alamofireProtocol = AlamofireProvider()
         view.tabBarItem.title = title
         view.tabBarItem.image = image
         let router = MenuRouter(builder: self, viewController: view)
-        let presenter = MenuPresenter(view: view, router: router)
+        let presenter = MenuPresenter(view: view, router: router, alamofireProvider: alamofireProtocol)
         view.presenter = presenter
         return view
     }

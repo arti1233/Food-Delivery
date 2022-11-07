@@ -9,13 +9,18 @@ import Foundation
 import UIKit
 import SnapKit
 
-class CellForMenuPosition: UITableViewCell {
-    
+protocol CellForMenuPositionProtocol {
+    func configureMenuCell(menuInfo: Menu, image: UIImage)
+    func startSpinerAnimation()
+    func stopSpinerAnimation()
+}
+
+class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
+
     static var key = "CellForMenuPosition"
     
     private lazy var pizzaImage: UIImageView = {
         var view = UIImageView()
-        view.image = UIImage(named: "pizza")
         view.contentMode = .scaleToFill
         return view
     }()
@@ -23,8 +28,7 @@ class CellForMenuPosition: UITableViewCell {
     private lazy var nameLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17)
-        label.text = "Ветчина и грибы"
-        label.numberOfLines = 1
+        label.numberOfLines = 2
         return label
     }()
     
@@ -32,7 +36,6 @@ class CellForMenuPosition: UITableViewCell {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         label.numberOfLines = 4
-        label.text = "Ветчина,шампиньоны, увеличинная порция моцареллы, томатный соус"
         return label
     }()
     
@@ -55,6 +58,15 @@ class CellForMenuPosition: UITableViewCell {
         return label
     }()
     
+    private lazy var spinerView: UIActivityIndicatorView = {
+        var view = UIActivityIndicatorView()
+        view.hidesWhenStopped = true
+        view.style = .medium
+        view.color = .systemPink
+        view.backgroundColor = UIColor(red: 0.992, green: 0.227, blue: 0.412, alpha: 0.1)
+        return view
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.backgroundColor = .white
@@ -63,6 +75,16 @@ class CellForMenuPosition: UITableViewCell {
         contentView.addSubview(viewForCost)
         contentView.addSubview(descriptionLabel)
         viewForCost.addSubview(costLabel)
+        contentView.addSubview(spinerView)
+        viewForCost.isHidden = true
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        pizzaImage.image = UIImage()
+        nameLabel.text = ""
+        descriptionLabel.text = ""
+        viewForCost.isHidden = true
     }
     
     required init?(coder: NSCoder) {
@@ -102,5 +124,23 @@ class CellForMenuPosition: UITableViewCell {
             $0.centerY.equalTo(viewForCost.snp.centerY)
             $0.leading.trailing.equalToSuperview()
         }
+        
+        spinerView.snp.makeConstraints {
+            $0.trailing.leading.bottom.top.equalToSuperview()
+        }
+    }
+    
+    func configureMenuCell(menuInfo: Menu, image: UIImage) {
+        nameLabel.text = menuInfo.name
+        descriptionLabel.text = menuInfo.description
+        pizzaImage.image = image
+        viewForCost.isHidden = false
+    }
+    
+    func startSpinerAnimation() {
+        spinerView.startAnimating()
+    }
+    func stopSpinerAnimation() {
+        spinerView.stopAnimating()
     }
 }
