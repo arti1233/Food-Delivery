@@ -13,6 +13,10 @@ protocol MenuPresenterProtocol: AnyObject {
     func getAmountMenuPositions() -> Int
     func configureCellForPositionMenu(indexPath: IndexPath, cell: CellForMenuPositionProtocol) 
     func configureBannerCell(indexPath: IndexPath, cell: CellForBannersProtocol)
+    func getCellLimit() -> Int
+    func loadMenuImageToCache()
+    func changeCellRange(indexPath: IndexPath)
+    func showLoader() -> Bool
 }
 
 class MenuPresenter: MenuPresenterProtocol {
@@ -21,36 +25,96 @@ class MenuPresenter: MenuPresenterProtocol {
     private(set) var banners: [UIImage] = []
     private(set) var view: MenuVCProtocol?
     private(set) var router: MenuRouterProtocol?
-    private(set) var menuInfo: [Menu]?
+    private(set) var menuInfo: [Menu] = []
     private(set) var bannersUrl: Banner?
     private(set) var alamofireProvider: AlamofireProtocol?
-    private(set) var pageLimit = 5
+    private(set) var cellLimitRange = 0...4
+    private(set) var cellLimit = 5
+    private(set) var isShowLoader = true
+    private(set) var isLoadingMenu = false
     
     required init(view: MenuVCProtocol, router: MenuRouterProtocol, alamofireProvider: AlamofireProtocol) {
         self.view = view
         self.router = router
         self.alamofireProvider = alamofireProvider
-        getMenuInfo()
         getBanners()
+    }
+    
+    func getCategories(menuInfo: Menu) {
+        
+    }
+    
+    // Get cell limit for MenuVC 
+    func getCellLimit() -> Int {
+        cellLimit
+    }
+    
+    func showLoader() -> Bool {
+        isShowLoader
+    }
+    
+    
+    // Change cellRange
+    func changeCellRange(indexPath: IndexPath) {
+        if isLoadingMenu == false {
+            guard let first = cellLimitRange.first, let last = cellLimitRange.last else { return }
+            cellLimitRange = (first + cellLimit)...(last + cellLimit)
+            isLoadingMenu = true
+            getMenuInfo()
+        }
     }
     
     // Get menu on the firebase
     func getMenuInfo() {
-        alamofireProvider?.getMenu(completion: { [weak self] result in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
+        let group = DispatchGroup()
+        for index in cellLimitRange {
+            group.enter()
+            guard let alamofireProvider = alamofireProvider else { return }
+            alamofireProvider.getMenu(position: index) { [weak self] result in
+                guard let self = self else { return }
                 switch result {
                 case .success(let success):
-                    self.menuInfo = success
-                    self.view?.successRequestForMenu()
-                    print("Пришло меню")
+                    self.menuInfo.append(success)
+                    group.leave()
                 case .failure:
-                    print("Не пришло меню")
+                    self.isShowLoader = false
+                    group.leave()
                 }
             }
-        })
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            self.loadMenuImageToCache()
+            print("Пришли позиции меню")
+        }
     }
     
+    func loadMenuImageToCache() {
+        let group = DispatchGroup()
+        for info in menuInfo {
+            group.enter()
+            if imageCache.object(forKey: info.image as NSString) == nil {
+                DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                    guard let self = self else { return }
+                    let image = info.image.image
+                    self.imageCache.setObject(image, forKey: info.image as NSString)
+                    group.leave()
+                }
+            } else {
+                group.leave()
+            }
+        }
+        
+        group.notify(queue: .main) { [weak self] in
+            guard let self = self else { return }
+            self.isLoadingMenu = false
+            self.view?.reloadTableView()
+            print("Позиции загрузились в кэш")
+        }
+    }
+
+
     //Get banner on the firebase
     func getBanners() {
         alamofireProvider?.getBanner(completion: { [weak self] result in
@@ -73,7 +137,7 @@ class MenuPresenter: MenuPresenterProtocol {
     func loadBannersImage() {
         let group = DispatchGroup()
         guard let bannersUrl = bannersUrl else { return }
-        for url in bannersUrl.banner {
+        for url in bannersUrl.baners {
             group.enter()
             DispatchQueue.global(qos: .userInitiated).async { [weak self] in
                 guard let self = self else { return }
@@ -84,35 +148,23 @@ class MenuPresenter: MenuPresenterProtocol {
         
         group.notify(queue: .main) { [weak self] in
             guard let self = self else { return }
-            self.view?.reload()
+            self.view?.reloadTableView()
+            print("Баннеры загрузились в кэш")
         }
     }
     
     // Get quantity position menu for value cell
     func getAmountMenuPositions() -> Int {
-        guard let menuInfo = menuInfo else { return 0 }
-        return menuInfo.count
+        menuInfo.count
     }
     
-    // Metod for configure CellForMenuPositionProtocol
+    // Metod for configure CellForMenuPosition
     func configureCellForPositionMenu(indexPath: IndexPath, cell: CellForMenuPositionProtocol) {
-        guard let menuInfo = menuInfo else { return }
-        if let cachedImage = imageCache.object(forKey: menuInfo[indexPath.row].image as NSString) {
-            cell.configureMenuCell(menuInfo: menuInfo[indexPath.row], image: cachedImage)
-        } else {
-            cell.startSpinerAnimation()
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                guard let self = self else { return }
-                let image = menuInfo[indexPath.row].image.image
-                self.imageCache.setObject(image, forKey: menuInfo[indexPath.row].image as NSString)
-                DispatchQueue.main.async {
-                    cell.configureMenuCell(menuInfo: menuInfo[indexPath.row], image: image)
-                    cell.stopSpinerAnimation()
-                }
-            }
-        }
+        guard let image = imageCache.object(forKey: menuInfo[indexPath.row].image as NSString) else { return }
+        cell.configureMenuCell(menuInfo: menuInfo[indexPath.row], image: image)
     }
     
+    // Metod for configure CellForBanners
     func configureBannerCell(indexPath: IndexPath, cell: CellForBannersProtocol) {
         cell.configureCellForBanner(bannersArray: banners)
     }

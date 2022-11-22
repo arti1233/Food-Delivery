@@ -13,7 +13,7 @@ class LoadingTableViewCell: UITableViewCell {
     
     static var key = "LoadingTableViewCell"
     
-    private lazy var spinerView: UIActivityIndicatorView = {
+    private lazy var spinnerView: UIActivityIndicatorView = {
         var view = UIActivityIndicatorView()
         view.hidesWhenStopped = true
         view.style = .medium
@@ -24,7 +24,8 @@ class LoadingTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(spinerView)
+        contentView.addSubview(spinnerView)
+        spinnerView.startAnimating()
     }
     
     required init?(coder: NSCoder) {
@@ -33,7 +34,7 @@ class LoadingTableViewCell: UITableViewCell {
     
     override func updateConstraints() {
         super.updateConstraints()
-        spinerView.snp.makeConstraints {
+        spinnerView.snp.makeConstraints {
             $0.leading.trailing.top.bottom.equalToSuperview()
             $0.height.equalTo(60)
         }

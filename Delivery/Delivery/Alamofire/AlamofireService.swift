@@ -9,13 +9,13 @@ import Foundation
 import Alamofire
 
 protocol AlamofireProtocol {
-    func getMenu(completion: @escaping(Result<[Menu], Error>) -> Void)
+    func getMenu(position: Int, completion: @escaping(Result<Menu, Error>) -> Void)
     func getBanner(completion: @escaping(Result<Banner, Error>) -> Void)
 }
 
 class AlamofireProvider: AlamofireProtocol {
-    func getMenu(completion: @escaping (Result<[Menu], Error>) -> Void) {
-        AF.request(Constants.menuUrl, method: .get).responseDecodable(of: [Menu].self) { response in
+    func getMenu(position: Int, completion: @escaping (Result<Menu, Error>) -> Void) {
+        AF.request(Constants.menuUrl.appending("\(position)/.json"), method: .get).responseDecodable(of: Menu.self) { response in
             switch response.result {
             case .success(let result):
                 return completion(.success(result))

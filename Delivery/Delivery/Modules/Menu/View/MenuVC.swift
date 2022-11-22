@@ -9,18 +9,26 @@ import UIKit
 import SnapKit
 
 protocol MenuVCProtocol: AnyObject {
-    func successRequestForMenu()
-    func reload() 
+    func reloadTableView()
 }
 
 class MenuVC: BaseVC, MenuVCProtocol {
 
+    enum TableSection: Int, CaseIterable {
+        case banners = 0
+        case menuPositions
+        case loader
+    }
+    
     private lazy var mainTableView: UITableView = {
         var tableView = UITableView()
         tableView.backgroundColor = .red
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.sectionHeaderTopPadding = 0
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0
+        }
+        tableView.tableHeaderView = HeaderViewForСategories()
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         tableView.register(CellForBanners.self, forCellReuseIdentifier: CellForBanners.key)
@@ -58,16 +66,12 @@ class MenuVC: BaseVC, MenuVCProtocol {
         }
     }
     
-    func successRequestForMenu() {
-        mainTableView.tableHeaderView = HeaderViewForСategories()
-        mainTableView.reloadData()
-    }
-    
-    func reload() {
+    func reloadTableView() {
         mainTableView.reloadData()
     }
     
     @objc private func cityChoosePressed(sender: UIButton) {
+        
         view.frame.origin.x = view.frame.origin.x + 150
         print("Здоров заебал")
     }
@@ -76,30 +80,49 @@ class MenuVC: BaseVC, MenuVCProtocol {
 extension MenuVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        2
+        TableSection.allCases.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
+        
+        switch TableSection.allCases[section] {
+        case .banners:
             return 1
-        } else {
+        case .menuPositions:
             return presenter.getAmountMenuPositions()
+        case .loader:
+            return presenter.showLoader() ? 1 : 0
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cellForBanners = tableView.dequeueReusableCell(withIdentifier: CellForBanners.key) as? CellForBanners,
-              let cellForPosition = tableView.dequeueReusableCell(withIdentifier: CellForMenuPosition.key) as? CellForMenuPosition else { return UITableViewCell() }
+              let cellForPosition = tableView.dequeueReusableCell(withIdentifier: CellForMenuPosition.key) as? CellForMenuPosition,
+              let loaderCell = tableView.dequeueReusableCell(withIdentifier: LoadingTableViewCell.key) as? LoadingTableViewCell else { return UITableViewCell() }
         cellForBanners.updateConstraints()
         cellForPosition.updateConstraints()
+        loaderCell.updateConstraints()
         cellForPosition.prepareForReuse()
         cellForPosition.selectionStyle = .none
-        if indexPath.section == 0 {
+        cellForBanners.selectionStyle = .none
+        loaderCell.selectionStyle = .none
+        
+        switch TableSection.allCases[indexPath.section] {
+        case .banners:
             presenter.configureBannerCell(indexPath: indexPath, cell: cellForBanners)
             return cellForBanners
-        } else {
+        case .menuPositions:
             presenter.configureCellForPositionMenu(indexPath: indexPath, cell: cellForPosition)
             return cellForPosition
+        case .loader:
+            return loaderCell
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        guard let section = TableSection(rawValue: indexPath.section) else { return }
+        if section == .loader {
+            presenter.changeCellRange(indexPath: indexPath)
         }
     }
     

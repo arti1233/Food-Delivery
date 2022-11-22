@@ -8,5 +8,5 @@
 import Foundation
 
 struct Banner: Codable {
-    var banner: [String]
+    var baners: [String]
 }
