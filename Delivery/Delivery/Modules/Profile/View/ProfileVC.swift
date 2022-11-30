@@ -12,13 +12,18 @@ protocol ProfileVCProtocol: AnyObject {
     
 }
 
-class ProfileVC: UIViewController, ProfileVCProtocol {
+class ProfileVC: BaseVC, ProfileVCProtocol {
     
     var presenter: ProfilePresenterProtocol? 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
+        title = "Profile"
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard let navigationController else { return }
+        navigationController.navigationBar.shouldRemoveShadow(true)
+    }
 }

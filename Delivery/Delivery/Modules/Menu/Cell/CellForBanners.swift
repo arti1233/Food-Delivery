@@ -38,9 +38,18 @@ class CellForBanners: UITableViewCell, CellForBannersProtocol {
         return collectionView
     }()
     
+    private lazy var spinnerView: UIActivityIndicatorView = {
+        var spinner = UIActivityIndicatorView()
+        spinner.hidesWhenStopped = true
+        spinner.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        spinner.color = .systemPink
+        return spinner
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(collectonForBanner)
+        contentView.addSubview(spinnerView)
     }
     
     required init?(coder: NSCoder) {
@@ -53,11 +62,19 @@ class CellForBanners: UITableViewCell, CellForBannersProtocol {
             $0.trailing.leading.top.bottom.equalToSuperview()
             $0.height.equalTo(136)
         }
+        
+        spinnerView.snp.makeConstraints {
+            $0.trailing.leading.top.bottom.equalToSuperview()
+        }
     }
     
     func configureCellForBanner(bannersArray: [UIImage]) {
+        spinnerView.startAnimating()
         banners = bannersArray
-        collectonForBanner.reloadData()
+        if !banners.isEmpty {
+            collectonForBanner.reloadData()
+            spinnerView.stopAnimating()
+        }
     }
 }
 

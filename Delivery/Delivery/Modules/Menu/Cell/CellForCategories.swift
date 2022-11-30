@@ -18,7 +18,7 @@ class CellForCategories: UICollectionViewCell {
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor(hue: 346, saturation: 0.77, brightness: 0.99, alpha: 0.4).cgColor
+        view.layer.borderColor = UIColor.systemPink.cgColor
         view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         return view
     }()
@@ -26,7 +26,7 @@ class CellForCategories: UICollectionViewCell {
     private lazy var categoryName: UILabel = {
         var label = UILabel()
         label.text = "Zaebis"
-        label.textColor = UIColor(hue: 346, saturation: 0.77, brightness: 0.99, alpha: 0.4)
+        label.textColor = .systemPink
         label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .center
         return label

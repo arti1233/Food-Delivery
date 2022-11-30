@@ -22,7 +22,6 @@ class MenuVC: BaseVC, MenuVCProtocol {
     
     private lazy var mainTableView: UITableView = {
         var tableView = UITableView()
-        tableView.backgroundColor = .red
         tableView.delegate = self
         tableView.dataSource = self
         if #available(iOS 15.0, *) {
@@ -54,7 +53,11 @@ class MenuVC: BaseVC, MenuVCProtocol {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cityChooseButton)
         view.addSubview(mainTableView)
-        view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.shouldRemoveShadow(true)
     }
     
     override func updateViewConstraints() {
@@ -71,9 +74,7 @@ class MenuVC: BaseVC, MenuVCProtocol {
     }
     
     @objc private func cityChoosePressed(sender: UIButton) {
-        
-        view.frame.origin.x = view.frame.origin.x + 150
-        print("Здоров заебал")
+       
     }
 }
 
@@ -119,11 +120,8 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        guard let section = TableSection(rawValue: indexPath.section) else { return }
-        if section == .loader {
-            presenter.changeCellRange(indexPath: indexPath)
-        }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        presenter.getMenuInfoInPosition(indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

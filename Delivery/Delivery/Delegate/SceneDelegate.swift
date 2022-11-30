@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let builder = ModuleBuilder()
         let router = Router(navigationTabBarController: navTabBarController, builder: builder)
         router.initialViewControllers()
-        guard let window = window else { return }
+        guard let window else { return }
         window.rootViewController = navTabBarController
         window.makeKeyAndVisible()
     }
@@ -51,7 +51,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to save data, release shared resources, and store enough scene-specific state information
         // to restore the scene back to its current state.
     }
-
-
 }
 

@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol BasketPresenterProtocol: AnyObject {
-    
+    func configurePositionCell(menuInfo: Menu, image: UIImage, quantityPosition: Int)
 }
 
 class BasketPresenter: BasketPresenterProtocol {
@@ -20,4 +20,12 @@ class BasketPresenter: BasketPresenterProtocol {
         self.view = view
         self.router = router
     }
+    
+    func configurePositionCell(menuInfo: Menu, image: UIImage, quantityPosition: Int) {
+        
+    }
+    
+    
+    
+    
 }

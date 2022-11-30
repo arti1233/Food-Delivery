@@ -22,7 +22,7 @@ class BannerCell: UICollectionViewCell, BannerCellProtocol {
         view.layoutIfNeeded()
         view.contentMode = .scaleToFill
         view.layer.masksToBounds = true
-        view.layer.cornerRadius = 10
+        view.layer.cornerRadius = 20
         return view
     }()
     

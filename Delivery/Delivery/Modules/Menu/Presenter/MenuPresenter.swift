@@ -13,9 +13,10 @@ protocol MenuPresenterProtocol: AnyObject {
     func getAmountMenuPositions() -> Int
     func configureCellForPositionMenu(indexPath: IndexPath, cell: CellForMenuPositionProtocol) 
     func configureBannerCell(indexPath: IndexPath, cell: CellForBannersProtocol)
+    func getMenuInfoInPosition(indexPath: IndexPath)
     func getCellLimit() -> Int
     func loadMenuImageToCache()
-    func changeCellRange(indexPath: IndexPath)
+    func changeCellRange()
     func showLoader() -> Bool
 }
 
@@ -28,20 +29,18 @@ class MenuPresenter: MenuPresenterProtocol {
     private(set) var menuInfo: [Menu] = []
     private(set) var bannersUrl: Banner?
     private(set) var alamofireProvider: AlamofireProtocol?
+    private(set) var realmService: RealmServiceProtocol?
     private(set) var cellLimitRange = 0...4
     private(set) var cellLimit = 5
     private(set) var isShowLoader = true
-    private(set) var isLoadingMenu = false
     
-    required init(view: MenuVCProtocol, router: MenuRouterProtocol, alamofireProvider: AlamofireProtocol) {
+    required init(view: MenuVCProtocol, router: MenuRouterProtocol, alamofireProvider: AlamofireProtocol, realmService: RealmServiceProtocol) {
         self.view = view
         self.router = router
         self.alamofireProvider = alamofireProvider
+        self.realmService = realmService
+        getMenuInfo()
         getBanners()
-    }
-    
-    func getCategories(menuInfo: Menu) {
-        
     }
     
     // Get cell limit for MenuVC 
@@ -55,13 +54,10 @@ class MenuPresenter: MenuPresenterProtocol {
     
     
     // Change cellRange
-    func changeCellRange(indexPath: IndexPath) {
-        if isLoadingMenu == false {
-            guard let first = cellLimitRange.first, let last = cellLimitRange.last else { return }
-            cellLimitRange = (first + cellLimit)...(last + cellLimit)
-            isLoadingMenu = true
-            getMenuInfo()
-        }
+    func changeCellRange() {
+        guard let first = cellLimitRange.first, let last = cellLimitRange.last else { return }
+        cellLimitRange = (first + cellLimit)...(last + cellLimit)
+        getMenuInfo()
     }
     
     // Get menu on the firebase
@@ -71,7 +67,7 @@ class MenuPresenter: MenuPresenterProtocol {
             group.enter()
             guard let alamofireProvider = alamofireProvider else { return }
             alamofireProvider.getMenu(position: index) { [weak self] result in
-                guard let self = self else { return }
+                guard let self else { return }
                 switch result {
                 case .success(let success):
                     self.menuInfo.append(success)
@@ -84,19 +80,20 @@ class MenuPresenter: MenuPresenterProtocol {
         }
         
         group.notify(queue: .main) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             self.loadMenuImageToCache()
             print("Пришли позиции меню")
         }
     }
     
+    // Load menu image on the cache
     func loadMenuImageToCache() {
         let group = DispatchGroup()
         for info in menuInfo {
             group.enter()
             if imageCache.object(forKey: info.image as NSString) == nil {
                 DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                    guard let self = self else { return }
+                    guard let self else { return }
                     let image = info.image.image
                     self.imageCache.setObject(image, forKey: info.image as NSString)
                     group.leave()
@@ -107,8 +104,10 @@ class MenuPresenter: MenuPresenterProtocol {
         }
         
         group.notify(queue: .main) { [weak self] in
-            guard let self = self else { return }
-            self.isLoadingMenu = false
+            guard let self else { return }
+            if self.isShowLoader {
+                self.changeCellRange()
+            }
             self.view?.reloadTableView()
             print("Позиции загрузились в кэш")
         }
@@ -118,7 +117,7 @@ class MenuPresenter: MenuPresenterProtocol {
     //Get banner on the firebase
     func getBanners() {
         alamofireProvider?.getBanner(completion: { [weak self] result in
-            guard let self = self else { return }
+            guard let self else { return }
             DispatchQueue.main.async {
                 switch result {
                 case .success(let success):
@@ -136,18 +135,19 @@ class MenuPresenter: MenuPresenterProtocol {
     
     func loadBannersImage() {
         let group = DispatchGroup()
+        var banner: [UIImage] = []
         guard let bannersUrl = bannersUrl else { return }
         for url in bannersUrl.baners {
             group.enter()
-            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-                guard let self = self else { return }
-                self.banners.append(url.image)
+            DispatchQueue.global(qos: .userInitiated).async {
+                banner.append(url.image)
                 group.leave()
             }
         }
         
         group.notify(queue: .main) { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
+            self.banners = banner
             self.view?.reloadTableView()
             print("Баннеры загрузились в кэш")
         }
@@ -167,5 +167,11 @@ class MenuPresenter: MenuPresenterProtocol {
     // Metod for configure CellForBanners
     func configureBannerCell(indexPath: IndexPath, cell: CellForBannersProtocol) {
         cell.configureCellForBanner(bannersArray: banners)
+    }
+    
+    // Metod for get menu info and image for open AddPositionVC
+    func getMenuInfoInPosition(indexPath: IndexPath) {
+        guard let image = imageCache.object(forKey: menuInfo[indexPath.row].image as NSString) else { return }
+        router?.showAddPositionVC(menuInfo: menuInfo[indexPath.row], image: image)
     }
 }

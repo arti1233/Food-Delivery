@@ -10,13 +10,11 @@ import UIKit
 
 class BaseVC: UIViewController {
     
-//MARK: Standart setting for UIViewController
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        guard let navigationBar = navigationController?.navigationBar else { return }
-        navigationBar.barTintColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
-        navigationBar.setBackgroundImage(UIImage(), for:.default)
-        navigationBar.shadowImage = UIImage()
-        navigationBar.layoutIfNeeded()
+    //MARK: Standart setting for UIViewController
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        guard let navigationController else { return }
+        navigationController.navigationBar.barTintColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
     }
 }

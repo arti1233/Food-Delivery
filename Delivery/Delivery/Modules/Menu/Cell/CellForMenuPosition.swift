@@ -25,15 +25,15 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
     
     private lazy var nameLabel: UILabel = {
         var label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 17)
-        label.numberOfLines = 2
+        label.font = UIFont.systemFont(ofSize: 19, weight: .bold)
+        label.numberOfLines = 0
         return label
     }()
     
     private lazy var descriptionLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
-        label.numberOfLines = 4
+        label.numberOfLines = 3
         return label
     }()
     
@@ -43,13 +43,14 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
         view.layer.cornerRadius = 6
         view.layer.borderWidth = 1
         view.backgroundColor = .white
-        view.layer.borderColor = UIColor(red: 0.992, green: 0.227, blue: 0.412, alpha: 1).cgColor
+        view.layer.cornerRadius = 16 
+        view.layer.borderColor = UIColor.systemPink.cgColor
         return view
     }()
     
     private lazy var costLabel: UILabel = {
         var label = UILabel()
-        label.textColor = UIColor(red: 0.992, green: 0.227, blue: 0.412, alpha: 1)
+        label.textColor = .systemPink
         label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .center
         return label
@@ -85,7 +86,7 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
             $0.height.equalTo(132)
             $0.width.equalTo(132)
             $0.top.bottom.equalToSuperview().inset(24)
-            $0.leading.equalToSuperview().inset(16)
+            $0.leading.equalToSuperview().inset(8)
         }
         
         nameLabel.snp.makeConstraints {
@@ -104,7 +105,6 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
             $0.height.equalTo(32)
             $0.width.equalTo(87)
             $0.trailing.equalToSuperview().inset(24)
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(16)
             $0.bottom.equalToSuperview().inset(16)
         }
         
@@ -121,6 +121,6 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
         descriptionLabel.text = menuInfo.description
         pizzaImage.image = image
         viewForCost.isHidden = false
-        costLabel.text = "от \(cost) р"
+        costLabel.text = "\(cost) $"
     }
 }
