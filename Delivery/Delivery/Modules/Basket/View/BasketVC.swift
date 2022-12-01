@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 protocol BasketVCProtocol: AnyObject {
-    
+    func reloadTableView() 
 }
 
 class BasketVC: BaseVC, BasketVCProtocol {
@@ -68,6 +68,7 @@ class BasketVC: BaseVC, BasketVCProtocol {
         tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        tableView.register(CellFopBasketPosition.self, forCellReuseIdentifier: CellFopBasketPosition.key)
         return tableView
     }()
     
@@ -139,6 +140,10 @@ class BasketVC: BaseVC, BasketVCProtocol {
         
     }
     
+    func reloadTableView() {
+        tableView.reloadData()
+    }
+    
     @objc private func goToMenu(sender: UIButton) {
         guard let tabBarController else { return }
         tabBarController.selectedIndex = 0
@@ -154,10 +159,28 @@ class BasketVC: BaseVC, BasketVCProtocol {
 
 extension BasketVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
+        guard let presenter else { return 0 }
+        return presenter.getCountPosition()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let presenter,
+              let cell = tableView.dequeueReusableCell(withIdentifier: CellFopBasketPosition.key) as? CellFopBasketPosition else { return UITableViewCell() }
+        cell.selectionStyle = .none
+        cell.updateConstraints()
+        cell.prepareForReuse()
+        cell.closureForMinusButton = {
+            
+        }
+        cell.closureForPlusButton = {
+            
+        }
+        presenter.configurePositionCell(indexPath: indexPath, cell: cell)
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let presenter else { return }
+        presenter.getMenuInfoInPosition(indexPath: indexPath)
     }
 }

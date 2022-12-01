@@ -29,17 +29,27 @@ class AddPositionPresenter: AddPositionPresenterProtocol {
     private(set) var realmService: RealmServiceProtocol?
     private(set) var menuInfo: Menu
     private(set) var image: UIImage
-    private(set) var countPosition: Int = 1 
-
+    private(set) var countPosition: Int = 1
+    private(set) var basketRealm: Basket?
+    
     required init(view: AddPositionVCProtocol, router: AddPositionRouterProtocol, menuInfo: Menu, image: UIImage, realmService: RealmServiceProtocol) {
         self.realmService = realmService
         self.image = image
         self.menuInfo = menuInfo
         self.router = router
         self.view = view
-        view.configureVC(menuInfo: menuInfo, image: image)
-        view.changeCountLabel(value: countPosition)
-        realmService.realmUrl()
+        basketRealm = realmService.isThereElementInRealm(menuInfo: menuInfo)
+        if let basketRealm {
+            guard let cost = menuInfo.cost else { return }
+            view.configureVC(menuInfo: menuInfo, image: image)
+            countPosition = basketRealm.countPosition
+            view.changeCountLabel(value: basketRealm.countPosition, cost: basketRealm.countPosition * cost)
+        } else {
+            guard let cost = menuInfo.cost else { return }
+            view.configureVC(menuInfo: menuInfo, image: image)
+            view.changeCountLabel(value: countPosition, cost: countPosition * cost)
+        }
+//        realmService.realmUrl()
     }
     
     // Func for close VC
@@ -49,22 +59,27 @@ class AddPositionPresenter: AddPositionPresenterProtocol {
     
     // Func for add menu position on realm and basket
     func addPositionInBasket() {
-        guard let realmService else { return }
-        realmService.addPositionInBasket(menuInfo: menuInfo, countPosition: 3)
+        guard let realmService, let view else { return }
+        realmService.addPositionInBasket(menuInfo: menuInfo, countPosition: countPosition)
     }
     
     // Tap plus button on VC
     func plusPosition() {
-        guard let view else { return }
+        guard let view, let cost = menuInfo.cost else { return }
         countPosition += 1
-        view.changeCountLabel(value: countPosition)
+        view.changeStatusButton(isMinusButton: true, isPlusButton: true)
+        view.changeCountLabel(value: countPosition, cost: countPosition * cost)
     }
     
     // Tap minus button on VC
     func minusPosition() {
-        guard let view else { return }
-        countPosition -= 1
-        view.changeCountLabel(value: countPosition)
+        guard let view, let cost = menuInfo.cost else { return }
+        if countPosition - 1 >= 1 {
+            countPosition -= 1
+            view.changeCountLabel(value: countPosition, cost: countPosition * cost)
+        } else {
+            view.changeStatusButton(isMinusButton: false, isPlusButton: true)
+        }
     }
     
 }

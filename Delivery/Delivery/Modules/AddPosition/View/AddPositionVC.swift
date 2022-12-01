@@ -11,7 +11,9 @@ import SnapKit
 
 protocol AddPositionVCProtocol {
     func configureVC(menuInfo: Menu, image: UIImage)
-    func changeCountLabel(value: Int)
+    func changeCountLabel(value: Int, cost: Int)
+    // This metod change off/on status button plus and minus
+    func changeStatusButton(isMinusButton: Bool, isPlusButton: Bool)
 }
 
 class AddPositionVC: BaseVC, AddPositionVCProtocol {
@@ -140,6 +142,7 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
     
     @objc func addMenuPosition(sender: UIButton) {
         presenter.addPositionInBasket()
+        presenter.closeVC(viewController: self)
     }
     
     @objc func closeButtonTapped(sender: UIButton) {
@@ -150,8 +153,14 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
         presenter.closeVC(viewController: self)
     }
     
-    func changeCountLabel(value: Int) {
+    func changeStatusButton(isMinusButton: Bool, isPlusButton: Bool) {
+        minusButton.isEnabled = isMinusButton
+        plusButton.isEnabled = isPlusButton
+    }
+    
+    func changeCountLabel(value: Int, cost: Int) {
         countLabel.text = value.description
+        costLabel.text =  "Cost: \(cost.description) $"
     }
     
     override func updateViewConstraints() {

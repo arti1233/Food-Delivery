@@ -9,12 +9,17 @@ import Foundation
 import UIKit
 import SnapKit
 
+
+
 protocol CellFopBasketPositionProtocol {
-    func configureCell(menuInfo: Menu, image: UIImage, quantityPosition: Int)
+    func configureCell(menuInfo: Basket, image: UIImage)
 }
 
 class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
     static var key = "CellFopBasketPosition"
+    
+    var closureForPlusButton: (() -> ())?
+    var closureForMinusButton: (() -> ())?
     
     private lazy var menuImageView: UIImageView = {
         var view = UIImageView()
@@ -22,13 +27,9 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
         return view
     }()
     
-    private lazy var stepper: UIStepper = {
-        var stepper = UIStepper()
-        return stepper
-    }()
-    
     private lazy var numberPositionsLabel: UILabel = {
         var label = UILabel()
+        label.textAlignment = .center
         return label
     }()
     
@@ -42,7 +43,7 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
     private lazy var descriptionLabel: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
-        label.numberOfLines = 3
+        label.numberOfLines = 2
         return label
     }()
     
@@ -55,6 +56,7 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.layer.borderColor = UIColor.systemPink.cgColor
+        view.backgroundColor = .clear
         return view
     }()
     
@@ -66,46 +68,87 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
         return label
     }()
     
+    private lazy var plusButton: UIButton = {
+        var button = UIButton()
+        button.backgroundColor = .systemPink
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.addTarget(self, action: #selector(plusButtonTap), for: .touchUpInside)
+        button.tintColor = .white
+        button.layer.cornerRadius = 15
+        return button
+    }()
+    
+    private lazy var minusButton: UIButton = {
+        var button = UIButton()
+        button.backgroundColor = .systemPink
+        button.setImage(UIImage(systemName: "minus"), for: .normal)
+        button.addTarget(self, action: #selector(minusButtonTap), for: .touchUpInside)
+        button.tintColor = .white
+        button.layer.cornerRadius = 15
+        return button
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(menuImageView)
-        contentView.addSubview(stepper)
         contentView.addSubview(numberPositionsLabel)
         contentView.addSubview(nameLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(viewForCost)
         viewForCost.addSubview(costLabel)
+        contentView.addSubview(minusButton)
+        contentView.addSubview(plusButton)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        costLabel.text = ""
+        menuImageView.image = UIImage()
+        numberPositionsLabel.text = ""
+        descriptionLabel.text = ""
+        nameLabel.text = ""
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(menuInfo: Menu, image: UIImage, quantityPosition: Int) {
-        guard let cost = menuInfo.cost else { return }
+    @objc func plusButtonTap(sender: UIButton) {
+        guard let closureForPlusButton else { return }
+        closureForPlusButton()
+    }
+    
+    @objc func minusButtonTap(sender: UIButton) {
+        guard let closureForMinusButton else { return }
+        closureForMinusButton()
+    }
+    
+    func configureCell(menuInfo: Basket, image: UIImage) {
+        guard let cost = menuInfo.cost,
+              let description = menuInfo.descriptionPosition else { return }
         menuImageView.image = image
-        numberPositionsLabel.text = quantityPosition.description
+        numberPositionsLabel.text = menuInfo.countPosition.description
         nameLabel.text = menuInfo.name
-        descriptionLabel.text = menuInfo.description
+        descriptionLabel.text = description
         costLabel.text = "\(cost) $"
     }
     
     override func updateConstraints() {
         super.updateConstraints()
         menuImageView.snp.makeConstraints {
-            $0.height.width.equalTo(132)
-            $0.top.leading.bottom.equalToSuperview().inset(16)
+            $0.height.width.equalTo(100)
+            $0.top.bottom.leading.equalToSuperview().inset(16)
         }
         
         nameLabel.snp.makeConstraints {
-            $0.leading.equalTo(menuImageView.snp.trailing).offset(24)
+            $0.leading.equalTo(menuImageView.snp.trailing).offset(16)
             $0.top.equalToSuperview().inset(16)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(8)
         }
         
         descriptionLabel.snp.makeConstraints {
-            $0.leading.equalTo(menuImageView.snp.trailing).offset(24)
-            $0.trailing.equalToSuperview().inset(16)
+            $0.leading.equalTo(menuImageView.snp.trailing).offset(16)
+            $0.trailing.equalToSuperview().inset(8)
             $0.top.equalTo(nameLabel.snp.bottom).offset(8)
         }
         
@@ -121,16 +164,22 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
             $0.leading.trailing.equalToSuperview()
         }
         
-        stepper.snp.makeConstraints {
-            $0.leading.equalTo(menuImageView.snp.trailing).offset(24)
-            $0.trailing.equalToSuperview().inset(16)
-            $0.height.equalTo(32)
-            $0.width.equalTo(87)
+        minusButton.snp.makeConstraints {
+            $0.leading.equalTo(menuImageView.snp.trailing).offset(16)
+            $0.centerY.equalTo(viewForCost.snp.centerY)
+            $0.width.height.equalTo(30)
         }
         
         numberPositionsLabel.snp.makeConstraints {
-            $0.centerY.equalTo(stepper.snp.centerY)
-            $0.leading.equalTo(stepper.snp.trailing).offset(16)
+            $0.leading.equalTo(minusButton.snp.trailing)
+            $0.width.equalTo(30)
+            $0.centerY.equalTo(viewForCost.snp.centerY)
+        }
+        
+        plusButton.snp.makeConstraints {
+            $0.leading.equalTo(numberPositionsLabel.snp.trailing)
+            $0.centerY.equalTo(viewForCost.snp.centerY)
+            $0.width.height.equalTo(30)
         }
     }
 }

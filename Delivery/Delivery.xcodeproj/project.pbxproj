@@ -241,8 +241,8 @@
 			isa = PBXGroup;
 			children = (
 				AEB717FA28FD557200099C16 /* View */,
-				AEB717FB28FD557D00099C16 /* Router */,
 				AEB717FC28FD558400099C16 /* Presenter */,
+				AEB717FB28FD557D00099C16 /* Router */,
 				AE8C5BAC292F981500EFCA14 /* Cell */,
 			);
 			path = Basket;

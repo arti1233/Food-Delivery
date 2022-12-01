@@ -40,10 +40,12 @@ class ModuleBuilder: ModuleBuilderProtocol {
     
     func createBasketVC(title: String, image: UIImage?) -> UIViewController {
         let view = BasketVC()
+        let alamofireProtocol = AlamofireProvider()
+        let realmProtocol = RealmService()
         view.tabBarItem.title = title
         view.tabBarItem.image = image
         let router = BasketRouter(builder: self, viewController: view)
-        let presenter = BasketPresenter(view: view, router: router)
+        let presenter = BasketPresenter(view: view, router: router, realmService: realmProtocol, alamofireService: alamofireProtocol)
         view.presenter = presenter
         return view
     }

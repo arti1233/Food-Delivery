@@ -16,12 +16,14 @@ class Basket: Object {
     @Persisted var name: String?
     @Persisted var cost: Int?
     @Persisted var descriptionPosition: String?
-    @Persisted var countPosition: Int = 0
+    @Persisted var countPosition: Int = 1
 }
 
 protocol RealmServiceProtocol {
     func addPositionInBasket(menuInfo: Menu, countPosition: Int)
     func realmUrl()
+    func isThereElementInRealm(menuInfo: Menu) -> Basket?
+    func getAllPositionInBasket() -> Results<Basket>
 }
 
 class RealmService: RealmServiceProtocol {
@@ -37,10 +39,24 @@ class RealmService: RealmServiceProtocol {
         basket.descriptionPosition = menuInfo.description
         basket.countPosition = countPosition
         
-        try! realm.write {
-            realm.add(basket)
+        do {
+            try realm.write { realm.add(basket, update: .modified) }
+        } catch {
+            print("Чет не получилось")
         }
+    
     }
+    
+    func getAllPositionInBasket() -> Results<Basket> {
+        realm.objects(Basket.self)
+    }
+    
+    func isThereElementInRealm(menuInfo: Menu) -> Basket? {
+        let basket = realm.object(ofType: Basket.self, forPrimaryKey: "\(menuInfo.image)")
+        guard let basket else { return nil }
+        return basket
+    }
+    
     
     func realmUrl() {
        print(realm.configuration.fileURL?.description) 
