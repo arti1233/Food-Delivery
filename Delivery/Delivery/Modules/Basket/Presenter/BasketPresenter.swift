@@ -13,6 +13,8 @@ protocol BasketPresenterProtocol: AnyObject {
     func configurePositionCell(indexPath: IndexPath, cell: CellFopBasketPosition)
     func getCountPosition() -> Int
     func getMenuInfoInPosition(indexPath: IndexPath)
+    func minusButtonTapped(indexPath: IndexPath)
+    func plusButtonTapped(indexPath: IndexPath)
 }
 
 class BasketPresenter: BasketPresenterProtocol {
@@ -23,6 +25,7 @@ class BasketPresenter: BasketPresenterProtocol {
     private(set) var resultsBasket: Results<Basket>?
     private(set) var imageCache = NSCache<NSString, UIImage>()
     private(set) var notificationToken: NotificationToken?
+    private(set) var totalSum: Int = 0
     
     required init(view: BasketVCProtocol, router: BasketRouterProtocol, realmService: RealmServiceProtocol, alamofireService: AlamofireProtocol) {
         self.view = view
@@ -30,14 +33,27 @@ class BasketPresenter: BasketPresenterProtocol {
         self.realmService = realmService
         self.alamofireService = alamofireService
         resultsBasket = realmService.getAllPositionInBasket()
+        view.isBasketEmpty(result: self.resultsBasket?.isEmpty ?? true)
         loadMenuImageToCache()
+        getTotalSum()
         notificationToken = resultsBasket?.observe { [weak self] (changes: RealmCollectionChange) in
             guard let self else { return }
             switch changes {
             default :
                 self.resultsBasket = realmService.getAllPositionInBasket()
+                self.view?.isBasketEmpty(result: self.resultsBasket?.isEmpty ?? true)
+                self.getTotalSum()
                 self.loadMenuImageToCache()
             }
+        }
+    }
+    
+    func getTotalSum() {
+        guard let resultsBasket else { return }
+        totalSum = 0
+        for position in resultsBasket {
+            guard let cost = position.cost else { return }
+            totalSum += cost * position.countPosition
         }
     }
     
@@ -62,8 +78,30 @@ class BasketPresenter: BasketPresenterProtocol {
         return count
     }
     
+    func minusButtonTapped(indexPath: IndexPath) {
+        guard let resultsBasket = resultsBasket?[indexPath.row] else { return }
+        if resultsBasket.countPosition - 1 == 0 {
+            realmService?.deleteObject(basket: resultsBasket)
+        } else {
+            guard let descriptionPosition = resultsBasket.descriptionPosition,
+                  let image = resultsBasket.image,
+                  let name = resultsBasket.name,
+                  let cost = resultsBasket.cost else { return }
+            let menu = Menu(categoryID: [0], description: descriptionPosition, image: image, name: name, cost: cost)
+            realmService?.addPositionInBasket(menuInfo: menu, countPosition: resultsBasket.countPosition - 1)
+        }
+    }
     
-    
+    func plusButtonTapped(indexPath: IndexPath) {
+        guard let resultsBasket = resultsBasket?[indexPath.row],
+              let descriptionPosition = resultsBasket.descriptionPosition,
+              let image = resultsBasket.image,
+              let name = resultsBasket.name,
+              let cost = resultsBasket.cost else { return }
+        let menu = Menu(categoryID: [0], description: descriptionPosition, image: image, name: name, cost: cost)
+        realmService?.addPositionInBasket(menuInfo: menu, countPosition: resultsBasket.countPosition + 1)
+        realmService?.realmUrl()
+    }
     
     func loadMenuImageToCache() {
         let group = DispatchGroup()
@@ -85,7 +123,7 @@ class BasketPresenter: BasketPresenterProtocol {
         
         group.notify(queue: .main) { [weak self] in
             guard let self else { return }
-            self.view?.reloadTableView()
+            self.view?.reloadVC(totalSum: self.totalSum)
             print("Позиции загрузились в кэш КОРЗИНЫ")
         }
     }

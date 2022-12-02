@@ -10,7 +10,8 @@ import UIKit
 import SnapKit
 
 protocol BasketVCProtocol: AnyObject {
-    func reloadTableView() 
+    func reloadVC(totalSum: Int)
+    func isBasketEmpty(result: Bool)
 }
 
 class BasketVC: BaseVC, BasketVCProtocol {
@@ -53,7 +54,7 @@ class BasketVC: BaseVC, BasketVCProtocol {
     
     private lazy var nextButton: UIButton = {
         var button = UIButton()
-        button.setTitle("Next", for: .normal)
+        button.setTitle("Next step", for: .normal)
         button.addTarget(self, action: #selector(nextToDelivery), for: .touchUpInside)
         button.backgroundColor = .systemPink
         button.tintColor = .white
@@ -72,6 +73,12 @@ class BasketVC: BaseVC, BasketVCProtocol {
         return tableView
     }()
     
+    private lazy var totalSumLabel: UILabel = {
+        var label = UILabel()
+        label.text = "Total: 2000 $"
+        return label
+    }()
+    
     
     var presenter: BasketPresenterProtocol? 
     
@@ -81,9 +88,9 @@ class BasketVC: BaseVC, BasketVCProtocol {
         view.addSubview(transitionToMenuLabel)
         view.addSubview(menuButton)
         view.addSubview(segmentController)
-        view.addSubview(nextButton)
         view.addSubview(tableView)
-        hideEmptyElement(true)
+        view.addSubview(nextButton)
+        view.addSubview(totalSumLabel)
         title = "Basket"
     }
     
@@ -115,20 +122,27 @@ class BasketVC: BaseVC, BasketVCProtocol {
         
         segmentController.snp.makeConstraints {
             $0.trailing.leading.equalToSuperview().inset(16)
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.height.equalTo(40)
         }
         
         nextButton.snp.makeConstraints {
-            $0.trailing.leading.equalToSuperview().inset(16)
+            $0.trailing.equalToSuperview().inset(8)
             $0.height.equalTo(40)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(16)
+            $0.width.equalTo(view.frame.width * 0.65)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(8)
+        }
+        
+        totalSumLabel.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(8)
+            $0.trailing.equalTo(nextButton.snp.leading).offset(8)
+            $0.centerY.equalTo(nextButton.snp.centerY)
         }
         
         tableView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(segmentController.snp.bottom).offset(16)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.bottom.equalTo(nextButton.snp.top).offset(-8)
         }
     }
     
@@ -140,8 +154,9 @@ class BasketVC: BaseVC, BasketVCProtocol {
         
     }
     
-    func reloadTableView() {
+    func reloadVC(totalSum: Int) {
         tableView.reloadData()
+        totalSumLabel.text = "Total: \(totalSum.description) $"
     }
     
     @objc private func goToMenu(sender: UIButton) {
@@ -149,10 +164,24 @@ class BasketVC: BaseVC, BasketVCProtocol {
         tabBarController.selectedIndex = 0
     }
     
-    private func hideEmptyElement(_ isHidden: Bool) {
-        emptyBasketLabel.isHidden = isHidden
-        transitionToMenuLabel.isHidden = isHidden
-        menuButton.isHidden = isHidden
+    func isBasketEmpty(result: Bool)  {
+        if result {
+            emptyBasketLabel.isHidden = false
+            transitionToMenuLabel.isHidden = false
+            menuButton.isHidden = false
+            segmentController.isHidden = true
+            nextButton.isHidden = true
+            tableView.isHidden = true
+            totalSumLabel.isHidden = true
+        } else {
+            emptyBasketLabel.isHidden = true
+            transitionToMenuLabel.isHidden = true
+            menuButton.isHidden = true
+            segmentController.isHidden = false
+            nextButton.isHidden = false
+            tableView.isHidden = false
+            totalSumLabel.isHidden = false
+        }
     }
 }
 
@@ -170,10 +199,10 @@ extension BasketVC: UITableViewDelegate, UITableViewDataSource {
         cell.updateConstraints()
         cell.prepareForReuse()
         cell.closureForMinusButton = {
-            
+            presenter.minusButtonTapped(indexPath: indexPath)
         }
         cell.closureForPlusButton = {
-            
+            presenter.plusButtonTapped(indexPath: indexPath)
         }
         presenter.configurePositionCell(indexPath: indexPath, cell: cell)
         return cell
@@ -183,4 +212,6 @@ extension BasketVC: UITableViewDelegate, UITableViewDataSource {
         guard let presenter else { return }
         presenter.getMenuInfoInPosition(indexPath: indexPath)
     }
+    
+    
 }

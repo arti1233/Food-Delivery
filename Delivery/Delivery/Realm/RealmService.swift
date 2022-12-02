@@ -17,6 +17,7 @@ class Basket: Object {
     @Persisted var cost: Int?
     @Persisted var descriptionPosition: String?
     @Persisted var countPosition: Int = 1
+    
 }
 
 protocol RealmServiceProtocol {
@@ -24,6 +25,7 @@ protocol RealmServiceProtocol {
     func realmUrl()
     func isThereElementInRealm(menuInfo: Menu) -> Basket?
     func getAllPositionInBasket() -> Results<Basket>
+    func deleteObject(basket: Basket)
 }
 
 class RealmService: RealmServiceProtocol {
@@ -44,7 +46,17 @@ class RealmService: RealmServiceProtocol {
         } catch {
             print("Чет не получилось")
         }
+    }
     
+    
+    
+    func deleteObject(basket: Basket) {
+        let object = basket
+        do {
+            try realm.write { realm.delete(basket) }
+        } catch {
+            print("Чет не получилось")
+        }
     }
     
     func getAllPositionInBasket() -> Results<Basket> {
