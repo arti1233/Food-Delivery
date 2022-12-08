@@ -21,6 +21,9 @@
 		AE6A9F4428FC29AE008DF24D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AE6A9F4228FC29AE008DF24D /* LaunchScreen.storyboard */; };
 		AE6A9F4D28FC29C3008DF24D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = AE6A9F4C28FC29C3008DF24D /* SnapKit */; };
 		AE8C5BAB292F97FF00EFCA14 /* CellFopBasketPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8C5BAA292F97FF00EFCA14 /* CellFopBasketPosition.swift */; };
+		AEA7D9C62940C65400545757 /* OrderRegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA7D9C52940C65400545757 /* OrderRegistrationVC.swift */; };
+		AEA7D9CA2940C77400545757 /* OrderRegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA7D9C92940C77400545757 /* OrderRegistrationPresenter.swift */; };
+		AEA7D9CD2940C7B800545757 /* OrderRegistrationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA7D9CC2940C7B800545757 /* OrderRegistrationRouter.swift */; };
 		AEB717E428FD540C00099C16 /* MenuPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB717E328FD540C00099C16 /* MenuPresenter.swift */; };
 		AEB717E628FD541F00099C16 /* MenuRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB717E528FD541F00099C16 /* MenuRouter.swift */; };
 		AEB717EA28FD548600099C16 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB717E928FD548600099C16 /* ProfileVC.swift */; };
@@ -63,6 +66,9 @@
 		AE6A9F4328FC29AE008DF24D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		AE6A9F4528FC29AE008DF24D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE8C5BAA292F97FF00EFCA14 /* CellFopBasketPosition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellFopBasketPosition.swift; sourceTree = "<group>"; };
+		AEA7D9C52940C65400545757 /* OrderRegistrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRegistrationVC.swift; sourceTree = "<group>"; };
+		AEA7D9C92940C77400545757 /* OrderRegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRegistrationPresenter.swift; sourceTree = "<group>"; };
+		AEA7D9CC2940C7B800545757 /* OrderRegistrationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRegistrationRouter.swift; sourceTree = "<group>"; };
 		AEB717E328FD540C00099C16 /* MenuPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPresenter.swift; sourceTree = "<group>"; };
 		AEB717E528FD541F00099C16 /* MenuRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRouter.swift; sourceTree = "<group>"; };
 		AEB717E928FD548600099C16 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -157,6 +163,40 @@
 			path = Cell;
 			sourceTree = "<group>";
 		};
+		AEA7D9C72940C66000545757 /* OrderRegistration */ = {
+			isa = PBXGroup;
+			children = (
+				AEA7D9C82940C75B00545757 /* View */,
+				AEA7D9CB2940C78100545757 /* Presenter */,
+				AEA7D9CE2940C89F00545757 /* Router */,
+			);
+			path = OrderRegistration;
+			sourceTree = "<group>";
+		};
+		AEA7D9C82940C75B00545757 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AEA7D9C52940C65400545757 /* OrderRegistrationVC.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		AEA7D9CB2940C78100545757 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				AEA7D9C92940C77400545757 /* OrderRegistrationPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		AEA7D9CE2940C89F00545757 /* Router */ = {
+			isa = PBXGroup;
+			children = (
+				AEA7D9CC2940C7B800545757 /* OrderRegistrationRouter.swift */,
+			);
+			path = Router;
+			sourceTree = "<group>";
+		};
 		AEB717E028FD52FF00099C16 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,6 +204,7 @@
 				AEB717EF28FD54A800099C16 /* Profile */,
 				AEB717F928FD555A00099C16 /* Basket */,
 				AED8CC7729322B5700525C50 /* AddPosition */,
+				AEA7D9C72940C66000545757 /* OrderRegistration */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -455,6 +496,9 @@
 				AE47A8092919147D00A75813 /* LoadingTableViewCell.swift in Sources */,
 				AE8C5BAB292F97FF00EFCA14 /* CellFopBasketPosition.swift in Sources */,
 				AE6A9F3A28FC29AA008DF24D /* SceneDelegate.swift in Sources */,
+				AEA7D9C62940C65400545757 /* OrderRegistrationVC.swift in Sources */,
+				AEA7D9CD2940C7B800545757 /* OrderRegistrationRouter.swift in Sources */,
+				AEA7D9CA2940C77400545757 /* OrderRegistrationPresenter.swift in Sources */,
 				AED187D12906837A0049B2DD /* CellForMenuPosition.swift in Sources */,
 				AEB717E628FD541F00099C16 /* MenuRouter.swift in Sources */,
 				AEB7180328FD707200099C16 /* Router.swift in Sources */,

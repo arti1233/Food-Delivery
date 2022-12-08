@@ -151,7 +151,8 @@ class BasketVC: BaseVC, BasketVCProtocol {
     }
     
     @objc private func nextToDelivery(sender: UIButton) {
-        
+        guard let presenter else { return }
+        presenter.nextStepButtonTapped()
     }
     
     func reloadVC(totalSum: Int) {

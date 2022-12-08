@@ -15,6 +15,7 @@ protocol BaseBasketProtocol {
 
 protocol BasketRouterProtocol: BaseBasketProtocol {
     func showAddPositionVC(menuInfo: Menu, image: UIImage)
+    func showOrderRegistrationVC()
 }
 
 class BasketRouter: BasketRouterProtocol {
@@ -30,6 +31,12 @@ class BasketRouter: BasketRouterProtocol {
         guard let view = builder?.createAddPositionVC(menuInfo: menuInfo, image: image),
               let viewController else { return }
         view.modalPresentationStyle = .overFullScreen
+        viewController.present(view, animated: true)
+    }
+    
+    func showOrderRegistrationVC() {
+        guard let view = builder?.createOrderRegistrationVC(),
+              let viewController else { return }
         viewController.present(view, animated: true)
     }
 }

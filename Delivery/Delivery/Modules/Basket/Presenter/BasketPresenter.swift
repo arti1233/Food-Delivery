@@ -15,6 +15,7 @@ protocol BasketPresenterProtocol: AnyObject {
     func getMenuInfoInPosition(indexPath: IndexPath)
     func minusButtonTapped(indexPath: IndexPath)
     func plusButtonTapped(indexPath: IndexPath)
+    func nextStepButtonTapped()
 }
 
 class BasketPresenter: BasketPresenterProtocol {
@@ -46,6 +47,11 @@ class BasketPresenter: BasketPresenterProtocol {
                 self.loadMenuImageToCache()
             }
         }
+    }
+    
+    func nextStepButtonTapped() {
+        guard let router else { return }
+        router.showOrderRegistrationVC()
     }
     
     func getTotalSum() {

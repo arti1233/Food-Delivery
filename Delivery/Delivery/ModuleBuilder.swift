@@ -13,6 +13,7 @@ protocol ModuleBuilderProtocol {
     func createProfileVC(title: String, image: UIImage?) -> UIViewController
     func createBasketVC(title: String, image: UIImage?) -> UIViewController
     func createAddPositionVC(menuInfo: Menu, image: UIImage) -> UIViewController
+    func createOrderRegistrationVC() -> UIViewController
 }
 
 class ModuleBuilder: ModuleBuilderProtocol {
@@ -55,6 +56,14 @@ class ModuleBuilder: ModuleBuilderProtocol {
         let router = AddPositionRouter(builder: self, viewController: view)
         let realmService = RealmService()
         let presenter = AddPositionPresenter(view: view, router: router, menuInfo: menuInfo, image: image, realmService: realmService)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createOrderRegistrationVC() -> UIViewController {
+        let view = OrderRegistrationVC()
+        let router = OrderRegistrationRouter(builder: self, viewController: view)
+        let presenter = OrderRegistrationPresenter(view: view, router: router)
         view.presenter = presenter
         return view
     }

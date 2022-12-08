@@ -59,7 +59,7 @@ class AddPositionPresenter: AddPositionPresenterProtocol {
     
     // Func for add menu position on realm and basket
     func addPositionInBasket() {
-        guard let realmService, let view else { return }
+        guard let realmService else { return }
         realmService.addPositionInBasket(menuInfo: menuInfo, countPosition: countPosition)
     }
     
