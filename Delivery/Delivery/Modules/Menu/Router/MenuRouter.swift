@@ -15,6 +15,7 @@ protocol BaseMenuProtocol {
 
 protocol MenuRouterProtocol: BaseMenuProtocol {
     func showAddPositionVC(menuInfo: Menu, image: UIImage)
+    func showSlideMenuVC()
 }
 
 class MenuRouter: MenuRouterProtocol {
@@ -31,5 +32,12 @@ class MenuRouter: MenuRouterProtocol {
               let viewController else { return }
         view.modalPresentationStyle = .overFullScreen
         viewController.present(view, animated: true)
+    }
+    
+    func showSlideMenuVC() {
+        guard let view = builder?.createSlideMenuVC(),
+              let viewController else { return }
+        view.modalPresentationStyle = .overFullScreen
+        viewController.present(view, animated: false)
     }
 }

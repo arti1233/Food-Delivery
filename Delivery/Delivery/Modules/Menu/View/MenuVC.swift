@@ -39,11 +39,8 @@ class MenuVC: BaseVC, MenuVCProtocol {
     private lazy var cityChooseButton: UIButton = {
         var button = UIButton(type: .system)
         button.addTarget(self, action: #selector(cityChoosePressed), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
-        button.semanticContentAttribute = .forceRightToLeft
         button.tintColor = .black
-        button.setTitle("City ", for: .normal)
-        button.setImage(UIImage(named: "Icon"), for: .normal)
+        button.setImage(UIImage(systemName: "text.justify"), for: .normal)
         return button
     }()
     
@@ -74,7 +71,7 @@ class MenuVC: BaseVC, MenuVCProtocol {
     }
     
     @objc private func cityChoosePressed(sender: UIButton) {
-       
+        presenter.showSlideMenu()
     }
 }
 

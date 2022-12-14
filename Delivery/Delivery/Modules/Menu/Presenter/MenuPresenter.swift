@@ -18,6 +18,7 @@ protocol MenuPresenterProtocol: AnyObject {
     func loadMenuImageToCache()
     func changeCellRange()
     func showLoader() -> Bool
+    func showSlideMenu()
 }
 
 class MenuPresenter: MenuPresenterProtocol {
@@ -171,7 +172,13 @@ class MenuPresenter: MenuPresenterProtocol {
     
     // Metod for get menu info and image for open AddPositionVC
     func getMenuInfoInPosition(indexPath: IndexPath) {
-        guard let image = imageCache.object(forKey: menuInfo[indexPath.row].image as NSString) else { return }
-        router?.showAddPositionVC(menuInfo: menuInfo[indexPath.row], image: image)
+        guard let image = imageCache.object(forKey: menuInfo[indexPath.row].image as NSString),
+              let router else { return }
+        router.showAddPositionVC(menuInfo: menuInfo[indexPath.row], image: image)
+    }
+    
+    func showSlideMenu() {
+        guard let router else { return }
+        router.showSlideMenuVC()
     }
 }

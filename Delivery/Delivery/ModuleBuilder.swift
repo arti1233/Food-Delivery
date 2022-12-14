@@ -14,6 +14,7 @@ protocol ModuleBuilderProtocol {
     func createBasketVC(title: String, image: UIImage?) -> UIViewController
     func createAddPositionVC(menuInfo: Menu, image: UIImage) -> UIViewController
     func createOrderRegistrationVC() -> UIViewController
+    func createSlideMenuVC() -> UIViewController
 }
 
 class ModuleBuilder: ModuleBuilderProtocol {
@@ -64,6 +65,14 @@ class ModuleBuilder: ModuleBuilderProtocol {
         let view = OrderRegistrationVC()
         let router = OrderRegistrationRouter(builder: self, viewController: view)
         let presenter = OrderRegistrationPresenter(view: view, router: router)
+        view.presenter = presenter
+        return view
+    }
+    
+    func createSlideMenuVC() -> UIViewController {
+        let view = SlideMenuVC()
+        let router = SlideMenuRouter(builder: self, viewController: view)
+        let presenter = SlideMenuPresenter(view: view, router: router )
         view.presenter = presenter
         return view
     }
