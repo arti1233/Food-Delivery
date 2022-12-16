@@ -135,14 +135,17 @@ class SlideMenuVC: UIViewController, SlideMenuVCProtocol {
     
     @objc private func menuButtonPressed(sender: UIButton) {
         animationSlideMenuClose()
+        presenter.goToMenuButtonTapped()
     }
     
     @objc private func profileButtonPressed(sender: UIButton) {
         animationSlideMenuClose()
+        presenter.goToProfileButtonTapped()
     }
     
     @objc private func basketButtonPressed(sender: UIButton) {
         animationSlideMenuClose()
+        presenter.goToBasketButtonTapped()
     }
     
     @objc private func aboutButtonPressed(sender: UIButton) {

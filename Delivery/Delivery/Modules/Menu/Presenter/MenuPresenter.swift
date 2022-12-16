@@ -18,7 +18,7 @@ protocol MenuPresenterProtocol: AnyObject {
     func loadMenuImageToCache()
     func changeCellRange()
     func showLoader() -> Bool
-    func showSlideMenu()
+    func showSlideMenu(tabBarController: UITabBarController)
 }
 
 class MenuPresenter: MenuPresenterProtocol {
@@ -177,8 +177,8 @@ class MenuPresenter: MenuPresenterProtocol {
         router.showAddPositionVC(menuInfo: menuInfo[indexPath.row], image: image)
     }
     
-    func showSlideMenu() {
+    func showSlideMenu(tabBarController: UITabBarController) {
         guard let router else { return }
-        router.showSlideMenuVC()
+        router.showSlideMenuVC(tabBarController: tabBarController)
     }
 }

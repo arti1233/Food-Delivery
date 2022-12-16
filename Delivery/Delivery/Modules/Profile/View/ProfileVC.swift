@@ -14,10 +14,19 @@ protocol ProfileVCProtocol: AnyObject {
 
 class ProfileVC: BaseVC, ProfileVCProtocol {
     
-    var presenter: ProfilePresenterProtocol? 
+    var presenter: ProfilePresenterProtocol?
+    
+    private lazy var slideMenuButton: UIButton = {
+        var button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(slideMenuButtonPressed), for: .touchUpInside)
+        button.tintColor = .black
+        button.setImage(UIImage(systemName: "text.justify"), for: .normal)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
         title = "Profile"
     }
     
@@ -25,5 +34,10 @@ class ProfileVC: BaseVC, ProfileVCProtocol {
         super.viewWillAppear(animated)
         guard let navigationController else { return }
         navigationController.navigationBar.shouldRemoveShadow(true)
+    }
+    
+    @objc private func slideMenuButtonPressed(sender: UIButton) {
+        guard let tabBarController else { return }
+        presenter?.showSlideMenu(tabBarController: tabBarController)
     }
 }

@@ -16,6 +16,8 @@ protocol BasketPresenterProtocol: AnyObject {
     func minusButtonTapped(indexPath: IndexPath)
     func plusButtonTapped(indexPath: IndexPath)
     func nextStepButtonTapped()
+    func showSlideMenu(tabBarController: UITabBarController)
+    func goToMenuButtonTapped(tabBar: UITabBarController)
 }
 
 class BasketPresenter: BasketPresenterProtocol {
@@ -47,6 +49,15 @@ class BasketPresenter: BasketPresenterProtocol {
                 self.loadMenuImageToCache()
             }
         }
+    }
+    
+    func goToMenuButtonTapped(tabBar: UITabBarController) {
+        tabBar.selectedIndex = 0
+    }
+    
+    func showSlideMenu(tabBarController: UITabBarController) {
+        guard let router else { return }
+        router.showSlideMenuVC(tabBarController: tabBarController)
     }
     
     func nextStepButtonTapped() {

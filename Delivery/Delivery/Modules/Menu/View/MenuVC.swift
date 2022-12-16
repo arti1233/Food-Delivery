@@ -36,9 +36,9 @@ class MenuVC: BaseVC, MenuVCProtocol {
         return tableView
     }()
     
-    private lazy var cityChooseButton: UIButton = {
+    private lazy var slideMenuButton: UIButton = {
         var button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(cityChoosePressed), for: .touchUpInside)
+        button.addTarget(self, action: #selector(slideMenuButtonPressed), for: .touchUpInside)
         button.tintColor = .black
         button.setImage(UIImage(systemName: "text.justify"), for: .normal)
         return button
@@ -48,7 +48,7 @@ class MenuVC: BaseVC, MenuVCProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: cityChooseButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
         view.addSubview(mainTableView)
     }
     
@@ -70,8 +70,9 @@ class MenuVC: BaseVC, MenuVCProtocol {
         mainTableView.reloadData()
     }
     
-    @objc private func cityChoosePressed(sender: UIButton) {
-        presenter.showSlideMenu()
+    @objc private func slideMenuButtonPressed(sender: UIButton) {
+        guard let tabBarController else { return }
+        presenter.showSlideMenu(tabBarController: tabBarController)
     }
 }
 

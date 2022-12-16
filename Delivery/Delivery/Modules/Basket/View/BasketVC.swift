@@ -38,7 +38,7 @@ class BasketVC: BaseVC, BasketVCProtocol {
         button.addTarget(self, action: #selector(goToMenu), for: .touchUpInside)
         button.backgroundColor = .systemPink
         button.tintColor = .white
-        button.layer.cornerRadius = 16
+        button.layer.cornerRadius = 25
         return button
     }()
     
@@ -79,11 +79,20 @@ class BasketVC: BaseVC, BasketVCProtocol {
         return label
     }()
     
+    private lazy var slideMenuButton: UIButton = {
+        var button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(slideMenuButtonPressed), for: .touchUpInside)
+        button.tintColor = .black
+        button.setImage(UIImage(systemName: "text.justify"), for: .normal)
+        return button
+    }()
+    
     
     var presenter: BasketPresenterProtocol? 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
         view.addSubview(emptyBasketLabel)
         view.addSubview(transitionToMenuLabel)
         view.addSubview(menuButton)
@@ -115,7 +124,7 @@ class BasketVC: BaseVC, BasketVCProtocol {
         
         menuButton.snp.makeConstraints {
             $0.width.equalTo(view.frame.width * 0.6)
-            $0.height.equalTo(32)
+            $0.height.equalTo(50)
             $0.centerX.equalTo(view.snp.centerX)
             $0.top.equalTo(transitionToMenuLabel.snp.bottom).offset(16)
         }
@@ -150,6 +159,11 @@ class BasketVC: BaseVC, BasketVCProtocol {
         
     }
     
+    @objc private func slideMenuButtonPressed(sender: UIButton) {
+        guard let tabBarController else { return }
+        presenter?.showSlideMenu(tabBarController: tabBarController)
+    }
+    
     @objc private func nextToDelivery(sender: UIButton) {
         guard let presenter else { return }
         presenter.nextStepButtonTapped()
@@ -161,8 +175,8 @@ class BasketVC: BaseVC, BasketVCProtocol {
     }
     
     @objc private func goToMenu(sender: UIButton) {
-        guard let tabBarController else { return }
-        tabBarController.selectedIndex = 0
+        guard let presenter, let tabBarController else { return }
+        presenter.goToMenuButtonTapped(tabBar: tabBarController)
     }
     
     func isBasketEmpty(result: Bool)  {
