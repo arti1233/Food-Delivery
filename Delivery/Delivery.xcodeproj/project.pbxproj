@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AE2128762909A57300BC9613 /* BannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2128752909A57300BC9613 /* BannerModel.swift */; };
 		AE2128782909A5D200BC9613 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2128772909A5D200BC9613 /* Constants.swift */; };
+		AE23F94B2966CF1B009BED10 /* CustomTextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE23F94A2966CF1B009BED10 /* CustomTextField+Extension.swift */; };
 		AE47A8092919147D00A75813 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE47A8082919147D00A75813 /* LoadingTableViewCell.swift */; };
 		AE51B5C32902B59E00EC41A1 /* CellForBanners.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE51B5C22902B59E00EC41A1 /* CellForBanners.swift */; };
 		AE51B5C52902BD6900EC41A1 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE51B5C42902BD6900EC41A1 /* BannerCell.swift */; };
@@ -25,6 +26,7 @@
 		AE8D4C0F2949C62600F1762A /* SlideMenuPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8D4C0E2949C62600F1762A /* SlideMenuPresenter.swift */; };
 		AE8D4C112949C63100F1762A /* SlideMenuRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8D4C102949C63100F1762A /* SlideMenuRouter.swift */; };
 		AE8D4C18294B1B6100F1762A /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE8D4C17294B1B6100F1762A /* UIButton+Extension.swift */; };
+		AE9B652D2965AA4E002D55D0 /* JVFloatLabeledTextField in Frameworks */ = {isa = PBXBuildFile; productRef = AE9B652C2965AA4E002D55D0 /* JVFloatLabeledTextField */; };
 		AEA7D9C62940C65400545757 /* OrderRegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA7D9C52940C65400545757 /* OrderRegistrationVC.swift */; };
 		AEA7D9CA2940C77400545757 /* OrderRegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA7D9C92940C77400545757 /* OrderRegistrationPresenter.swift */; };
 		AEA7D9CD2940C7B800545757 /* OrderRegistrationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA7D9CC2940C7B800545757 /* OrderRegistrationRouter.swift */; };
@@ -58,6 +60,7 @@
 /* Begin PBXFileReference section */
 		AE2128752909A57300BC9613 /* BannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerModel.swift; sourceTree = "<group>"; };
 		AE2128772909A5D200BC9613 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		AE23F94A2966CF1B009BED10 /* CustomTextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomTextField+Extension.swift"; sourceTree = "<group>"; };
 		AE47A8082919147D00A75813 /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingTableViewCell.swift; sourceTree = "<group>"; };
 		AE51B5C22902B59E00EC41A1 /* CellForBanners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForBanners.swift; sourceTree = "<group>"; };
 		AE51B5C42902BD6900EC41A1 /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
@@ -108,6 +111,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AED8CC722932225000525C50 /* RealmSwift in Frameworks */,
+				AE9B652D2965AA4E002D55D0 /* JVFloatLabeledTextField in Frameworks */,
 				AED8CC702932225000525C50 /* Realm in Frameworks */,
 				AE6A9F4D28FC29C3008DF24D /* SnapKit in Frameworks */,
 				AED187DA2906E1520049B2DD /* Alamofire in Frameworks */,
@@ -401,6 +405,7 @@
 				AED187DB2907C2080049B2DD /* BaseVC.swift */,
 				AED187DE29080A720049B2DD /* String+Extension.swift */,
 				AED1504B292D16150064DE62 /* UITabBarController+Extension.swift */,
+				AE23F94A2966CF1B009BED10 /* CustomTextField+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -468,6 +473,7 @@
 				AED187D92906E1520049B2DD /* Alamofire */,
 				AED8CC6F2932225000525C50 /* Realm */,
 				AED8CC712932225000525C50 /* RealmSwift */,
+				AE9B652C2965AA4E002D55D0 /* JVFloatLabeledTextField */,
 			);
 			productName = Delivery;
 			productReference = AE6A9F3428FC29AA008DF24D /* Delivery.app */;
@@ -501,6 +507,7 @@
 				AE6A9F4B28FC29C3008DF24D /* XCRemoteSwiftPackageReference "SnapKit" */,
 				AED187D82906E1520049B2DD /* XCRemoteSwiftPackageReference "Alamofire" */,
 				AED8CC6E2932225000525C50 /* XCRemoteSwiftPackageReference "realm-swift" */,
+				AE9B652B2965AA4E002D55D0 /* XCRemoteSwiftPackageReference "JVFloatLabeledTextField" */,
 			);
 			productRefGroup = AE6A9F3528FC29AA008DF24D /* Products */;
 			projectDirPath = "";
@@ -551,6 +558,7 @@
 				AED8CC7C29322B9A00525C50 /* AddPositionRouter.swift in Sources */,
 				AED8CC7A29322B8D00525C50 /* AddPositionPresenter.swift in Sources */,
 				AE8D4C0F2949C62600F1762A /* SlideMenuPresenter.swift in Sources */,
+				AE23F94B2966CF1B009BED10 /* CustomTextField+Extension.swift in Sources */,
 				AE8D4C112949C63100F1762A /* SlideMenuRouter.swift in Sources */,
 				AEB717F628FD554500099C16 /* BasketRouter.swift in Sources */,
 				AE47A8092919147D00A75813 /* LoadingTableViewCell.swift in Sources */,
@@ -787,6 +795,14 @@
 				minimumVersion = 5.0.0;
 			};
 		};
+		AE9B652B2965AA4E002D55D0 /* XCRemoteSwiftPackageReference "JVFloatLabeledTextField" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jverdi/JVFloatLabeledTextField";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 		AED187D82906E1520049B2DD /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -810,6 +826,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AE6A9F4B28FC29C3008DF24D /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		AE9B652C2965AA4E002D55D0 /* JVFloatLabeledTextField */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AE9B652B2965AA4E002D55D0 /* XCRemoteSwiftPackageReference "JVFloatLabeledTextField" */;
+			productName = JVFloatLabeledTextField;
 		};
 		AED187D92906E1520049B2DD /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
