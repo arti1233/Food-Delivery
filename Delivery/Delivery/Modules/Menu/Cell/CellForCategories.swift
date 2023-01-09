@@ -32,6 +32,10 @@ class CellForCategories: UICollectionViewCell {
         return label
     }()
     
+    func changeTitleCell(name: String) {
+        categoryName.text = name
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(category)

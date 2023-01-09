@@ -17,6 +17,9 @@ class MyTextField: JVFloatLabeledTextField {
         spacerView.backgroundColor = .clear
         leftViewMode = .always
         leftView = spacerView
+        floatingLabelActiveTextColor = .systemPink
+        floatingLabelTextColor = .systemPink
+        floatingLabel.font = UIFont.systemFont(ofSize: 14, weight: .heavy)
     }
     
     required init?(coder: NSCoder) {

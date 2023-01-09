@@ -9,6 +9,32 @@ import Foundation
 import UIKit
 import SnapKit
 
+enum NameCategories: CaseIterable {
+    case whoper
+    case burger
+    case sandwich
+    case fries
+    case drinks
+    case combo
+    
+    var title: String {
+        switch self {
+        case .whoper:
+            return "Whopper"
+        case .burger:
+            return "Burger"
+        case .sandwich:
+            return "Sandwich"
+        case .fries:
+            return "Fries"
+        case .drinks:
+            return "Drinks"
+        case .combo:
+            return "Combo"
+        }
+    }
+}
+
 class HeaderViewForСategories: UIView {
     
     static var key = "HeaderViewForСategories"
@@ -55,6 +81,7 @@ extension HeaderViewForСategories: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellForCategories.key, for: indexPath) as? CellForCategories else { return UICollectionViewCell() }
         cell.updateConstraints()
+        cell.changeTitleCell(name: NameCategories.allCases[indexPath.row].title)
         return cell
     }
 }

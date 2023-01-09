@@ -70,7 +70,7 @@ class SlideMenuVC: UIViewController, SlideMenuVCProtocol {
         var button = SlideMenuButton(type: .system)
         button.addTarget(self, action: #selector(reviewButtonPressed), for: .touchUpInside)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 21)
-        button.setTitle(" Write review", for: .normal)
+        button.setTitle("  Write review", for: .normal)
         button.setImage(UIImage(systemName: "square.and.pencil"), for: .normal)
         return button
     }()

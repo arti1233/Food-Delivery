@@ -13,7 +13,7 @@ class SlideMenuButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         semanticContentAttribute = .forceLeftToRight
-        tintColor = .black
+        tintColor = .systemPink
         contentHorizontalAlignment = .left
     }
     

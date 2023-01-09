@@ -140,7 +140,6 @@
 		AE6A9F3628FC29AA008DF24D /* Delivery */ = {
 			isa = PBXGroup;
 			children = (
-				AEA7D9D12941D34600545757 /* Extensions  */,
 				AED8CC7F2934D78600525C50 /* Realm */,
 				AED187DD2907C20E0049B2DD /* Extension */,
 				AED187D72906D5C10049B2DD /* Models */,
@@ -244,15 +243,6 @@
 				AEA7D9CC2940C7B800545757 /* OrderRegistrationRouter.swift */,
 			);
 			path = Router;
-			sourceTree = "<group>";
-		};
-		AEA7D9D12941D34600545757 /* Extensions  */ = {
-			isa = PBXGroup;
-			children = (
-				AEA7D9CF2941D33C00545757 /* TextField+Extension.swift */,
-				AE8D4C17294B1B6100F1762A /* UIButton+Extension.swift */,
-			);
-			path = "Extensions ";
 			sourceTree = "<group>";
 		};
 		AEB717E028FD52FF00099C16 /* Modules */ = {
@@ -402,6 +392,8 @@
 		AED187DD2907C20E0049B2DD /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				AEA7D9CF2941D33C00545757 /* TextField+Extension.swift */,
+				AE8D4C17294B1B6100F1762A /* UIButton+Extension.swift */,
 				AED187DB2907C2080049B2DD /* BaseVC.swift */,
 				AED187DE29080A720049B2DD /* String+Extension.swift */,
 				AED1504B292D16150064DE62 /* UITabBarController+Extension.swift */,
