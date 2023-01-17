@@ -84,4 +84,8 @@ extension HeaderViewForСategories: UICollectionViewDelegate, UICollectionViewDa
         cell.changeTitleCell(name: NameCategories.allCases[indexPath.row].title)
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("Vse budet ok")
+    }
 }

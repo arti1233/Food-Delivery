@@ -18,6 +18,7 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
     
     var presenter: OrderRegistrationPresenterProtocol!
     
+    //MARK: - Variables 
     private lazy var scrollView: UIScrollView = {
         var view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +35,8 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
     private lazy var titleLabel: UILabel = {
         var label = UILabel()
         label.text = "Delivery"
+        label.font = UIFont.systemFont(ofSize: 21, weight: .heavy)
+        label.textColor = .systemPink
         label.textAlignment = .center
         return label
     }()
@@ -80,8 +83,23 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
         segmentController.selectedSegmentTintColor = UIColor.systemPink
         segmentController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
         segmentController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.black], for: .normal)
-        segmentController.addTarget(self, action: #selector(changePaymentMethod(_:)), for: .valueChanged)
+        segmentController.addTarget(self, action: #selector(changeDeliveryMethod(_:)), for: .valueChanged)
+        segmentController.layer.shadowColor = UIColor.black.cgColor
+        segmentController.layer.shadowRadius = 5
+        segmentController.layer.shadowOpacity = 0.2
+        segmentController.layer.shadowOffset = CGSize(width: 5, height: 5)
         return segmentController
+    }()
+    
+    private lazy var randomView: UIView = {
+        var view = UIView()
+        view.backgroundColor = .white
+        view.clipsToBounds = false
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowRadius = 5
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOffset = CGSize(width: 5, height: 5)
+        return view
     }()
     
     private lazy var paymentSegmentController: UISegmentedControl = {
@@ -91,7 +109,22 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
         segmentController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
         segmentController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.black], for: .normal)
         segmentController.addTarget(self, action: #selector(changePaymentMethod(_:)), for: .valueChanged)
+        segmentController.layer.shadowColor = UIColor.black.cgColor
+        segmentController.layer.shadowRadius = 5
+        segmentController.layer.shadowOpacity = 0.2
+        segmentController.layer.shadowOffset = CGSize(width: 5, height: 5)
         return segmentController
+    }()
+    
+    private lazy var shadowView: UIView = {
+        var view = UIView()
+        view.backgroundColor = .white
+        view.clipsToBounds = false
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowRadius = 5
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowOffset = CGSize(width: 5, height: 5)
+        return view
     }()
     
     private lazy var textViewForComment: JVFloatLabeledTextView = {
@@ -109,8 +142,10 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
     private lazy var viewForRegistrationButton: UIView = {
         var view = UIView()
         view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.black.cgColor
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = 10
         return view
     }()
     
@@ -130,13 +165,20 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
         return button
     }()
     
+    //MARK: - Params for elements
+    private let heightSegmentController = 40
+    private let heightTextField = 50
+    private let cornerRadius = CGFloat(15)
+    
+    
+    //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         addElementsOnView()
     }
     
-//MARK: Actions
+    //MARK: - Actions
     @objc private func restorationButtonTapped(sender: UIButton) {
         
     }
@@ -153,7 +195,18 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
         
     }
     
-//MARK: Metods
+    @objc private func changeDeliveryMethod(_ sender: UISegmentedControl) {
+        switch sender.selectedSegmentIndex {
+        case 0:
+            closeDataPicker()
+        case 1:
+            showDataPicker()
+        default:
+            break
+        }
+    }
+    
+    //MARK: - Metods for add Elements on View
     private func addElementsOnView() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentView)
@@ -165,13 +218,16 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
         contentView.addSubview(nameTextField)
         contentView.addSubview(phoneNumberTextField)
         contentView.addSubview(delevirySegmentController)
-//        contentView.addSubview(preOrderButton)
+        contentView.addSubview(randomView)
         contentView.addSubview(paymentSegmentController)
+        contentView.addSubview(shadowView)
         contentView.addSubview(textViewForComment)
         view.addSubview(viewForRegistrationButton)
         viewForRegistrationButton.addSubview(totalCostLabel)
         viewForRegistrationButton.addSubview(registrationButton)
     }
+    
+    // MARK: - Metods for constraints
     
     override func updateViewConstraints() {
         super.updateViewConstraints()
@@ -190,10 +246,6 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalToSuperview().inset(16)
         }
-    
-        let widhtTextField = (view.frame.width - 64) / 3
-        let heightTextField = 50
-        let cornerRadius = CGFloat(15)
 
         addressTextField.snp.makeConstraints {
             $0.trailing.leading.equalToSuperview().inset(16)
@@ -201,6 +253,8 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
             $0.height.equalTo(heightTextField)
             addressTextField.layer.cornerRadius = cornerRadius
         }
+        
+        let widhtTextField = (view.frame.width - 64) / 3
 
         flatTextField.snp.makeConstraints {
             $0.leading.equalToSuperview().inset(16)
@@ -209,7 +263,6 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
             $0.top.equalTo(addressTextField.snp_bottomMargin).offset(32)
             flatTextField.layer.cornerRadius = cornerRadius
         }
-
         entranceTextField.snp.makeConstraints {
             $0.leading.equalTo(flatTextField.snp.trailing).offset(16)
             $0.height.equalTo(heightTextField)
@@ -243,19 +296,26 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
         delevirySegmentController.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview().inset(16)
             $0.top.equalTo(phoneNumberTextField.snp_bottomMargin).offset(32)
-            $0.height.equalTo(40)
+            $0.height.equalTo(heightSegmentController)
             delevirySegmentController.layer.cornerRadius = cornerRadius
         }
         
-        paymentSegmentController.snp.makeConstraints {
-            $0.height.equalTo(40)
+        randomView.snp.makeConstraints {
+            $0.height.equalTo(0)
             $0.trailing.leading.equalToSuperview().inset(16)
-            $0.top.equalTo(delevirySegmentController.snp_bottomMargin).offset(32)
+            $0.top.equalTo(delevirySegmentController.snp_bottomMargin).offset(16)
+            randomView.layer.cornerRadius = cornerRadius
+        }
+        
+        paymentSegmentController.snp.makeConstraints {
+            $0.height.equalTo(heightSegmentController)
+            $0.trailing.leading.equalToSuperview().inset(16)
+            $0.top.equalTo(randomView.snp_bottomMargin).offset(16)
             paymentSegmentController.layer.cornerRadius = cornerRadius
         }
         
         viewForRegistrationButton.snp.makeConstraints {
-            $0.bottom.trailing.leading.equalToSuperview().inset(-1)
+            $0.bottom.trailing.leading.equalToSuperview()
         }
         
         totalCostLabel.snp.makeConstraints {
@@ -271,12 +331,52 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
             registrationButton.layer.cornerRadius = 20
         }
         
+        shadowView.snp.makeConstraints {
+            $0.trailing.leading.equalToSuperview().inset(16)
+            $0.top.equalTo(paymentSegmentController.snp_bottomMargin).offset(32)
+            $0.height.equalTo(heightTextField * 2)
+            $0.bottom.equalToSuperview().inset(150)
+            shadowView.layer.cornerRadius = cornerRadius
+        }
+        
         textViewForComment.snp.makeConstraints {
             $0.trailing.leading.equalToSuperview().inset(16)
             $0.top.equalTo(paymentSegmentController.snp_bottomMargin).offset(32)
             $0.height.equalTo(heightTextField * 2)
             $0.bottom.equalToSuperview().inset(150)
             textViewForComment.layer.cornerRadius = cornerRadius
+        }
+    }
+    
+    fileprivate func showDataPicker() {
+        randomView.snp.remakeConstraints {
+            $0.height.equalTo(heightSegmentController)
+            $0.trailing.leading.equalToSuperview().inset(16)
+            $0.top.equalTo(delevirySegmentController.snp_bottomMargin).offset(32)
+            randomView.layer.cornerRadius = 15
+        }
+        
+        paymentSegmentController.snp.remakeConstraints {
+            $0.height.equalTo(heightSegmentController)
+            $0.trailing.leading.equalToSuperview().inset(16)
+            $0.top.equalTo(randomView.snp_bottomMargin).offset(32)
+            randomView.layer.cornerRadius = 15
+        }
+    }
+    
+    fileprivate func closeDataPicker() {
+        randomView.snp.remakeConstraints {
+            $0.height.equalTo(0)
+            $0.trailing.leading.equalToSuperview().inset(16)
+            $0.top.equalTo(delevirySegmentController.snp_bottomMargin).offset(16)
+            randomView.layer.cornerRadius = cornerRadius
+        }
+        
+        paymentSegmentController.snp.remakeConstraints {
+            $0.height.equalTo(heightSegmentController)
+            $0.trailing.leading.equalToSuperview().inset(16)
+            $0.top.equalTo(randomView.snp_bottomMargin).offset(16)
+            paymentSegmentController.layer.cornerRadius = cornerRadius
         }
     }
 }
