@@ -77,9 +77,12 @@ class AddPositionPresenter: AddPositionPresenterProtocol {
         if countPosition - 1 >= 1 {
             countPosition -= 1
             view.changeCountLabel(value: countPosition, cost: countPosition * cost)
-        } else {
+        }
+        
+        if countPosition == 1 {
             view.changeStatusButton(isMinusButton: false, isPlusButton: true)
         }
     }
     
 }
+ 

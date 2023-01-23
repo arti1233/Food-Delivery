@@ -28,6 +28,7 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
     private lazy var blurView: UIVisualEffectView = {
         var blur = UIBlurEffect(style: UIBlurEffect.Style.light)
         var view = UIVisualEffectView(effect: blur)
+        view.alpha = 0
         return view
     }()
     
@@ -124,6 +125,14 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
         updateViewConstraints()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        UIView.animate(withDuration: 0.8) {
+            self.blurView.alpha = 1
+        }
+    }
+
     func configureVC(menuInfo: Menu, image: UIImage) {
         guard let cost = menuInfo.cost else { return }
         menuImage.image = image

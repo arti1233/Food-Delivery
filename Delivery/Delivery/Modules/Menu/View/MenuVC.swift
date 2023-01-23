@@ -48,6 +48,7 @@ class MenuVC: BaseVC, MenuVCProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Menu"
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
         view.addSubview(mainTableView)
     }

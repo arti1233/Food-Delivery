@@ -86,6 +86,6 @@ extension HeaderViewForСategories: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("Vse budet ok")
+        
     }
 }
