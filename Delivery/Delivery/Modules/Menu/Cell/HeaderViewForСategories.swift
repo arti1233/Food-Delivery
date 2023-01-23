@@ -35,9 +35,14 @@ enum NameCategories: CaseIterable {
     }
 }
 
+protocol HeaderViewForСategoriesProtocol {
+    func tappedCategoriesMenu(indexCategory: Int)
+}
+
 class HeaderViewForСategories: UIView {
     
     static var key = "HeaderViewForСategories"
+    var delegate: HeaderViewForСategoriesProtocol!
     
     private lazy var collectionView: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -86,6 +91,7 @@ extension HeaderViewForСategories: UICollectionViewDelegate, UICollectionViewDa
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        guard let delegate = delegate else { return }
+        delegate.tappedCategoriesMenu(indexCategory: indexPath.row)
     }
 }

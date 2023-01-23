@@ -19,10 +19,11 @@ protocol MenuPresenterProtocol: AnyObject {
     func changeCellRange()
     func showLoader() -> Bool
     func showSlideMenu(tabBarController: UITabBarController)
+    func scrollCellByCategories(indexCategory: Int)
 }
 
 class MenuPresenter: MenuPresenterProtocol {
-    
+
     private(set) var imageCache = NSCache<NSString, UIImage>()
     private(set) var banners: [UIImage] = []
     private(set) var view: MenuVCProtocol?
@@ -42,6 +43,32 @@ class MenuPresenter: MenuPresenterProtocol {
         self.realmService = realmService
         getMenuInfo()
         getBanners()
+    }
+    
+    func scrollCellByCategories(indexCategory: Int) {
+        var value: Int = 0
+        switch indexCategory {
+        case 0:
+            value = 0
+        case 1:
+            value = 7
+        case 2:
+            value = 13
+        case 3:
+            value = 19
+        case 4:
+            value = 25
+        case 5:
+            value = 31
+        case 6:
+            value = 37
+        default:
+            break
+        }
+        
+        
+        view?.scrollMenuCell(indexCategory: value)
+        
     }
     
     // Get cell limit for MenuVC 

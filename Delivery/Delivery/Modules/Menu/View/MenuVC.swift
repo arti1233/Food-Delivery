@@ -10,10 +10,11 @@ import SnapKit
 
 protocol MenuVCProtocol: AnyObject {
     func reloadTableView()
+    func scrollMenuCell(indexCategory: Int)
 }
 
-class MenuVC: BaseVC, MenuVCProtocol {
-
+class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
+    
     enum TableSection: Int, CaseIterable {
         case banners = 0
         case menuPositions
@@ -75,6 +76,16 @@ class MenuVC: BaseVC, MenuVCProtocol {
         guard let tabBarController else { return }
         presenter.showSlideMenu(tabBarController: tabBarController)
     }
+    
+    func scrollMenuCell(indexCategory: Int) {
+        mainTableView.scrollToRow(at: IndexPath(item: indexCategory, section: 1), at: .top, animated: true)
+    }
+    
+    func tappedCategoriesMenu(indexCategory: Int) {
+        
+        presenter.scrollCellByCategories(indexCategory: indexCategory)
+    }
+    
 }
 
 extension MenuVC: UITableViewDelegate, UITableViewDataSource {
@@ -125,6 +136,7 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let view = HeaderViewForСategories()
+        view.delegate = self
         return section == 1 ? view : UIView()
     }
     
