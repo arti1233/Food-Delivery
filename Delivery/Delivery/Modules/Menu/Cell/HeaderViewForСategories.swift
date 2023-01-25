@@ -1,10 +1,3 @@
-//
-//  HeaderViewForСategories.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 21.10.22.
-//
-
 import Foundation
 import UIKit
 import SnapKit
@@ -86,6 +79,10 @@ extension HeaderViewForСategories: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CellForCategories.key, for: indexPath) as? CellForCategories else { return UICollectionViewCell() }
         cell.updateConstraints()
+        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowRadius = 2
+        cell.layer.shadowOpacity = 0.2
+        cell.layer.shadowOffset = CGSize(width: 2, height: 2)
         cell.changeTitleCell(name: NameCategories.allCases[indexPath.row].title)
         return cell
     }

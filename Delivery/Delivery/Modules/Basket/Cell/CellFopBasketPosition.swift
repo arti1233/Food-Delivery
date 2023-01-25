@@ -1,10 +1,3 @@
-//
-//  CellFopBasketPosition.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 24.11.22.
-//
-
 import Foundation
 import UIKit
 import SnapKit
@@ -56,7 +49,7 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
         view.layer.borderColor = UIColor.systemPink.cgColor
-        view.backgroundColor = .clear
+        view.backgroundColor = .white
         return view
     }()
     
@@ -75,6 +68,10 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
         button.addTarget(self, action: #selector(plusButtonTap), for: .touchUpInside)
         button.tintColor = .white
         button.layer.cornerRadius = 15
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     
@@ -85,6 +82,10 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
         button.addTarget(self, action: #selector(minusButtonTap), for: .touchUpInside)
         button.tintColor = .white
         button.layer.cornerRadius = 15
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 3
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     

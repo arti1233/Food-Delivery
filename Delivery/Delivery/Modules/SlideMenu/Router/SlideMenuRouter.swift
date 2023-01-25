@@ -1,10 +1,3 @@
-//
-//  SlideMenuRouter.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 14.12.22.
-//
-
 import Foundation
 import UIKit
 

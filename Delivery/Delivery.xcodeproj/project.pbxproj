@@ -10,6 +10,8 @@
 		AE2128762909A57300BC9613 /* BannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2128752909A57300BC9613 /* BannerModel.swift */; };
 		AE2128782909A5D200BC9613 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2128772909A5D200BC9613 /* Constants.swift */; };
 		AE23F94B2966CF1B009BED10 /* CustomTextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE23F94A2966CF1B009BED10 /* CustomTextField+Extension.swift */; };
+		AE3AE53729816F0A00B38D25 /* CellForUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3AE53629816F0900B38D25 /* CellForUserInfo.swift */; };
+		AE3AE53A298178F800B38D25 /* CellForPreviousOrder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE3AE539298178F800B38D25 /* CellForPreviousOrder.swift */; };
 		AE47A8092919147D00A75813 /* LoadingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE47A8082919147D00A75813 /* LoadingTableViewCell.swift */; };
 		AE51B5C32902B59E00EC41A1 /* CellForBanners.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE51B5C22902B59E00EC41A1 /* CellForBanners.swift */; };
 		AE51B5C52902BD6900EC41A1 /* BannerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE51B5C42902BD6900EC41A1 /* BannerCell.swift */; };
@@ -61,6 +63,8 @@
 		AE2128752909A57300BC9613 /* BannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerModel.swift; sourceTree = "<group>"; };
 		AE2128772909A5D200BC9613 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AE23F94A2966CF1B009BED10 /* CustomTextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomTextField+Extension.swift"; sourceTree = "<group>"; };
+		AE3AE53629816F0900B38D25 /* CellForUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForUserInfo.swift; sourceTree = "<group>"; };
+		AE3AE539298178F800B38D25 /* CellForPreviousOrder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForPreviousOrder.swift; sourceTree = "<group>"; };
 		AE47A8082919147D00A75813 /* LoadingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingTableViewCell.swift; sourceTree = "<group>"; };
 		AE51B5C22902B59E00EC41A1 /* CellForBanners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForBanners.swift; sourceTree = "<group>"; };
 		AE51B5C42902BD6900EC41A1 /* BannerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCell.swift; sourceTree = "<group>"; };
@@ -121,6 +125,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AE3AE53829816F1400B38D25 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				AE3AE53629816F0900B38D25 /* CellForUserInfo.swift */,
+				AE3AE539298178F800B38D25 /* CellForPreviousOrder.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
 		AE6A9F2B28FC29AA008DF24D = {
 			isa = PBXGroup;
 			children = (
@@ -299,6 +312,7 @@
 				AEB717F028FD54B300099C16 /* View */,
 				AEB717F128FD54C100099C16 /* Presenter */,
 				AEB717F228FD54C900099C16 /* Router */,
+				AE3AE53829816F1400B38D25 /* Cell */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -547,6 +561,7 @@
 				AEB717EC28FD549600099C16 /* ProfilePresenter.swift in Sources */,
 				AED187DF29080A720049B2DD /* String+Extension.swift in Sources */,
 				AED8CC7629322B5100525C50 /* AddPositionVC.swift in Sources */,
+				AE3AE53A298178F800B38D25 /* CellForPreviousOrder.swift in Sources */,
 				AED8CC7C29322B9A00525C50 /* AddPositionRouter.swift in Sources */,
 				AED8CC7A29322B8D00525C50 /* AddPositionPresenter.swift in Sources */,
 				AE8D4C0F2949C62600F1762A /* SlideMenuPresenter.swift in Sources */,
@@ -566,6 +581,7 @@
 				AEB717E428FD540C00099C16 /* MenuPresenter.swift in Sources */,
 				AED187D62906D5B70049B2DD /* MenuModel.swift in Sources */,
 				AEB717F828FD555100099C16 /* BasketPresenter.swift in Sources */,
+				AE3AE53729816F0A00B38D25 /* CellForUserInfo.swift in Sources */,
 				AEB717FF28FD562500099C16 /* ModuleBuilder.swift in Sources */,
 				AE51B5C92902ECAD00EC41A1 /* CellForCategories.swift in Sources */,
 			);

@@ -1,10 +1,3 @@
-//
-//  UITabBarController.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 22.11.22.
-//
-
 import Foundation
 import UIKit
 

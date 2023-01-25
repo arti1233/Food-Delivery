@@ -1,10 +1,3 @@
-//
-//  CellForCategories.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 21.10.22.
-//
-
 import Foundation
 import UIKit
 import SnapKit
@@ -19,7 +12,7 @@ class CellForCategories: UICollectionViewCell {
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 1
         view.layer.borderColor = UIColor.systemPink.cgColor
-        view.backgroundColor = .clear
+        view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         return view
     }()
     

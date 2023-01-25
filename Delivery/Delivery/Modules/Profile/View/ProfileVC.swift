@@ -1,10 +1,3 @@
-//
-//  ProfileVC.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 17.10.22.
-//
-
 import Foundation
 import UIKit
 import SnapKit
@@ -13,8 +6,8 @@ protocol ProfileVCProtocol: AnyObject {
     
 }
 
-class ProfileVC: BaseVC, ProfileVCProtocol {
-    
+class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
+
     var presenter: ProfilePresenterProtocol?
     
     private lazy var slideMenuButton: UIButton = {
@@ -33,33 +26,17 @@ class ProfileVC: BaseVC, ProfileVCProtocol {
         return button
     }()
     
-    private lazy var viewForProfileImage: UIView = {
-        var view = UIView()
-        view.backgroundColor = .systemPink
-        return view
-    }()
-    
-    private lazy var profileImage: UIImageView = {
-        var view = UIImageView()
-        view.image = UIImage(systemName: "person.fill")
-        view.tintColor = .white
-        return view
-    }()
-    
-    private lazy var userName: UILabel = {
-        var label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 21)
-        label.textAlignment = .center
-        label.text = "Artsiom Korenko"
-        return label
-    }()
-    
-    private lazy var userPhoneNumberName: UILabel = {
-        var label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 17)
-        label.textAlignment = .center
-        label.text = "+375(29) 182-72-84"
-        return label
+    private lazy var tableView: UITableView = {
+        var tableView = UITableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        if #available(iOS 15.0, *) {
+            tableView.sectionHeaderTopPadding = 0
+        }
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        tableView.register(CellForUserInfo.self, forCellReuseIdentifier: CellForUserInfo.key)
+        return tableView
     }()
     
     override func viewDidLoad() {
@@ -67,10 +44,7 @@ class ProfileVC: BaseVC, ProfileVCProtocol {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: pencilButton)
         title = "Profile"
-        view.addSubview(viewForProfileImage)
-        viewForProfileImage.addSubview(profileImage)
-        view.addSubview(userName)
-        view.addSubview(userPhoneNumberName)
+        view.addSubview(tableView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,35 +62,32 @@ class ProfileVC: BaseVC, ProfileVCProtocol {
         
     }
     
-    
+    func addPhotoButtonTapped() {
+        print("Не забудь добавить фото!")
+    }
 
     override func updateViewConstraints() {
         super.updateViewConstraints()
-        viewForProfileImage.snp.makeConstraints {
-            $0.height.width.equalTo(100)
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(16)
-            $0.centerX.equalTo(view.snp_centerXWithinMargins)
-            viewForProfileImage.layer.cornerRadius = 20
-            viewForProfileImage.transform = viewForProfileImage.transform.rotated(by: -(.pi / 16))
-        }
         
-        profileImage.snp.makeConstraints {
-            $0.height.width.equalTo(80)
-            $0.centerX.equalTo(viewForProfileImage.snp_centerXWithinMargins)
-            $0.centerY.equalTo(viewForProfileImage.snp_centerYWithinMargins)
-            profileImage.transform = profileImage.transform.rotated(by: .pi / 16)
+        tableView.snp.makeConstraints {
+            $0.trailing.leading.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
-        
-        userName.snp.makeConstraints {
-            $0.top.equalTo(viewForProfileImage.snp.bottom).offset(16)
-            $0.centerX.equalTo(view.snp_centerXWithinMargins)
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
-        
-        userPhoneNumberName.snp.makeConstraints {
-            $0.top.equalTo(userName.snp.bottom).offset(8)
-            $0.centerX.equalTo(view.snp_centerXWithinMargins)
-            $0.leading.trailing.equalToSuperview().inset(16)
-        }
+    }
+}
+
+extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cellForUserInfo = tableView.dequeueReusableCell(withIdentifier: CellForUserInfo.key) as? CellForUserInfo else { return UITableViewCell() }
+        cellForUserInfo.updateConstraints()
+        cellForUserInfo.backgroundColor = .clear
+        cellForUserInfo.delegate = self
+        return cellForUserInfo
     }
 }

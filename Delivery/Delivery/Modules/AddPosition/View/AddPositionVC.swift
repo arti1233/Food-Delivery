@@ -40,10 +40,14 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
     
     private lazy var mainView: UIView = {
         var view = UIView()
-        view.clipsToBounds = true
+//        view.clipsToBounds = true
         view.layer.cornerRadius = 30
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
         view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.5
+        view.layer.shadowOffset = .zero
+        view.layer.shadowRadius = 10
         return view 
     }()
     
@@ -54,6 +58,10 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
         button.addTarget(self, action: #selector(addMenuPosition), for: .touchUpInside)
         button.tintColor = .white
         button.layer.cornerRadius = 20
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     
@@ -64,6 +72,10 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
         button.addTarget(self, action: #selector(plusButtonTap), for: .touchUpInside)
         button.tintColor = .white
         button.layer.cornerRadius = 20
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     
@@ -74,6 +86,10 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
         button.addTarget(self, action: #selector(minusButtonTap), for: .touchUpInside)
         button.tintColor = .white
         button.layer.cornerRadius = 20
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     
@@ -106,6 +122,10 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
         button.tintColor = .white
         button.layer.cornerRadius = 20
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     

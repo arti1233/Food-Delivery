@@ -1,11 +1,3 @@
-//
-//  BasketPresenter.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 17.10.22.
-//
-
-import Foundation
 import UIKit
 import RealmSwift
 

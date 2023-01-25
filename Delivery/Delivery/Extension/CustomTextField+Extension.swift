@@ -1,10 +1,3 @@
-//
-//  TextField+Extension.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 5.01.23.
-//
-
 import Foundation
 import JVFloatLabeledTextField
 

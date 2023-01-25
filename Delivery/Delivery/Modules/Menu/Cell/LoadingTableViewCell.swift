@@ -1,10 +1,3 @@
-//
-//  LoadingTableViewCell.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 7.11.22.
-//
-
 import Foundation
 import UIKit
 import SnapKit

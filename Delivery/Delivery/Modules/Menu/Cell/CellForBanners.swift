@@ -1,10 +1,3 @@
-//
-//  HeaderForBanner.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 21.10.22.
-//
-
 import Foundation
 import SnapKit
 import UIKit

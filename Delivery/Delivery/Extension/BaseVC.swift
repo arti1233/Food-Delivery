@@ -1,10 +1,3 @@
-//
-//  BaseVC.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 25.10.22.
-//
-
 import Foundation
 import UIKit
 

@@ -1,10 +1,3 @@
-//
-//  RealmService.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 26.11.22.
-//
-
 import Foundation
 import RealmSwift
 import UIKit
