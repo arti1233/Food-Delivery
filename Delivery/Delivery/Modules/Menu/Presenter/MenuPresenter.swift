@@ -51,24 +51,22 @@ class MenuPresenter: MenuPresenterProtocol {
         case 0:
             value = 0
         case 1:
-            value = 7
+            value = 8
         case 2:
-            value = 13
+            value = 16
         case 3:
-            value = 19
+            value = 24
         case 4:
-            value = 25
+            value = 32
         case 5:
-            value = 31
+            value = 40
         case 6:
-            value = 37
+            value = 48
         default:
             break
         }
         
-        
         view?.scrollMenuCell(indexCategory: value)
-        
     }
     
     // Get cell limit for MenuVC 

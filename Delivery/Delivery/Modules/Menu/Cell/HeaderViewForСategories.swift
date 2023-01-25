@@ -48,8 +48,8 @@ class HeaderViewForСategories: UIView {
         var layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumLineSpacing = 8
-        layout.sectionInset.bottom = 24
-        layout.sectionInset.top = 16
+        layout.sectionInset.bottom = 12
+        layout.sectionInset.top = 12
         layout.itemSize = CGSize(width: 88, height: 32)
         
         var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)

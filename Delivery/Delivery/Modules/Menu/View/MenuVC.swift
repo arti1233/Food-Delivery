@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 protocol MenuVCProtocol: AnyObject {
     func reloadTableView()
@@ -14,6 +15,8 @@ protocol MenuVCProtocol: AnyObject {
 }
 
 class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
+    
+    private let realm = try! Realm()
     
     enum TableSection: Int, CaseIterable {
         case banners = 0
@@ -52,6 +55,7 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
         title = "Menu"
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
         view.addSubview(mainTableView)
+        print(realm.configuration.fileURL?.description)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,7 +86,6 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
     }
     
     func tappedCategoriesMenu(indexCategory: Int) {
-        
         presenter.scrollCellByCategories(indexCategory: indexCategory)
     }
     
@@ -141,7 +144,7 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return section == 1 ? 72 : 0
+        return section == 1 ? 56 : 0
     }
 }
 

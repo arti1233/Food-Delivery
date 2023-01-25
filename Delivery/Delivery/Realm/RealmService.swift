@@ -9,6 +9,20 @@ import Foundation
 import RealmSwift
 import UIKit
 
+class UserInfo: Object {
+    @Persisted(primaryKey: true) var index: Int
+    @Persisted var phoneNumber: Int
+    @Persisted var name: String
+    @Persisted var lastName: String?
+    @Persisted var userAddress: String
+    @Persisted var flat: Int?
+    @Persisted var entrance: Int?
+    @Persisted var floor: Int?
+}
+
+class OrdersUser: Object {
+    @Persisted var basket: Basket?
+}
 
 // Realm model
 class Basket: Object {

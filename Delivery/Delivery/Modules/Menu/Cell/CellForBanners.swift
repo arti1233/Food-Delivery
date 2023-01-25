@@ -23,9 +23,9 @@ class CellForBanners: UITableViewCell, CellForBannersProtocol {
         layout.scrollDirection = .horizontal
         layout.itemSize = CGSize(width: 300, height: 112)
         layout.minimumLineSpacing = 16
-        layout.sectionInset = UIEdgeInsets(top: 24,
+        layout.sectionInset = UIEdgeInsets(top: 16,
                                            left: 16,
-                                           bottom: 8,
+                                           bottom: 12,
                                            right: 16)
         
         var collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -88,6 +88,10 @@ extension CellForBanners: UICollectionViewDelegate, UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: BannerCell.key, for: indexPath) as? BannerCell else { return UICollectionViewCell() }
         cell.updateConstraints()
         cell.configureCell(image: banners[indexPath.row])
+        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowRadius = 4
+        cell.layer.shadowOpacity = 0.4
+        cell.layer.shadowOffset = CGSize(width: 5, height: 4)
         return cell
     }
 }
