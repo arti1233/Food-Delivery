@@ -63,6 +63,7 @@ class BasketVC: BaseVC, BasketVCProtocol {
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         tableView.register(CellFopBasketPosition.self, forCellReuseIdentifier: CellFopBasketPosition.key)
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -204,6 +205,7 @@ extension BasketVC: UITableViewDelegate, UITableViewDataSource {
         guard let presenter,
               let cell = tableView.dequeueReusableCell(withIdentifier: CellFopBasketPosition.key) as? CellFopBasketPosition else { return UITableViewCell() }
         cell.selectionStyle = .none
+        cell.backgroundColor = .clear
         cell.updateConstraints()
         cell.prepareForReuse()
         cell.closureForMinusButton = {

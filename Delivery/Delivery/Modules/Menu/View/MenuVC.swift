@@ -30,6 +30,8 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
         tableView.register(CellForBanners.self, forCellReuseIdentifier: CellForBanners.key)
         tableView.register(CellForMenuPosition.self, forCellReuseIdentifier: CellForMenuPosition.key)
         tableView.register(LoadingTableViewCell.self, forCellReuseIdentifier: LoadingTableViewCell.key)
+        tableView.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -120,8 +122,10 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
             return cellForBanners
         case .menuPositions:
             presenter.configureCellForPositionMenu(indexPath: indexPath, cell: cellForPosition)
+            cellForPosition.backgroundColor = .clear
             return cellForPosition
         case .loader:
+            loaderCell.backgroundColor = .clear
             return loaderCell
         }
     }

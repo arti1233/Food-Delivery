@@ -37,6 +37,7 @@ class CellForUserInfo: UITableViewCell {
     private lazy var userName: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 21)
+        label.textAlignment = .center
         label.text = "Artsiom Korenko"
         return label
     }()
@@ -44,6 +45,7 @@ class CellForUserInfo: UITableViewCell {
     private lazy var userPhoneNumberName: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17)
+        label.textAlignment = .center
         label.text = "+375(29) 182-72-84"
         return label
     }()

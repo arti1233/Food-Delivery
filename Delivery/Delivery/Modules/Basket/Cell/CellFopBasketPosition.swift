@@ -14,6 +14,17 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
     var closureForPlusButton: (() -> ())?
     var closureForMinusButton: (() -> ())?
     
+    private lazy var mainView: UIView = {
+        var view = UIView()
+        view.backgroundColor = .white
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.4
+        view.layer.shadowOffset = CGSize(width: 5, height: 4)
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
     private lazy var menuImageView: UIImageView = {
         var view = UIImageView()
         view.contentMode = .scaleToFill
@@ -91,14 +102,15 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.addSubview(menuImageView)
-        contentView.addSubview(numberPositionsLabel)
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(descriptionLabel)
-        contentView.addSubview(viewForCost)
+        contentView.addSubview(mainView)
+        mainView.addSubview(menuImageView)
+        mainView.addSubview(numberPositionsLabel)
+        mainView.addSubview(nameLabel)
+        mainView.addSubview(descriptionLabel)
+        mainView.addSubview(viewForCost)
         viewForCost.addSubview(costLabel)
-        contentView.addSubview(minusButton)
-        contentView.addSubview(plusButton)
+        mainView.addSubview(minusButton)
+        mainView.addSubview(plusButton)
     }
     
     override func prepareForReuse() {
@@ -136,6 +148,11 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
     
     override func updateConstraints() {
         super.updateConstraints()
+        
+        mainView.snp.makeConstraints {
+            $0.trailing.leading.top.bottom.equalToSuperview().inset(8)
+        }
+        
         menuImageView.snp.makeConstraints {
             $0.height.width.equalTo(100)
             $0.top.bottom.leading.equalToSuperview().inset(16)

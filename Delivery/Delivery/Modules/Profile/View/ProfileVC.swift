@@ -6,6 +6,11 @@ protocol ProfileVCProtocol: AnyObject {
     
 }
 
+enum SectionForProfileVC: Int, CaseIterable {
+    case profileInfo = 0
+    case previousOrder
+}
+
 class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
 
     var presenter: ProfilePresenterProtocol?
@@ -33,10 +38,19 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
         if #available(iOS 15.0, *) {
             tableView.sectionHeaderTopPadding = 0
         }
+        tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         tableView.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         tableView.register(CellForUserInfo.self, forCellReuseIdentifier: CellForUserInfo.key)
+        tableView.register(CellForPreviousOrder.self, forCellReuseIdentifier: CellForPreviousOrder.key)
         return tableView
+    }()
+    
+    private lazy var allertView: UIView = {
+        var view = UIView()
+        view.backgroundColor = .white
+        view.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8).cgColor
+        return view
     }()
     
     override func viewDidLoad() {
@@ -63,6 +77,10 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
     }
     
     func addPhotoButtonTapped() {
+        view.addSubview(allertView)
+        allertView.snp.makeConstraints {
+            $0.trailing.top.bottom.leading.equalToSuperview()
+        }
         print("Не забудь добавить фото!")
     }
 
@@ -79,15 +97,34 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
 
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        SectionForProfileVC.allCases.count
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        1
+        switch SectionForProfileVC.allCases[section] {
+        case .profileInfo:
+            return 1
+        case .previousOrder:
+            return 5
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cellForUserInfo = tableView.dequeueReusableCell(withIdentifier: CellForUserInfo.key) as? CellForUserInfo else { return UITableViewCell() }
-        cellForUserInfo.updateConstraints()
-        cellForUserInfo.backgroundColor = .clear
-        cellForUserInfo.delegate = self
-        return cellForUserInfo
+        guard let cellForUserInfo = tableView.dequeueReusableCell(withIdentifier: CellForUserInfo.key) as? CellForUserInfo,
+              let cellForPreviousOrder = tableView.dequeueReusableCell(withIdentifier: CellForPreviousOrder.key) as? CellForPreviousOrder else { return UITableViewCell() }
+    
+        switch SectionForProfileVC.allCases[indexPath.section] {
+        case .profileInfo:
+            cellForUserInfo.updateConstraints()
+            cellForUserInfo.backgroundColor = .clear
+            cellForUserInfo.delegate = self
+            return cellForUserInfo
+        case .previousOrder:
+            
+            cellForPreviousOrder.updateConstraints()
+            cellForPreviousOrder.backgroundColor = .clear
+            return cellForPreviousOrder
+        }
     }
 }

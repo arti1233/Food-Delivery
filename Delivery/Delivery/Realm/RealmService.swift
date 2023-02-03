@@ -11,9 +11,11 @@ class UserInfo: Object {
     @Persisted var flat: Int?
     @Persisted var entrance: Int?
     @Persisted var floor: Int?
+    @Persisted var orders: OrdersUser?
 }
 
 class OrdersUser: Object {
+    @Persisted var date: Date?
     @Persisted var basket: Basket?
 }
 
@@ -24,7 +26,6 @@ class Basket: Object {
     @Persisted var cost: Int?
     @Persisted var descriptionPosition: String?
     @Persisted var countPosition: Int = 1
-    
 }
 
 protocol RealmServiceProtocol {
@@ -58,7 +59,6 @@ class RealmService: RealmServiceProtocol {
     
     
     func deleteObject(basket: Basket) {
-        let object = basket
         do {
             try realm.write { realm.delete(basket) }
         } catch {
@@ -75,6 +75,8 @@ class RealmService: RealmServiceProtocol {
         guard let basket else { return nil }
         return basket
     }
+    
+    
     
     
     func realmUrl() {

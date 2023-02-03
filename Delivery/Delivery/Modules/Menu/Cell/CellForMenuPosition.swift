@@ -10,6 +10,17 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
 
     static var key = "CellForMenuPosition"
     
+    private lazy var mainView: UIView = {
+        var view = UIView()
+        view.backgroundColor = .white
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowRadius = 4
+        view.layer.shadowOpacity = 0.4
+        view.layer.shadowOffset = CGSize(width: 5, height: 4)
+        view.layer.cornerRadius = 20 
+        return view
+    }()
+    
     private lazy var pizzaImage: UIImageView = {
         var view = UIImageView()
         view.contentMode = .scaleToFill
@@ -51,12 +62,13 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .white
-        contentView.addSubview(pizzaImage)
-        contentView.addSubview(nameLabel)
-        contentView.addSubview(viewForCost)
+        contentView.backgroundColor = .clear
+        contentView.addSubview(mainView)
+        mainView.addSubview(pizzaImage)
+        mainView.addSubview(nameLabel)
+        mainView.addSubview(viewForCost)
         viewForCost.addSubview(costLabel)
-        contentView.addSubview(descriptionLabel)
+        mainView.addSubview(descriptionLabel)
         viewForCost.isHidden = true
     }
     
@@ -75,6 +87,11 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
     
     override func updateConstraints() {
         super.updateConstraints()
+        
+        mainView.snp.makeConstraints {
+            $0.trailing.leading.top.bottom.equalToSuperview().inset(8)
+        }
+        
         pizzaImage.snp.makeConstraints {
             $0.height.equalTo(132)
             $0.width.equalTo(132)
