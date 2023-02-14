@@ -57,7 +57,8 @@ class ModuleBuilder: ModuleBuilderProtocol {
     func createOrderRegistrationVC() -> UIViewController {
         let view = OrderRegistrationVC()
         let router = OrderRegistrationRouter(builder: self, viewController: view)
-        let presenter = OrderRegistrationPresenter(view: view, router: router)
+        let realmService = RealmService()
+        let presenter = OrderRegistrationPresenter(view: view, router: router, realmService: realmService)
         view.presenter = presenter
         return view
     }

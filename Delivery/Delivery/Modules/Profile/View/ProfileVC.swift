@@ -77,11 +77,7 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
     }
     
     func addPhotoButtonTapped() {
-        view.addSubview(allertView)
-        allertView.snp.makeConstraints {
-            $0.trailing.top.bottom.leading.equalToSuperview()
-        }
-        print("Не забудь добавить фото!")
+ 
     }
 
     override func updateViewConstraints() {

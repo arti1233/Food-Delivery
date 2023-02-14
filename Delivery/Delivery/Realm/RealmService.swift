@@ -15,8 +15,8 @@ class UserInfo: Object {
 }
 
 class OrdersUser: Object {
-    @Persisted var date: Date?
-    @Persisted var basket: Basket?
+    @Persisted var date: String?
+    @Persisted var basket: MutableSet<Basket>
 }
 
 // Realm model
@@ -56,8 +56,6 @@ class RealmService: RealmServiceProtocol {
         }
     }
     
-    
-    
     func deleteObject(basket: Basket) {
         do {
             try realm.write { realm.delete(basket) }
@@ -76,11 +74,8 @@ class RealmService: RealmServiceProtocol {
         return basket
     }
     
-    
-    
-    
     func realmUrl() {
-       print(realm.configuration.fileURL?.description) 
+        print(realm.configuration.fileURL?.description ?? "")
     }
     
 }

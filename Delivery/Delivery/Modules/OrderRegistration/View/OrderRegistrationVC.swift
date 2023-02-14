@@ -150,7 +150,7 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
     
     private lazy var registrationButton: UIButton = {
         var button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(restorationButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(registrationButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.setTitle("Сonfirm order", for: .normal)
         button.backgroundColor = .systemPink
@@ -172,7 +172,7 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
     }
     
     //MARK: - Actions
-    @objc private func restorationButtonTapped(sender: UIButton) {
+    @objc private func registrationButtonTapped(sender: UIButton) {
         
     }
     
