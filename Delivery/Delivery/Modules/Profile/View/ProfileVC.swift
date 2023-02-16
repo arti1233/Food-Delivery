@@ -3,7 +3,7 @@ import UIKit
 import SnapKit
 
 protocol ProfileVCProtocol: AnyObject {
-    
+    func reloadTableView()
 }
 
 enum SectionForProfileVC: Int, CaseIterable {
@@ -67,6 +67,10 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
         navigationController.navigationBar.shouldRemoveShadow(true)
     }
     
+    func reloadTableView() {
+        tableView.reloadData()
+    }
+    
     @objc private func slideMenuButtonPressed(sender: UIButton) {
         guard let tabBarController else { return }
         presenter?.showSlideMenu(tabBarController: tabBarController)
@@ -98,11 +102,12 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let cellCount = presenter?.getCountCellForOrder() else { return 0 }
         switch SectionForProfileVC.allCases[section] {
         case .profileInfo:
             return 1
         case .previousOrder:
-            return 5
+            return cellCount
         }
     }
     
@@ -112,14 +117,16 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     
         switch SectionForProfileVC.allCases[indexPath.section] {
         case .profileInfo:
-            cellForUserInfo.updateConstraints()
+            cellForUserInfo.prepareForReuse()
             cellForUserInfo.backgroundColor = .clear
             cellForUserInfo.delegate = self
+            cellForUserInfo.updateConstraints()
             return cellForUserInfo
         case .previousOrder:
-            
+            cellForPreviousOrder.prepareForReuse()
             cellForPreviousOrder.updateConstraints()
             cellForPreviousOrder.backgroundColor = .clear
+            presenter?.configureCellForPreviousOrder(indexPath: indexPath, cell: cellForPreviousOrder)
             return cellForPreviousOrder
         }
     }

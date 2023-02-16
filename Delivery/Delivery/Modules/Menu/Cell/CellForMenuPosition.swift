@@ -100,15 +100,15 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
         }
         
         nameLabel.snp.makeConstraints {
-            $0.leading.equalTo(pizzaImage.snp.trailing).offset(32)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.leading.equalTo(pizzaImage.snp.trailing).offset(16)
+            $0.trailing.equalToSuperview().inset(16)
             $0.top.equalToSuperview().inset(16)
         }
                 
         descriptionLabel.snp.makeConstraints {
             $0.top.equalTo(nameLabel.snp.bottom).offset(8)
-            $0.leading.equalTo(pizzaImage.snp.trailing).offset(32)
-            $0.trailing.equalToSuperview().inset(24)
+            $0.leading.equalTo(pizzaImage.snp.trailing).offset(16)
+            $0.trailing.equalToSuperview().inset(16)
         }
         
         viewForCost.snp.makeConstraints {

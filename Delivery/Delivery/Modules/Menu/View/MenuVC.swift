@@ -50,7 +50,7 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
         title = "Menu"
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
         view.addSubview(mainTableView)
-        print(realm.configuration.fileURL?.description)
+        print(realm.configuration.fileURL?.description ?? "")
     }
     
     override func viewWillAppear(_ animated: Bool) {

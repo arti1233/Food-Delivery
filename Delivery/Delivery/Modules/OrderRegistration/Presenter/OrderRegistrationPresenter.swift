@@ -23,6 +23,7 @@ class OrderRegistrationPresenter: OrderRegistrationPresenterProtocol {
     }
     
     func saveOrderInRealm() {
-        
+        guard let realmService = realmService else { return }
+        realmService.addBasketInOrderHistory()
     }
 }

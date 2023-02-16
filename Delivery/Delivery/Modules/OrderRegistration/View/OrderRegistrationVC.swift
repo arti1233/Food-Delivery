@@ -173,7 +173,7 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
     
     //MARK: - Actions
     @objc private func registrationButtonTapped(sender: UIButton) {
-        
+        presenter.saveOrderInRealm()
     }
     
     @objc private func fastDeliveryButtonTapped(sender: UIButton) {

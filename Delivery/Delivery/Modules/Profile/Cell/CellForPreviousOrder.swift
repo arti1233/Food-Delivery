@@ -4,7 +4,7 @@ import UIKit
 import SnapKit
 
 protocol CellForPreviousOrderProtocol {
-    
+    func configureCell(order: OrdersUser)
 }
 
 class CellForPreviousOrder: UITableViewCell {
@@ -61,26 +61,47 @@ class CellForPreviousOrder: UITableViewCell {
         contentView.addSubview(mainview)
         mainview.addSubview(dateLabel)
         mainview.addSubview(stackView)
-        addPreviousOrderInStackView()
         mainview.addSubview(costLabel)
         mainview.addSubview(repeatOrderButton)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        dateLabel.text = ""
+        costLabel.text = ""
+        stackView.arrangedSubviews.forEach({$0.removeFromSuperview()})
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(order: Results<Basket>) {
-    
+    func configureCell(order: OrdersUser) {
+        guard let date = order.date else { return }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YY, MMM d, hh:mm"
+        dateLabel.text = dateFormatter.string(from: date)
+        addPreviousOrderInStackView(order: order)
+        addTotalCostOrder(order: order)
     }
     
-    private func addPreviousOrderInStackView() {
-        for i in 0...5 {
+    private func addPreviousOrderInStackView(order: OrdersUser) {
+        for (index, basket) in order.basket.enumerated() {
+            guard let namePosition = basket.name else { return }
             let label = UILabel()
             label.numberOfLines = 0
-            label.text = "\(i). hfdisdiughfdghusdfhgguhsdiuhgiusdfhgiudfhgiushdfgiuhsdfiughsdfiughsidufghiusdhfgihsdfgiuhsifpughsudfhg"
+            label.text = "\(index + 1). \(namePosition) x\(basket.countPosition )"
             stackView.addArrangedSubview(label)
         }
+    }
+    
+    private func addTotalCostOrder(order: OrdersUser) {
+        var totalSum = 0
+        for basket in order.basket {
+            guard let cost = basket.cost else { return }
+            totalSum += basket.countPosition * cost
+        }
+        costLabel.text = "\(totalSum) $"
     }
     
     @objc private func repeatOrderButtonTapped(sender: UIButton) {

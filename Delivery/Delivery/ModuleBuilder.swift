@@ -28,7 +28,8 @@ class ModuleBuilder: ModuleBuilderProtocol {
         view.tabBarItem.title = title
         view.tabBarItem.image = image
         let router = ProfileRouter(builder: self, viewController: view)
-        let presenter = ProfilePresenter(view: view, router: router)
+        let realmService = RealmService()
+        let presenter = ProfilePresenter(view: view, router: router, realmService: realmService)
         view.presenter = presenter
         return view
     }

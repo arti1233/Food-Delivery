@@ -15,7 +15,7 @@ class UserInfo: Object {
 }
 
 class OrdersUser: Object {
-    @Persisted var date: String?
+    @Persisted var date: Date?
     @Persisted var basket: MutableSet<Basket>
 }
 
@@ -34,11 +34,29 @@ protocol RealmServiceProtocol {
     func isThereElementInRealm(menuInfo: Menu) -> Basket?
     func getAllPositionInBasket() -> Results<Basket>
     func deleteObject(basket: Basket)
+    func addBasketInOrderHistory()
+    func getOrderHistory() -> Results<OrdersUser>
 }
 
 class RealmService: RealmServiceProtocol {
     
     private let realm = try! Realm()
+    
+    func addBasketInOrderHistory() {
+        let order = OrdersUser()
+        order.date = Date()
+        getAllPositionInBasket().forEach({order.basket.insert($0)})
+        
+        do {
+            try realm.write { realm.add(order) }
+        } catch {
+            print("Чет не получилось")
+        }
+    }
+    
+    func getOrderHistory() -> Results<OrdersUser> {
+        realm.objects(OrdersUser.self)
+    }
     
     func addPositionInBasket(menuInfo: Menu, countPosition: Int) {
         
