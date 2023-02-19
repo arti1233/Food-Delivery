@@ -77,7 +77,7 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
     }
     
     @objc private func addInfoInProfile(sender: UIButton) {
-        
+        present(AddUserInfoVC(), animated: true)
     }
     
     func addPhotoButtonTapped() {
