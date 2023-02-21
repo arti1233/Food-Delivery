@@ -117,6 +117,18 @@ class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
         dismiss(animated: true)
     }
     
+    private func animateEmptyTextField(textField: UITextField) {
+        textField.layer.borderColor = UIColor.systemPink.cgColor
+        
+        UIView.animate(withDuration: 0.2) {
+            textField.layer.borderWidth = 2
+        }
+        
+        UIView.animate(withDuration: 0.2, delay: 0.1) {
+            textField.layer.borderWidth = 0
+        }
+    }
+    
     override func updateViewConstraints() {
         super.updateViewConstraints()
         
@@ -205,22 +217,77 @@ extension AddUserInfoVC: UITextFieldDelegate {
         return true
     }
     
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        switch textField {
+        case phoneNumberTextField:
+            guard let text = phoneNumberTextField.text else { return false }
+            let newString = (text as NSString).replacingCharacters(in: range, with: string)
+            phoneNumberTextField.text = phoneFormatter(mask: "+XXX (XX) XXX-XX-XX", phoneNumber: newString)
+            return false
+        default:
+            return true
+        }
+    }
+    
+    private func textFieldIsEmpty(textField: UITextField) -> Bool {
+        guard let text = textField.text, text.isEmpty else { return false }
+        animateEmptyTextField(textField: textField)
+        return true
+    }
+    
+    private func phoneFormatter(mask: String, phoneNumber: String) -> String {
+        let number = phoneNumber.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression)
+        var result: String = ""
+        var index = number.startIndex
+        
+        for character in mask where index < number.endIndex {
+            if character == "X" {
+                result.append(number[index])
+                index = number.index(after: index)
+            } else {
+                result.append(character)
+            }
+        }
+        return result
+    }
+    
     private func switchBasedNextTextField(_ textField: UITextField) {
         switch textField {
         case nameTextField:
-            lastNameTextField.becomeFirstResponder()
+            guard textFieldIsEmpty(textField: nameTextField) else {
+                lastNameTextField.becomeFirstResponder()
+                return
+            }
         case lastNameTextField:
-            phoneNumberTextField.becomeFirstResponder()
+            guard textFieldIsEmpty(textField: lastNameTextField) else {
+                phoneNumberTextField.becomeFirstResponder()
+                return
+            }
         case phoneNumberTextField:
-            addressTextField.becomeFirstResponder()
+            guard textFieldIsEmpty(textField: phoneNumberTextField) else {
+                addressTextField.becomeFirstResponder()
+                return
+            }
         case addressTextField:
-            flatTextField.becomeFirstResponder()
+            guard textFieldIsEmpty(textField: addressTextField) else {
+                flatTextField.becomeFirstResponder()
+                return
+            }
         case flatTextField:
-            floorTextField.becomeFirstResponder()
+            guard textFieldIsEmpty(textField: flatTextField) else {
+                floorTextField.becomeFirstResponder()
+                return
+            }
         case floorTextField:
-            entranceTextField.becomeFirstResponder()
+            guard textFieldIsEmpty(textField: floorTextField) else {
+                entranceTextField.becomeFirstResponder()
+                return
+            }
         default:
-            entranceTextField.becomeFirstResponder()
+            guard textFieldIsEmpty(textField: entranceTextField) else {
+                nameTextField.becomeFirstResponder()
+                return
+            }
         }
     }
 }

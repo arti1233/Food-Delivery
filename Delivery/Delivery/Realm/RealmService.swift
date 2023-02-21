@@ -3,8 +3,7 @@ import RealmSwift
 import UIKit
 
 class UserInfo: Object {
-    @Persisted(primaryKey: true) var index: Int
-    @Persisted var phoneNumber: Int?
+    @Persisted(primaryKey: true) var phoneNumber: String
     @Persisted var name: String?
     @Persisted var lastName: String?
     @Persisted var userAddress: String?
