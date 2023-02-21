@@ -1,10 +1,3 @@
-//
-//  AddUserInfoPresenter.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 16.02.23.
-//
-
 import Foundation
 
 protocol AddUserInfoPresenterProtocol {

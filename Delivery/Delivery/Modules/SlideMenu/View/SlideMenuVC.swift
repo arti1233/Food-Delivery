@@ -19,7 +19,7 @@ class SlideMenuVC: UIViewController, SlideMenuVCProtocol {
     
     lazy private var mainView: UIView = {
         var view = UIView()
-        view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        view.backgroundColor = .basicBackgroundColor
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = .zero

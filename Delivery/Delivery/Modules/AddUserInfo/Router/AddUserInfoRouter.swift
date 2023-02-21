@@ -1,10 +1,3 @@
-//
-//  AddUserInfoRouter.swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 16.02.23.
-//
-
 import Foundation
 import UIKit
 

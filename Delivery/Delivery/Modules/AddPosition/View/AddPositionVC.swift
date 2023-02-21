@@ -40,10 +40,9 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
     
     private lazy var mainView: UIView = {
         var view = UIView()
-//        view.clipsToBounds = true
         view.layer.cornerRadius = 30
         view.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
-        view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        view.backgroundColor = .basicBackgroundColor
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = .zero

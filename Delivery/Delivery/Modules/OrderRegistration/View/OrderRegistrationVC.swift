@@ -7,7 +7,7 @@ protocol OrderRegistrationVCProtocol {
     
 }
 
-class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
+class OrderRegistrationVC: BaseVC, OrderRegistrationVCProtocol {
     
     var presenter: OrderRegistrationPresenterProtocol!
     
@@ -134,7 +134,7 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
     
     private lazy var viewForRegistrationButton: UIView = {
         var view = UIView()
-        view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        view.backgroundColor = .basicBackgroundColor
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = .zero
@@ -167,7 +167,6 @@ class OrderRegistrationVC: UIViewController, OrderRegistrationVCProtocol {
     //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         addElementsOnView()
     }
     

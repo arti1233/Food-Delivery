@@ -26,7 +26,7 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
         }
         tableView.tableHeaderView = HeaderViewForСategories()
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        tableView.backgroundColor = .basicBackgroundColor
         tableView.register(CellForBanners.self, forCellReuseIdentifier: CellForBanners.key)
         tableView.register(CellForMenuPosition.self, forCellReuseIdentifier: CellForMenuPosition.key)
         tableView.register(LoadingTableViewCell.self, forCellReuseIdentifier: LoadingTableViewCell.key)
@@ -65,6 +65,10 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
             $0.top.equalTo(view.safeAreaInsets.top)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        mainTableView.reloadData()
     }
     
     func reloadTableView() {

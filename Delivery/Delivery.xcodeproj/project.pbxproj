@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AE022D4A29A4A65C00D46E4E /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE022D4929A4A65C00D46E4E /* UIColor+Extension.swift */; };
 		AE2128762909A57300BC9613 /* BannerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2128752909A57300BC9613 /* BannerModel.swift */; };
 		AE2128782909A5D200BC9613 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE2128772909A5D200BC9613 /* Constants.swift */; };
 		AE23F94B2966CF1B009BED10 /* CustomTextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE23F94A2966CF1B009BED10 /* CustomTextField+Extension.swift */; };
@@ -63,6 +64,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AE022D4929A4A65C00D46E4E /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		AE2128752909A57300BC9613 /* BannerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerModel.swift; sourceTree = "<group>"; };
 		AE2128772909A5D200BC9613 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		AE23F94A2966CF1B009BED10 /* CustomTextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomTextField+Extension.swift"; sourceTree = "<group>"; };
@@ -453,6 +455,7 @@
 				AED187DE29080A720049B2DD /* String+Extension.swift */,
 				AED1504B292D16150064DE62 /* UITabBarController+Extension.swift */,
 				AE23F94A2966CF1B009BED10 /* CustomTextField+Extension.swift */,
+				AE022D4929A4A65C00D46E4E /* UIColor+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -616,6 +619,7 @@
 				AE8C5BAB292F97FF00EFCA14 /* CellFopBasketPosition.swift in Sources */,
 				AE6A9F3A28FC29AA008DF24D /* SceneDelegate.swift in Sources */,
 				AEA7D9C62940C65400545757 /* OrderRegistrationVC.swift in Sources */,
+				AE022D4A29A4A65C00D46E4E /* UIColor+Extension.swift in Sources */,
 				AEA7D9CD2940C7B800545757 /* OrderRegistrationRouter.swift in Sources */,
 				AEA7D9CA2940C77400545757 /* OrderRegistrationPresenter.swift in Sources */,
 				AED187D12906837A0049B2DD /* CellForMenuPosition.swift in Sources */,

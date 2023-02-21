@@ -61,7 +61,7 @@ class BasketVC: BaseVC, BasketVCProtocol {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.showsVerticalScrollIndicator = false
-        tableView.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        tableView.backgroundColor = .basicBackgroundColor
         tableView.register(CellFopBasketPosition.self, forCellReuseIdentifier: CellFopBasketPosition.key)
         tableView.separatorStyle = .none
         return tableView

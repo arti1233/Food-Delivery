@@ -1,10 +1,3 @@
-//
-//  AddUserInfoVC .swift
-//  Delivery
-//
-//  Created by Artsiom Korenko on 16.02.23.
-//
-
 import Foundation
 import UIKit
 import SnapKit
@@ -13,14 +6,14 @@ protocol AddUserInfoVCProtocol {
     
 }
 
-class AddUserInfoVC: UIViewController, AddUserInfoVCProtocol {
+class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
     
     private lazy var scrollView: UIScrollView = {
         var view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
+    
     private lazy var contentView: UIView = {
         var view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -92,11 +85,18 @@ class AddUserInfoVC: UIViewController, AddUserInfoVCProtocol {
     }()
     
     private let cornerRadius = CGFloat(15)
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
         addElements()
+        
+        nameTextField.delegate = self
+        lastNameTextField.delegate = self
+        phoneNumberTextField.delegate = self
+        addressTextField.delegate = self
+        flatTextField.delegate = self
+        floorTextField.delegate = self
+        entranceTextField.delegate = self
     }
     
     private func addElements() {
@@ -181,7 +181,7 @@ class AddUserInfoVC: UIViewController, AddUserInfoVCProtocol {
             $0.top.equalTo(addressTextField.snp.bottom).offset(16)
             floorTextField.layer.cornerRadius = cornerRadius
         }
-
+        
         entranceTextField.snp.makeConstraints {
             $0.leading.equalTo(floorTextField.snp.trailing).offset(16)
             $0.height.equalTo(heightTextField)
@@ -195,6 +195,32 @@ class AddUserInfoVC: UIViewController, AddUserInfoVCProtocol {
             $0.top.equalTo(entranceTextField.snp.bottom).offset(16)
             $0.height.equalTo(heightTextField)
             $0.bottom.equalToSuperview().inset(100)
+        }
+    }
+}
+
+extension AddUserInfoVC: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        switchBasedNextTextField(textField)
+        return true
+    }
+    
+    private func switchBasedNextTextField(_ textField: UITextField) {
+        switch textField {
+        case nameTextField:
+            lastNameTextField.becomeFirstResponder()
+        case lastNameTextField:
+            phoneNumberTextField.becomeFirstResponder()
+        case phoneNumberTextField:
+            addressTextField.becomeFirstResponder()
+        case addressTextField:
+            flatTextField.becomeFirstResponder()
+        case flatTextField:
+            floorTextField.becomeFirstResponder()
+        case floorTextField:
+            entranceTextField.becomeFirstResponder()
+        default:
+            entranceTextField.becomeFirstResponder()
         }
     }
 }
