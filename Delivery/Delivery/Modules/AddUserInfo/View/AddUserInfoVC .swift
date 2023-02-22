@@ -219,11 +219,47 @@ extension AddUserInfoVC: UITextFieldDelegate {
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         switch textField {
+        case nameTextField:
+            guard CharacterSet.letters.isSuperset(of: CharacterSet(charactersIn: string)),
+                  let currentText = textField.text,
+                  let stringRange = Range(range, in: currentText) else { return false }
+            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+            return updatedText.count <= 10
+        case lastNameTextField:
+            guard CharacterSet.letters.isSuperset(of: CharacterSet(charactersIn: string)),
+                  let currentText = textField.text,
+                  let stringRange = Range(range, in: currentText) else { return false }
+            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+            return updatedText.count <= 10
         case phoneNumberTextField:
             guard let text = phoneNumberTextField.text else { return false }
             let newString = (text as NSString).replacingCharacters(in: range, with: string)
             phoneNumberTextField.text = phoneFormatter(mask: "+XXX (XX) XXX-XX-XX", phoneNumber: newString)
             return false
+        case addressTextField:
+            guard CharacterSet.letters.isSuperset(of: CharacterSet(charactersIn: string)),
+                  let currentText = textField.text,
+                  let stringRange = Range(range, in: currentText) else { return false }
+            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+            return updatedText.count <= 10
+        case flatTextField:
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string)),
+                  let currentText = textField.text,
+                  let stringRange = Range(range, in: currentText) else { return false }
+            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+            return updatedText.count <= 3
+        case floorTextField:
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string)),
+                  let currentText = textField.text,
+                  let stringRange = Range(range, in: currentText) else { return false }
+            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+            return updatedText.count <= 3
+        case entranceTextField:
+            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string)),
+                  let currentText = textField.text,
+                  let stringRange = Range(range, in: currentText) else { return false }
+            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+            return updatedText.count <= 3
         default:
             return true
         }
@@ -285,7 +321,7 @@ extension AddUserInfoVC: UITextFieldDelegate {
             }
         default:
             guard textFieldIsEmpty(textField: entranceTextField) else {
-                nameTextField.becomeFirstResponder()
+                entranceTextField.resignFirstResponder()
                 return
             }
         }
