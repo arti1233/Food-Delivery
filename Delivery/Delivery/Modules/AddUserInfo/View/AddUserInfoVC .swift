@@ -228,53 +228,37 @@ extension AddUserInfoVC: UITextFieldDelegate {
         switchBasedNextTextField(textField)
         return true
     }
-    
+        
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         switch textField {
         case nameTextField:
-            guard CharacterSet.letters.isSuperset(of: CharacterSet(charactersIn: string)),
-                  let currentText = textField.text,
-                  let stringRange = Range(range, in: currentText) else { return false }
-            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-            return updatedText.count <= 10
+            return limitCharacterAndLength(characters: .letters, textField: textField, range: range, string: string, maxLength: 10)
         case lastNameTextField:
-            guard CharacterSet.letters.isSuperset(of: CharacterSet(charactersIn: string)),
-                  let currentText = textField.text,
-                  let stringRange = Range(range, in: currentText) else { return false }
-            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-            return updatedText.count <= 10
+            return limitCharacterAndLength(characters: .letters, textField: textField, range: range, string: string, maxLength: 10)
         case phoneNumberTextField:
             guard let text = phoneNumberTextField.text else { return false }
             let newString = (text as NSString).replacingCharacters(in: range, with: string)
             phoneNumberTextField.text = phoneFormatter(mask: "+XXX (XX) XXX-XX-XX", phoneNumber: newString)
             return false
         case addressTextField:
-            guard CharacterSet.letters.isSuperset(of: CharacterSet(charactersIn: string)),
-                  let currentText = textField.text,
-                  let stringRange = Range(range, in: currentText) else { return false }
-            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-            return updatedText.count <= 10
+            return limitCharacterAndLength(characters: .letters, textField: textField, range: range, string: string, maxLength: 10)
         case flatTextField:
-            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string)),
-                  let currentText = textField.text,
-                  let stringRange = Range(range, in: currentText) else { return false }
-            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-            return updatedText.count <= 3
+            return limitCharacterAndLength(characters: .decimalDigits, textField: textField, range: range, string: string, maxLength: 3)
         case floorTextField:
-            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string)),
-                  let currentText = textField.text,
-                  let stringRange = Range(range, in: currentText) else { return false }
-            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-            return updatedText.count <= 3
+            return limitCharacterAndLength(characters: .decimalDigits, textField: textField, range: range, string: string, maxLength: 3)
         case entranceTextField:
-            guard CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: string)),
-                  let currentText = textField.text,
-                  let stringRange = Range(range, in: currentText) else { return false }
-            let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
-            return updatedText.count <= 3
+            return limitCharacterAndLength(characters: .decimalDigits, textField: textField, range: range, string: string, maxLength: 3)
         default:
             return true
         }
+    }
+    
+    private func limitCharacterAndLength(characters: CharacterSet, textField: UITextField, range: NSRange, string: String, maxLength: Int) -> Bool {
+        guard characters.isSuperset(of: CharacterSet(charactersIn: string)),
+              let currentText = textField.text,
+              let stringRange = Range(range, in: currentText) else { return false }
+        let updatedText = currentText.replacingCharacters(in: stringRange, with: string)
+        return updatedText.count <= maxLength
     }
     
     private func textFieldIsEmpty(textField: UITextField) -> Bool {
@@ -299,38 +283,27 @@ extension AddUserInfoVC: UITextFieldDelegate {
         return result
     }
     
+    private func changeEditingTextField(previousTextField: UITextField, nextTextField: UITextField) {
+        guard textFieldIsEmpty(textField: previousTextField) else {
+            nextTextField.becomeFirstResponder()
+            return
+        }
+    }
+    
     private func switchBasedNextTextField(_ textField: UITextField) {
         switch textField {
         case nameTextField:
-            guard textFieldIsEmpty(textField: nameTextField) else {
-                lastNameTextField.becomeFirstResponder()
-                return
-            }
+            changeEditingTextField(previousTextField: nameTextField, nextTextField: lastNameTextField)
         case lastNameTextField:
-            guard textFieldIsEmpty(textField: lastNameTextField) else {
-                phoneNumberTextField.becomeFirstResponder()
-                return
-            }
+            changeEditingTextField(previousTextField: lastNameTextField, nextTextField: phoneNumberTextField)
         case phoneNumberTextField:
-            guard textFieldIsEmpty(textField: phoneNumberTextField) else {
-                addressTextField.becomeFirstResponder()
-                return
-            }
+            changeEditingTextField(previousTextField: phoneNumberTextField, nextTextField: addressTextField)
         case addressTextField:
-            guard textFieldIsEmpty(textField: addressTextField) else {
-                flatTextField.becomeFirstResponder()
-                return
-            }
+            changeEditingTextField(previousTextField: addressTextField, nextTextField: flatTextField)
         case flatTextField:
-            guard textFieldIsEmpty(textField: flatTextField) else {
-                floorTextField.becomeFirstResponder()
-                return
-            }
+            changeEditingTextField(previousTextField: flatTextField, nextTextField: floorTextField)
         case floorTextField:
-            guard textFieldIsEmpty(textField: floorTextField) else {
-                entranceTextField.becomeFirstResponder()
-                return
-            }
+            changeEditingTextField(previousTextField: floorTextField, nextTextField: entranceTextField)
         default:
             guard textFieldIsEmpty(textField: entranceTextField) else {
                 entranceTextField.resignFirstResponder()

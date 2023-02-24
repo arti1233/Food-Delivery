@@ -19,6 +19,8 @@ class AddUserInfoPresenter: AddUserInfoPresenterProtocol {
     }
     
     func addUserInfo(phoneNumber: String, name: String, lastName: String, userAddress: String, flat: Int, floor: Int, entrance: Int) {
+        guard let realmService else { return }
+        
         let userInfo = UserInfo()
         userInfo.phoneNumber = phoneNumber
         userInfo.name = name
@@ -28,7 +30,7 @@ class AddUserInfoPresenter: AddUserInfoPresenterProtocol {
         userInfo.floor = floor
         userInfo.entrance = entrance
         
-        realmService?.addUserInfoInRealm(userInfo: userInfo)
+        realmService.addUserInfoInRealm(userInfo: userInfo)
     }
     
     
