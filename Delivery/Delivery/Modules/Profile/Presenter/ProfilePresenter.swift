@@ -6,6 +6,7 @@ protocol ProfilePresenterProtocol: AnyObject {
     func showSlideMenu(tabBarController: UITabBarController)
     func configureCellForPreviousOrder(indexPath: IndexPath, cell: CellForPreviousOrder)
     func getCountCellForOrder() -> Int
+    func showAddUserInfoVC()
 }
 
 class ProfilePresenter: ProfilePresenterProtocol {
@@ -26,6 +27,11 @@ class ProfilePresenter: ProfilePresenterProtocol {
                 self.view?.reloadTableView()
             }
         }
+    }
+    
+    func showAddUserInfoVC() {
+        guard let router else { return }
+        router.showAddUserInfoVC()
     }
     
     func showSlideMenu(tabBarController: UITabBarController) {

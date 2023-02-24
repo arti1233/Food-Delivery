@@ -8,6 +8,7 @@ protocol BaseProfileProtocol {
 
 protocol ProfileRouterProtocol: BaseProfileProtocol {
     func showSlideMenuVC(tabBarController: UITabBarController)
+    func showAddUserInfoVC()
 }
 
 class ProfileRouter: ProfileRouterProtocol {
@@ -24,5 +25,11 @@ class ProfileRouter: ProfileRouterProtocol {
               let viewController else { return }
         view.modalPresentationStyle = .overFullScreen
         viewController.present(view, animated: false)
+    }
+    
+    func showAddUserInfoVC() {
+        guard let view = builder?.createAddUserInfoVC(),
+              let viewController else { return }
+        viewController.present(view, animated: true)
     }
 }

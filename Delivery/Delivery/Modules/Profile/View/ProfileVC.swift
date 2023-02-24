@@ -72,12 +72,14 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
     }
     
     @objc private func slideMenuButtonPressed(sender: UIButton) {
-        guard let tabBarController else { return }
-        presenter?.showSlideMenu(tabBarController: tabBarController)
+        guard let tabBarController,
+              let presenter else { return }
+        presenter.showSlideMenu(tabBarController: tabBarController)
     }
     
     @objc private func addInfoInProfile(sender: UIButton) {
-        present(AddUserInfoVC(), animated: true)
+        guard let presenter else { return }
+        presenter.showAddUserInfoVC()
     }
     
     func addPhotoButtonTapped() {
@@ -119,12 +121,14 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
         case .profileInfo:
             cellForUserInfo.prepareForReuse()
             cellForUserInfo.backgroundColor = .clear
+            cellForUserInfo.selectionStyle = .none
             cellForUserInfo.delegate = self
             cellForUserInfo.updateConstraints()
             return cellForUserInfo
         case .previousOrder:
             cellForPreviousOrder.prepareForReuse()
             cellForPreviousOrder.updateConstraints()
+            cellForPreviousOrder.selectionStyle = .none
             cellForPreviousOrder.backgroundColor = .clear
             presenter?.configureCellForPreviousOrder(indexPath: indexPath, cell: cellForPreviousOrder)
             return cellForPreviousOrder

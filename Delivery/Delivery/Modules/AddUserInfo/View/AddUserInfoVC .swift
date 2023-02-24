@@ -8,6 +8,8 @@ protocol AddUserInfoVCProtocol {
 
 class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
     
+    var presenter: AddUserInfoPresenterProtocol?
+    
     private lazy var scrollView: UIScrollView = {
         var view = UIScrollView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -114,6 +116,16 @@ class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
     }
     
     @objc func saveButtonTapped(sender: UIButton) {
+        guard let presenter = presenter,
+              let name = nameTextField.text,
+              let lastName = lastNameTextField.text,
+              let phoneNumber = phoneNumberTextField.text,
+              let address = addressTextField.text,
+              let flat = Int(flatTextField.text!),
+              let floor = Int(floorTextField.text!),
+              let entrance = Int(entranceTextField.text!) else { return }
+        
+        presenter.addUserInfo(phoneNumber: phoneNumber, name: name, lastName: lastName, userAddress: address, flat: flat, floor: floor, entrance: entrance)
         dismiss(animated: true)
     }
     

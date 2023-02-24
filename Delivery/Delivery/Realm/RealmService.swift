@@ -35,6 +35,7 @@ protocol RealmServiceProtocol {
     func deleteObject(basket: Basket)
     func addBasketInOrderHistory()
     func getOrderHistory() -> Results<OrdersUser>
+    func addUserInfoInRealm(userInfo: UserInfo)
 }
 
 class RealmService: RealmServiceProtocol {
@@ -50,6 +51,14 @@ class RealmService: RealmServiceProtocol {
             try realm.write { realm.add(order) }
         } catch {
             print("Чет не получилось")
+        }
+    }
+    
+    func addUserInfoInRealm(userInfo: UserInfo) {
+        do {
+            try realm.write { realm.add(userInfo) }
+        } catch {
+            print("Чет не получилось при добавлении user info")
         }
     }
     
