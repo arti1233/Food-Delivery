@@ -92,13 +92,6 @@ class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
         super.viewDidLoad()
         addElements()
         
-        nameTextField.delegate = self
-        lastNameTextField.delegate = self
-        phoneNumberTextField.delegate = self
-        addressTextField.delegate = self
-        flatTextField.delegate = self
-        floorTextField.delegate = self
-        entranceTextField.delegate = self
     }
     
     private func addElements() {
@@ -113,6 +106,14 @@ class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
         contentView.addSubview(floorTextField)
         contentView.addSubview(entranceTextField)
         contentView.addSubview(saveButton)
+        
+        nameTextField.delegate = self
+        lastNameTextField.delegate = self
+        phoneNumberTextField.delegate = self
+        addressTextField.delegate = self
+        flatTextField.delegate = self
+        floorTextField.delegate = self
+        entranceTextField.delegate = self
     }
     
     @objc func saveButtonTapped(sender: UIButton) {

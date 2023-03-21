@@ -30,7 +30,7 @@ class AddUserInfoPresenter: AddUserInfoPresenterProtocol {
         userInfo.floor = floor
         userInfo.entrance = entrance
         
-        realmService.addUserInfoInRealm(userInfo: userInfo)
+        realmService.addUserInfoInRealm(newUserInfo: userInfo)
     }
     
     

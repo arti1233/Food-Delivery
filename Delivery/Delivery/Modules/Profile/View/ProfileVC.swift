@@ -4,6 +4,7 @@ import SnapKit
 
 protocol ProfileVCProtocol: AnyObject {
     func reloadTableView()
+    func changeVisibleTableView(isUserLogIn: Bool)
 }
 
 enum SectionForProfileVC: Int, CaseIterable {
@@ -14,6 +15,29 @@ enum SectionForProfileVC: Int, CaseIterable {
 class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
 
     var presenter: ProfilePresenterProtocol?
+    var userInfo: UserInfo? 
+    
+    private lazy var notLogInLabel: UILabel = {
+        var label = UILabel()
+        label.text = "Please log in!"
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
+    }()
+    
+    private lazy var logInButton: UIButton = {
+        var button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
+        button.tintColor = .white
+        button.setTitle("Log in", for: .normal)
+        button.backgroundColor = .systemPink
+        button.layer.cornerRadius = 16
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowOffset = CGSize(width: 3, height: 3)
+        return button
+    }()
     
     private lazy var slideMenuButton: UIButton = {
         var button = UIButton(type: .system)
@@ -58,6 +82,8 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: pencilButton)
         title = "Profile"
+        view.addSubview(notLogInLabel)
+        view.addSubview(logInButton)
         view.addSubview(tableView)
     }
     
@@ -71,6 +97,11 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
         tableView.reloadData()
     }
     
+    func changeVisibleTableView(isUserLogIn: Bool) {
+        tableView.isHidden = isUserLogIn
+        pencilButton.isHidden = isUserLogIn
+    }
+    
     @objc private func slideMenuButtonPressed(sender: UIButton) {
         guard let tabBarController,
               let presenter else { return }
@@ -82,12 +113,34 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
         presenter.showAddUserInfoVC()
     }
     
+    @objc private func logInButtonTapped(sender: UIButton) {
+        guard let presenter else { return }
+        presenter.showAddUserInfoVC()
+    }
+    
     func addPhotoButtonTapped() {
  
+    }
+    
+    func logOutButtonTapped() {
+        
     }
 
     override func updateViewConstraints() {
         super.updateViewConstraints()
+        
+        logInButton.snp.makeConstraints {
+            $0.width.equalTo(view.frame.width / 2)
+            $0.height.equalTo(40)
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
+        
+        notLogInLabel.snp.makeConstraints {
+            $0.bottom.equalTo(logInButton.snp_topMargin).inset(-24)
+            $0.width.equalTo(view.frame.width / 2)
+            $0.centerX.equalToSuperview()
+        }
         
         tableView.snp.makeConstraints {
             $0.trailing.leading.equalToSuperview()
@@ -124,6 +177,7 @@ extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
             cellForUserInfo.selectionStyle = .none
             cellForUserInfo.delegate = self
             cellForUserInfo.updateConstraints()
+            presenter?.configureCellForUserInfo(indexPath: indexPath, cell: cellForUserInfo)
             return cellForUserInfo
         case .previousOrder:
             cellForPreviousOrder.prepareForReuse()

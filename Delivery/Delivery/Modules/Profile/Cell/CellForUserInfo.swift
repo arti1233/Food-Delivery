@@ -4,6 +4,7 @@ import SnapKit
 
 protocol CellForUserInfoProtocol {
     func addPhotoButtonTapped()
+    func logOutButtonTapped()
 }
 
 class CellForUserInfo: UITableViewCell {
@@ -38,16 +39,28 @@ class CellForUserInfo: UITableViewCell {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 21)
         label.textAlignment = .center
-        label.text = "Artsiom Korenko"
         return label
     }()
     
-    private lazy var userPhoneNumberName: UILabel = {
+    private lazy var userPhoneNumber: UILabel = {
         var label = UILabel()
         label.font = UIFont.systemFont(ofSize: 17)
         label.textAlignment = .center
-        label.text = "+375(29) 182-72-84"
         return label
+    }()
+    
+    private lazy var logOutButton: UIButton = {
+        var button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(logOutButtonTapped), for: .touchUpInside)
+        button.tintColor = .white
+        button.setTitle("Log out", for: .normal)
+        button.backgroundColor = .systemPink
+        button.layer.cornerRadius = 16
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowOffset = CGSize(width: 3, height: 3)
+        return button
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -56,7 +69,13 @@ class CellForUserInfo: UITableViewCell {
         viewForProfileImage.addSubview(profileImage)
         contentView.addSubview(photoButton)
         contentView.addSubview(userName)
-        contentView.addSubview(userPhoneNumberName)
+        contentView.addSubview(userPhoneNumber)
+        contentView.addSubview(logOutButton)
+    }
+    
+    func configureCell(userInfo: UserInfo) {
+        userName.text = userInfo.name + " " + userInfo.lastName
+        userPhoneNumber.text = userInfo.phoneNumber
     }
     
     required init?(coder: NSCoder) {
@@ -65,6 +84,10 @@ class CellForUserInfo: UITableViewCell {
     
     @objc private func photoButtonTapped(sender: UIButton) {
         delegate.addPhotoButtonTapped()
+    }
+    
+    @objc private func logOutButtonTapped(sender: UIButton) {
+        delegate.logOutButtonTapped()
     }
     
     override func updateConstraints() {
@@ -98,10 +121,17 @@ class CellForUserInfo: UITableViewCell {
             $0.trailing.equalToSuperview().inset(16)
         }
         
-        userPhoneNumberName.snp.makeConstraints {
+        userPhoneNumber.snp.makeConstraints {
             $0.top.equalTo(userName.snp.bottom).offset(8)
             $0.leading.equalTo(viewForProfileImage.snp.trailing).offset(24)
             $0.trailing.equalToSuperview().inset(16)
+        }
+        
+        logOutButton.snp.makeConstraints {
+            $0.top.equalTo(userPhoneNumber.snp.bottom).offset(8)
+            $0.leading.equalTo(viewForProfileImage.snp.trailing).offset(24)
+            $0.trailing.equalToSuperview().inset(16)
+            $0.height.equalTo(32)
         }
     }
 }

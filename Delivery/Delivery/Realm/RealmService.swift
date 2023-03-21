@@ -3,11 +3,12 @@ import RealmSwift
 import UIKit
 
 class UserInfo: Object {
-    @Persisted(primaryKey: true) var phoneNumber: String
-    @Persisted var name: String?
-    @Persisted var lastName: String?
-    @Persisted var userAddress: String?
-    @Persisted var flat: Int?
+    @Persisted(primaryKey: true) var id: Int = 0
+    @Persisted var phoneNumber: String
+    @Persisted var name: String
+    @Persisted var lastName: String
+    @Persisted var userAddress: String
+    @Persisted var flat: Int
     @Persisted var entrance: Int?
     @Persisted var floor: Int?
     @Persisted var orders: OrdersUser?
@@ -35,12 +36,22 @@ protocol RealmServiceProtocol {
     func deleteObject(basket: Basket)
     func addBasketInOrderHistory()
     func getOrderHistory() -> Results<OrdersUser>
-    func addUserInfoInRealm(userInfo: UserInfo)
+    func addUserInfoInRealm(newUserInfo: UserInfo)
+    func getUserInfo() -> UserInfo?
+    func getUserInfoResult() -> Results<UserInfo>
 }
 
 class RealmService: RealmServiceProtocol {
     
     private let realm = try! Realm()
+    
+    func getUserInfo() -> UserInfo? {
+        realm.objects(UserInfo.self).first
+    }
+    
+    func getUserInfoResult() -> Results<UserInfo> {
+        realm.objects(UserInfo.self)
+    }
     
     func addBasketInOrderHistory() {
         let order = OrdersUser()
@@ -54,9 +65,9 @@ class RealmService: RealmServiceProtocol {
         }
     }
     
-    func addUserInfoInRealm(userInfo: UserInfo) {
+    func addUserInfoInRealm(newUserInfo: UserInfo) {
         do {
-            try realm.write { realm.add(userInfo) }
+            try realm.write { realm.add(newUserInfo, update: .modified)}
         } catch {
             print("Чет не получилось при добавлении user info")
         }
