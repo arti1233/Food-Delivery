@@ -8,7 +8,7 @@ protocol ModuleBuilderProtocol {
     func createAddPositionVC(menuInfo: Menu, image: UIImage) -> UIViewController
     func createOrderRegistrationVC() -> UIViewController
     func createSlideMenuVC(tabBarController: UITabBarController) -> UIViewController
-    func createAddUserInfoVC() -> UIViewController
+    func createAddUserInfoVC(userInfo: UserInfo?) -> UIViewController
 }
 
 class ModuleBuilder: ModuleBuilderProtocol {
@@ -73,11 +73,11 @@ class ModuleBuilder: ModuleBuilderProtocol {
         return view
     }
     
-    func createAddUserInfoVC() -> UIViewController {
+    func createAddUserInfoVC(userInfo: UserInfo?) -> UIViewController {
         let view = AddUserInfoVC()
         let router = AddUserInfoRouter(builder: self, viewController: view)
         let realmService = RealmService()
-        let presenter = AddUserInfoPresenter(view: view, router: router, realmService: realmService)
+        let presenter = AddUserInfoPresenter(view: view, router: router, realmService: realmService, userInfo: userInfo)
         view.presenter = presenter
         return view
     }

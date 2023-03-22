@@ -8,10 +8,11 @@ protocol BaseProfileProtocol {
 
 protocol ProfileRouterProtocol: BaseProfileProtocol {
     func showSlideMenuVC(tabBarController: UITabBarController)
-    func showAddUserInfoVC()
+    func showAddUserInfoVC(userInfo: UserInfo?)
 }
 
 class ProfileRouter: ProfileRouterProtocol {
+   
     var builder: ModuleBuilderProtocol?
     var viewController: UIViewController?
     
@@ -27,8 +28,8 @@ class ProfileRouter: ProfileRouterProtocol {
         viewController.present(view, animated: false)
     }
     
-    func showAddUserInfoVC() {
-        guard let view = builder?.createAddUserInfoVC(),
+    func showAddUserInfoVC(userInfo: UserInfo?) {
+        guard let view = builder?.createAddUserInfoVC(userInfo: userInfo),
               let viewController else { return }
         viewController.present(view, animated: true)
     }

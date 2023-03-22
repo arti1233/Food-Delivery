@@ -57,8 +57,10 @@ class ProfilePresenter: ProfilePresenterProtocol {
     }
     
     func showAddUserInfoVC() {
-        guard let router else { return }
-        router.showAddUserInfoVC()
+        guard let router, let userInfo, !userInfo.isInvalidated else {
+            router?.showAddUserInfoVC(userInfo: nil)
+            return }
+        router.showAddUserInfoVC(userInfo: userInfo)
     }
     
     func showSlideMenu(tabBarController: UITabBarController) {

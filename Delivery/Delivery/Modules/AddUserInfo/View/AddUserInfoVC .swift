@@ -3,7 +3,7 @@ import UIKit
 import SnapKit
 
 protocol AddUserInfoVCProtocol {
-    
+    func fillTextField(userInfo: UserInfo)
 }
 
 class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
@@ -128,6 +128,16 @@ class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
         
         presenter.addUserInfo(phoneNumber: phoneNumber, name: name, lastName: lastName, userAddress: address, flat: flat, floor: floor, entrance: entrance)
         dismiss(animated: true)
+    }
+    
+    func fillTextField(userInfo: UserInfo) {
+        nameTextField.text = userInfo.name
+        lastNameTextField.text = userInfo.lastName
+        phoneNumberTextField.text = userInfo.phoneNumber
+        addressTextField.text = userInfo.userAddress
+        flatTextField.text = userInfo.flat.description
+        floorTextField.text = userInfo.floor?.description ?? ""
+        entranceTextField.text = userInfo.entrance?.description ?? ""
     }
     
     private func animateEmptyTextField(textField: UITextField) {
