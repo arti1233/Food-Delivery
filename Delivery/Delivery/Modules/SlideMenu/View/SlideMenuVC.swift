@@ -74,13 +74,9 @@ class SlideMenuVC: UIViewController, SlideMenuVCProtocol {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(blurView)
-        view.addSubview(mainView)
-        mainView.addSubview(menuButton)
-        mainView.addSubview(profileButton)
-        mainView.addSubview(basketButton)
-        mainView.addSubview(aboutButton)
-        mainView.addSubview(reviewButton)
+        let tapForCloseVC = UITapGestureRecognizer(target: self, action: #selector(tapForClose))
+        view.addGestureRecognizer(tapForCloseVC)
+        addElements()
         updateViewConstraints()
     }
     
@@ -130,6 +126,10 @@ class SlideMenuVC: UIViewController, SlideMenuVCProtocol {
     
 //MARK: -Button actions
     
+    @objc private func tapForClose(_ sender: UITapGestureRecognizer) {
+        presenter.closeVC(viewController: self)
+    }
+    
     @objc private func menuButtonPressed(sender: UIButton) {
         animationSlideMenuClose()
         presenter.goToMenuButtonTapped()
@@ -151,6 +151,16 @@ class SlideMenuVC: UIViewController, SlideMenuVCProtocol {
     
     @objc private func reviewButtonPressed(sender: UIButton) {
         animationSlideMenuClose()
+    }
+    
+    private func addElements() {
+        view.addSubview(blurView)
+        view.addSubview(mainView)
+        mainView.addSubview(menuButton)
+        mainView.addSubview(profileButton)
+        mainView.addSubview(basketButton)
+        mainView.addSubview(aboutButton)
+        mainView.addSubview(reviewButton)
     }
 }
 
