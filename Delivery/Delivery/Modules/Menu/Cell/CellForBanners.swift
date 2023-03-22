@@ -34,8 +34,8 @@ class CellForBanners: UITableViewCell, CellForBannersProtocol {
     private lazy var spinnerView: UIActivityIndicatorView = {
         var spinner = UIActivityIndicatorView()
         spinner.hidesWhenStopped = true
-        spinner.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
-        spinner.color = .systemPink
+        spinner.backgroundColor = .basicBackgroundColor
+        spinner.color = .basicButtonColor
         return spinner
     }()
     

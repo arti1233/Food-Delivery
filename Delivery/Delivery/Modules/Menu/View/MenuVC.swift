@@ -35,11 +35,9 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
         return tableView
     }()
     
-    private lazy var slideMenuButton: UIButton = {
-        var button = UIButton(type: .system)
+    private lazy var slideMenuButton: SlideMenuButtonForNavBar = {
+        var button = SlideMenuButtonForNavBar(type: .system)
         button.addTarget(self, action: #selector(slideMenuButtonPressed), for: .touchUpInside)
-        button.tintColor = .black
-        button.setImage(UIImage(systemName: "text.justify"), for: .normal)
         return button
     }()
     
@@ -70,18 +68,22 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
     override func viewWillDisappear(_ animated: Bool) {
         mainTableView.reloadData()
     }
+
+//MARK: - Metods for protocol
     
     func reloadTableView() {
         mainTableView.reloadData()
     }
     
+    func scrollMenuCell(indexCategory: Int) {
+        mainTableView.scrollToRow(at: IndexPath(item: indexCategory, section: 1), at: .top, animated: true)
+    }
+    
+//MARK: - Actions
+    
     @objc private func slideMenuButtonPressed(sender: UIButton) {
         guard let tabBarController else { return }
         presenter.showSlideMenu(tabBarController: tabBarController)
-    }
-    
-    func scrollMenuCell(indexCategory: Int) {
-        mainTableView.scrollToRow(at: IndexPath(item: indexCategory, section: 1), at: .top, animated: true)
     }
     
     func tappedCategoriesMenu(indexCategory: Int) {
@@ -90,6 +92,7 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
     
 }
 
+//MARK: - Extensions for UITableView
 extension MenuVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -112,13 +115,9 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
         guard let cellForBanners = tableView.dequeueReusableCell(withIdentifier: CellForBanners.key) as? CellForBanners,
               let cellForPosition = tableView.dequeueReusableCell(withIdentifier: CellForMenuPosition.key) as? CellForMenuPosition,
               let loaderCell = tableView.dequeueReusableCell(withIdentifier: LoadingTableViewCell.key) as? LoadingTableViewCell else { return UITableViewCell() }
-        cellForBanners.updateConstraints()
-        cellForPosition.updateConstraints()
-        loaderCell.updateConstraints()
-        cellForPosition.prepareForReuse()
-        cellForPosition.selectionStyle = .none
-        cellForBanners.selectionStyle = .none
-        loaderCell.selectionStyle = .none
+        addParametersForCell(cell: cellForBanners)
+        addParametersForCell(cell: cellForPosition)
+        addParametersForCell(cell: loaderCell)
         
         switch TableSection.allCases[indexPath.section] {
         case .banners:
@@ -132,6 +131,11 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
             loaderCell.backgroundColor = .clear
             return loaderCell
         }
+    }
+    
+    func addParametersForCell(cell: UITableViewCell) {
+        cell.updateConstraints()
+        cell.selectionStyle = .none
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

@@ -36,7 +36,6 @@
 		AEA7D9C62940C65400545757 /* OrderRegistrationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA7D9C52940C65400545757 /* OrderRegistrationVC.swift */; };
 		AEA7D9CA2940C77400545757 /* OrderRegistrationPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA7D9C92940C77400545757 /* OrderRegistrationPresenter.swift */; };
 		AEA7D9CD2940C7B800545757 /* OrderRegistrationRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA7D9CC2940C7B800545757 /* OrderRegistrationRouter.swift */; };
-		AEA7D9D02941D33C00545757 /* TextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEA7D9CF2941D33C00545757 /* TextField+Extension.swift */; };
 		AEB717E428FD540C00099C16 /* MenuPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB717E328FD540C00099C16 /* MenuPresenter.swift */; };
 		AEB717E628FD541F00099C16 /* MenuRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB717E528FD541F00099C16 /* MenuRouter.swift */; };
 		AEB717EA28FD548600099C16 /* ProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEB717E928FD548600099C16 /* ProfileVC.swift */; };
@@ -61,6 +60,7 @@
 		AED8CC7629322B5100525C50 /* AddPositionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED8CC7529322B5100525C50 /* AddPositionVC.swift */; };
 		AED8CC7A29322B8D00525C50 /* AddPositionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED8CC7929322B8D00525C50 /* AddPositionPresenter.swift */; };
 		AED8CC7C29322B9A00525C50 /* AddPositionRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED8CC7B29322B9A00525C50 /* AddPositionRouter.swift */; };
+		AEFD799B29CB28E300713D28 /* UISegmentController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFD799A29CB28E300713D28 /* UISegmentController+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,7 +93,6 @@
 		AEA7D9C52940C65400545757 /* OrderRegistrationVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRegistrationVC.swift; sourceTree = "<group>"; };
 		AEA7D9C92940C77400545757 /* OrderRegistrationPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRegistrationPresenter.swift; sourceTree = "<group>"; };
 		AEA7D9CC2940C7B800545757 /* OrderRegistrationRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderRegistrationRouter.swift; sourceTree = "<group>"; };
-		AEA7D9CF2941D33C00545757 /* TextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Extension.swift"; sourceTree = "<group>"; };
 		AEB717E328FD540C00099C16 /* MenuPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuPresenter.swift; sourceTree = "<group>"; };
 		AEB717E528FD541F00099C16 /* MenuRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuRouter.swift; sourceTree = "<group>"; };
 		AEB717E928FD548600099C16 /* ProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVC.swift; sourceTree = "<group>"; };
@@ -115,6 +114,7 @@
 		AED8CC7529322B5100525C50 /* AddPositionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPositionVC.swift; sourceTree = "<group>"; };
 		AED8CC7929322B8D00525C50 /* AddPositionPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPositionPresenter.swift; sourceTree = "<group>"; };
 		AED8CC7B29322B9A00525C50 /* AddPositionRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPositionRouter.swift; sourceTree = "<group>"; };
+		AEFD799A29CB28E300713D28 /* UISegmentController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentController+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,8 +166,7 @@
 				AED187D72906D5C10049B2DD /* Models */,
 				AED187D42906D3870049B2DD /* Alamofire */,
 				AEB717FE28FD562500099C16 /* ModuleBuilder.swift */,
-				AEB7180028FD563E00099C16 /* TabBarController.swift */,
-				AEB7180228FD707200099C16 /* Router.swift */,
+				AEFD799929CB20D200713D28 /* TabBarController */,
 				AEB717FD28FD559800099C16 /* Delegate */,
 				AEB717E028FD52FF00099C16 /* Modules */,
 				AE6A9F4028FC29AE008DF24D /* Assets.xcassets */,
@@ -449,13 +448,13 @@
 		AED187DD2907C20E0049B2DD /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				AEA7D9CF2941D33C00545757 /* TextField+Extension.swift */,
 				AE8D4C17294B1B6100F1762A /* UIButton+Extension.swift */,
 				AED187DB2907C2080049B2DD /* BaseVC.swift */,
 				AED187DE29080A720049B2DD /* String+Extension.swift */,
 				AED1504B292D16150064DE62 /* UITabBarController+Extension.swift */,
 				AE23F94A2966CF1B009BED10 /* CustomTextField+Extension.swift */,
 				AE022D4929A4A65C00D46E4E /* UIColor+Extension.swift */,
+				AEFD799A29CB28E300713D28 /* UISegmentController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -500,6 +499,15 @@
 				AED8CC732932227600525C50 /* RealmService.swift */,
 			);
 			path = Realm;
+			sourceTree = "<group>";
+		};
+		AEFD799929CB20D200713D28 /* TabBarController */ = {
+			isa = PBXGroup;
+			children = (
+				AEB7180028FD563E00099C16 /* TabBarController.swift */,
+				AEB7180228FD707200099C16 /* Router.swift */,
+			);
+			path = TabBarController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -589,6 +597,7 @@
 				AEB717EE28FD54A100099C16 /* ProfileRouter.swift in Sources */,
 				AED187DC2907C2090049B2DD /* BaseVC.swift in Sources */,
 				AE51B5C72902D2F000EC41A1 /* HeaderViewForСategories.swift in Sources */,
+				AEFD799B29CB28E300713D28 /* UISegmentController+Extension.swift in Sources */,
 				AEA3548D299E1A00008D6968 /* AddUserInfoVC .swift in Sources */,
 				AED1504C292D16150064DE62 /* UITabBarController+Extension.swift in Sources */,
 				AE2128762909A57300BC9613 /* BannerModel.swift in Sources */,
@@ -597,7 +606,6 @@
 				AEB7180128FD563E00099C16 /* TabBarController.swift in Sources */,
 				AE8D4C0C2949C5F900F1762A /* SlideMenuVC.swift in Sources */,
 				AEB717EA28FD548600099C16 /* ProfileVC.swift in Sources */,
-				AEA7D9D02941D33C00545757 /* TextField+Extension.swift in Sources */,
 				AE6A9F3C28FC29AA008DF24D /* MenuVC.swift in Sources */,
 				AED187D32906D3770049B2DD /* AlamofireService.swift in Sources */,
 				AE8D4C18294B1B6100F1762A /* UIButton+Extension.swift in Sources */,

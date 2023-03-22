@@ -16,7 +16,7 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
     
     private lazy var mainView: UIView = {
         var view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .basicWhiteColor
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.4
@@ -59,44 +59,30 @@ class CellFopBasketPosition: UITableViewCell, CellFopBasketPositionProtocol {
         view.layer.borderWidth = 1
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
-        view.layer.borderColor = UIColor.systemPink.cgColor
+        view.layer.borderColor = UIColor.basicButtonColor.cgColor
         view.backgroundColor = .white
         return view
     }()
     
     private lazy var costLabel: UILabel = {
         var label = UILabel()
-        label.textColor = .systemPink
+        label.textColor = .basicButtonColor
         label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .center
         return label
     }()
     
-    private lazy var plusButton: UIButton = {
-        var button = UIButton()
-        button.backgroundColor = .systemPink
+    private lazy var plusButton: BasicButton = {
+        var button = BasicButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.addTarget(self, action: #selector(plusButtonTap), for: .touchUpInside)
-        button.tintColor = .white
-        button.layer.cornerRadius = 15
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     
-    private lazy var minusButton: UIButton = {
-        var button = UIButton()
-        button.backgroundColor = .systemPink
+    private lazy var minusButton: BasicButton = {
+        var button = BasicButton()
         button.setImage(UIImage(systemName: "minus"), for: .normal)
         button.addTarget(self, action: #selector(minusButtonTap), for: .touchUpInside)
-        button.tintColor = .white
-        button.layer.cornerRadius = 15
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 3
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     

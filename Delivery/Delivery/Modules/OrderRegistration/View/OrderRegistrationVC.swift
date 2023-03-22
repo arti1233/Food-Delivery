@@ -29,7 +29,7 @@ class OrderRegistrationVC: BaseVC, OrderRegistrationVCProtocol {
         var label = UILabel()
         label.text = "Delivery"
         label.font = UIFont.systemFont(ofSize: 21, weight: .heavy)
-        label.textColor = .systemPink
+        label.textColor = .basicButtonColor
         label.textAlignment = .center
         return label
     }()
@@ -70,17 +70,9 @@ class OrderRegistrationVC: BaseVC, OrderRegistrationVCProtocol {
         return textField
     }()
     
-    private lazy var delevirySegmentController: UISegmentedControl = {
-        var segmentController = UISegmentedControl(items: ["Quickly as possible", "Pre-order"])
-        segmentController.selectedSegmentIndex = 0
-        segmentController.selectedSegmentTintColor = UIColor.systemPink
-        segmentController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
-        segmentController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.black], for: .normal)
+    private lazy var delevirySegmentController: BasicSegmentController = {
+        var segmentController = BasicSegmentController(items: ["Quickly as possible", "Pre-order"])
         segmentController.addTarget(self, action: #selector(changeDeliveryMethod(_:)), for: .valueChanged)
-        segmentController.layer.shadowColor = UIColor.black.cgColor
-        segmentController.layer.shadowRadius = 5
-        segmentController.layer.shadowOpacity = 0.2
-        segmentController.layer.shadowOffset = CGSize(width: 5, height: 5)
         return segmentController
     }()
     
@@ -95,17 +87,9 @@ class OrderRegistrationVC: BaseVC, OrderRegistrationVCProtocol {
         return view
     }()
     
-    private lazy var paymentSegmentController: UISegmentedControl = {
-        var segmentController = UISegmentedControl(items: ["Cash", "Сard", "Online"])
-        segmentController.selectedSegmentIndex = 0
-        segmentController.selectedSegmentTintColor = UIColor.systemPink
-        segmentController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
-        segmentController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.black], for: .normal)
+    private lazy var paymentSegmentController: BasicSegmentController = {
+        var segmentController = BasicSegmentController(items: ["Cash", "Сard", "Online"])
         segmentController.addTarget(self, action: #selector(changePaymentMethod(_:)), for: .valueChanged)
-        segmentController.layer.shadowColor = UIColor.black.cgColor
-        segmentController.layer.shadowRadius = 5
-        segmentController.layer.shadowOpacity = 0.2
-        segmentController.layer.shadowOffset = CGSize(width: 5, height: 5)
         return segmentController
     }()
     
@@ -125,8 +109,8 @@ class OrderRegistrationVC: BaseVC, OrderRegistrationVCProtocol {
         view.placeholder = "Comment for order"
         view.backgroundColor = .white
         view.floatingLabelXPadding = 16
-        view.floatingLabelActiveTextColor = .systemPink
-        view.floatingLabelTextColor = .systemPink
+        view.floatingLabelActiveTextColor = .basicButtonColor
+        view.floatingLabelTextColor = .basicButtonColor
         view.floatingLabel.font = UIFont.systemFont(ofSize: 14, weight: .heavy)
         view.textContainerInset = UIEdgeInsets(top: 0, left: 16, bottom: 8, right: 16)
         return view
@@ -148,23 +132,18 @@ class OrderRegistrationVC: BaseVC, OrderRegistrationVCProtocol {
         return label
     }()
     
-    private lazy var registrationButton: UIButton = {
-        var button = UIButton(type: .system)
+    private lazy var registrationButton: BasicButton = {
+        var button = BasicButton()
         button.addTarget(self, action: #selector(registrationButtonTapped), for: .touchUpInside)
-        button.tintColor = .white
         button.setTitle("Сonfirm order", for: .normal)
-        button.backgroundColor = .systemPink
-        button.layer.cornerRadius = 25
         return button
     }()
     
-    //MARK: - Params for elements
     private let heightSegmentController = 40
     private let heightTextField = 50
     private let cornerRadius = CGFloat(15)
     
     
-    //MARK: - ViewDidLoad
     override func viewDidLoad() {
         super.viewDidLoad()
         addElementsOnView()

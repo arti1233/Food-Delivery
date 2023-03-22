@@ -25,13 +25,10 @@ class CellForUserInfo: UITableViewCell {
         return view
     }()
     
-    private lazy var photoButton: UIButton = {
-        var button = UIButton(type: .system)
+    private lazy var photoButton: BasicButton = {
+        var button = BasicButton()
         button.addTarget(self, action: #selector(photoButtonTapped), for: .touchUpInside)
-        button.tintColor = .white
         button.setImage(UIImage(systemName: "camera.fill"), for: .normal)
-        button.backgroundColor = .systemPink
-        button.layer.cornerRadius = 20
         return button
     }()
     
@@ -49,17 +46,10 @@ class CellForUserInfo: UITableViewCell {
         return label
     }()
     
-    private lazy var logOutButton: UIButton = {
-        var button = UIButton(type: .system)
+    private lazy var logOutButton: BasicButton = {
+        var button = BasicButton()
         button.addTarget(self, action: #selector(logOutButtonTapped), for: .touchUpInside)
-        button.tintColor = .white
         button.setTitle("Log out", for: .normal)
-        button.backgroundColor = .systemPink
-        button.layer.cornerRadius = 16
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 3, height: 3)
         return button
     }()
     

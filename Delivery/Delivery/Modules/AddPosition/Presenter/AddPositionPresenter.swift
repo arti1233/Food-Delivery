@@ -9,16 +9,9 @@ import Foundation
 import UIKit
 
 protocol AddPositionPresenterProtocol {
-    // Func for close VC
     func closeVC(viewController: UIViewController)
-    
-    // Func for add menu position on realm and basket
     func addPositionInBasket()
-    
-    // Tap plus button on VC
     func plusPosition()
-    
-    // Tap minus button on VC
     func minusPosition()
 }
 
@@ -49,21 +42,17 @@ class AddPositionPresenter: AddPositionPresenterProtocol {
             view.configureVC(menuInfo: menuInfo, image: image)
             view.changeCountLabel(value: countPosition, cost: countPosition * cost)
         }
-//        realmService.realmUrl()
     }
-    
-    // Func for close VC
+
     func closeVC(viewController: UIViewController) {
         viewController.dismiss(animated: true)
     }
     
-    // Func for add menu position on realm and basket
     func addPositionInBasket() {
         guard let realmService else { return }
         realmService.addPositionInBasket(menuInfo: menuInfo, countPosition: countPosition)
     }
     
-    // Tap plus button on VC
     func plusPosition() {
         guard let view, let cost = menuInfo.cost else { return }
         countPosition += 1
@@ -71,7 +60,6 @@ class AddPositionPresenter: AddPositionPresenterProtocol {
         view.changeCountLabel(value: countPosition, cost: countPosition * cost)
     }
     
-    // Tap minus button on VC
     func minusPosition() {
         guard let view, let cost = menuInfo.cost else { return }
         if countPosition - 1 >= 1 {
@@ -83,6 +71,5 @@ class AddPositionPresenter: AddPositionPresenterProtocol {
             view.changeStatusButton(isMinusButton: false, isPlusButton: true)
         }
     }
-    
 }
  

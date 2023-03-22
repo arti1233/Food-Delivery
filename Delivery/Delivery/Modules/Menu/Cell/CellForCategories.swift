@@ -11,15 +11,14 @@ class CellForCategories: UICollectionViewCell {
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 16
         view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.systemPink.cgColor
-        view.backgroundColor = UIColor(red: 0.898, green: 0.898, blue: 0.898, alpha: 1)
+        view.layer.borderColor = UIColor.basicButtonColor.cgColor
+        view.backgroundColor = .basicBackgroundColor
         return view
     }()
     
     private lazy var categoryName: UILabel = {
         var label = UILabel()
-        label.text = "Zaebis"
-        label.textColor = .systemPink
+        label.textColor = .basicButtonColor
         label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .center
         return label

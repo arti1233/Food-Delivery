@@ -25,25 +25,16 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
         return label
     }()
     
-    private lazy var logInButton: UIButton = {
-        var button = UIButton()
+    private lazy var logInButton: BasicButton = {
+        var button = BasicButton()
         button.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
-        button.tintColor = .white
         button.setTitle("Log in", for: .normal)
-        button.backgroundColor = .systemPink
-        button.layer.cornerRadius = 16
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 3, height: 3)
         return button
     }()
     
-    private lazy var slideMenuButton: UIButton = {
-        var button = UIButton(type: .system)
+    private lazy var slideMenuButton: SlideMenuButtonForNavBar = {
+        var button = SlideMenuButtonForNavBar(type: .system)
         button.addTarget(self, action: #selector(slideMenuButtonPressed), for: .touchUpInside)
-        button.tintColor = .black
-        button.setImage(UIImage(systemName: "text.justify"), for: .normal)
         return button
     }()
     
@@ -69,14 +60,7 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
         tableView.register(CellForPreviousOrder.self, forCellReuseIdentifier: CellForPreviousOrder.key)
         return tableView
     }()
-    
-    private lazy var allertView: UIView = {
-        var view = UIView()
-        view.backgroundColor = .white
-        view.layer.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.8).cgColor
-        return view
-    }()
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
@@ -93,6 +77,31 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
         navigationController.navigationBar.shouldRemoveShadow(true)
     }
     
+    override func updateViewConstraints() {
+        super.updateViewConstraints()
+        
+        logInButton.snp.makeConstraints {
+            $0.width.equalTo(view.frame.width / 2)
+            $0.height.equalTo(40)
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview()
+        }
+        
+        notLogInLabel.snp.makeConstraints {
+            $0.bottom.equalTo(logInButton.snp_topMargin).inset(-24)
+            $0.width.equalTo(view.frame.width / 2)
+            $0.centerX.equalToSuperview()
+        }
+        
+        tableView.snp.makeConstraints {
+            $0.trailing.leading.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+        }
+    }
+
+//MARK: - Metods for protocol
+    
     func reloadTableView() {
         tableView.reloadData()
     }
@@ -102,6 +111,7 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
         pencilButton.isHidden = isUserLogIn
     }
     
+//MARK: - Actions 
     @objc private func slideMenuButtonPressed(sender: UIButton) {
         guard let tabBarController,
               let presenter else { return }
@@ -126,31 +136,9 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
         guard let presenter else { return }
         presenter.logOutButtonTapped()
     }
-
-    override func updateViewConstraints() {
-        super.updateViewConstraints()
-        
-        logInButton.snp.makeConstraints {
-            $0.width.equalTo(view.frame.width / 2)
-            $0.height.equalTo(40)
-            $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview()
-        }
-        
-        notLogInLabel.snp.makeConstraints {
-            $0.bottom.equalTo(logInButton.snp_topMargin).inset(-24)
-            $0.width.equalTo(view.frame.width / 2)
-            $0.centerX.equalToSuperview()
-        }
-        
-        tableView.snp.makeConstraints {
-            $0.trailing.leading.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-    }
 }
 
+//MARK: - Extension for UITableView
 extension ProfileVC: UITableViewDelegate, UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {

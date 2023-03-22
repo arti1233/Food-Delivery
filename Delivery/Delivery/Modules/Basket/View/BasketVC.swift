@@ -25,37 +25,23 @@ class BasketVC: BaseVC, BasketVCProtocol {
         return label
     }()
     
-    private lazy var menuButton: UIButton = {
-        var button = UIButton()
+    private lazy var menuButton: BasicButton = {
+        var button = BasicButton()
         button.setTitle("Go to menu", for: .normal)
         button.addTarget(self, action: #selector(goToMenu), for: .touchUpInside)
-        button.backgroundColor = .systemPink
-        button.tintColor = .white
-        button.layer.cornerRadius = 16
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 3, height: 3)
         return button
     }()
     
-    private lazy var segmentController: UISegmentedControl = {
-        var segmentController = UISegmentedControl(items: ["Delivery", "Pickup"])
-        segmentController.selectedSegmentIndex = 0
-        segmentController.selectedSegmentTintColor = UIColor.systemPink
-        segmentController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.white], for: .selected)
-        segmentController.setTitleTextAttributes([NSAttributedString.Key.foregroundColor : UIColor.black], for: .normal)
+    private lazy var segmentController: BasicSegmentController = {
+        var segmentController = BasicSegmentController(items: ["Delivery", "Pickup"])
         segmentController.addTarget(self, action: #selector(changeView(_:)), for: .valueChanged)
         return segmentController
     }()
     
-    private lazy var nextButton: UIButton = {
-        var button = UIButton()
+    private lazy var nextButton: BasicButton = {
+        var button = BasicButton()
         button.setTitle("Next step", for: .normal)
         button.addTarget(self, action: #selector(nextToDelivery), for: .touchUpInside)
-        button.backgroundColor = .systemPink
-        button.tintColor = .white
-        button.layer.cornerRadius = 20
         return button
     }()
     
@@ -73,18 +59,14 @@ class BasketVC: BaseVC, BasketVCProtocol {
     
     private lazy var totalSumLabel: UILabel = {
         var label = UILabel()
-        label.text = "Total: 2000 $"
         return label
     }()
     
-    private lazy var slideMenuButton: UIButton = {
-        var button = UIButton(type: .system)
+    private lazy var slideMenuButton: SlideMenuButtonForNavBar = {
+        var button = SlideMenuButtonForNavBar(type: .system)
         button.addTarget(self, action: #selector(slideMenuButtonPressed), for: .touchUpInside)
-        button.tintColor = .black
-        button.setImage(UIImage(systemName: "text.justify"), for: .normal)
         return button
     }()
-    
     
     var presenter: BasketPresenterProtocol? 
     
@@ -153,29 +135,12 @@ class BasketVC: BaseVC, BasketVCProtocol {
             $0.bottom.equalTo(nextButton.snp.top).offset(-8)
         }
     }
-    
-    @objc private func changeView(_ sender: UISegmentedControl) {
-        
-    }
-    
-    @objc private func slideMenuButtonPressed(sender: UIButton) {
-        guard let tabBarController else { return }
-        presenter?.showSlideMenu(tabBarController: tabBarController)
-    }
-    
-    @objc private func nextToDelivery(sender: UIButton) {
-        guard let presenter else { return }
-        presenter.nextStepButtonTapped()
-    }
+
+//MARK: - Metods for protocol
     
     func reloadVC(totalSum: Int) {
         tableView.reloadData()
         totalSumLabel.text = "Total: \(totalSum.description) $"
-    }
-    
-    @objc private func goToMenu(sender: UIButton) {
-        guard let presenter, let tabBarController else { return }
-        presenter.goToMenuButtonTapped(tabBar: tabBarController)
     }
     
     func isBasketEmpty(result: Bool)  {
@@ -197,9 +162,29 @@ class BasketVC: BaseVC, BasketVCProtocol {
             totalSumLabel.isHidden = false
         }
     }
+    
+//MARK: - Actions
+    @objc private func changeView(_ sender: UISegmentedControl) {
+        
+    }
+    
+    @objc private func slideMenuButtonPressed(sender: UIButton) {
+        guard let tabBarController else { return }
+        presenter?.showSlideMenu(tabBarController: tabBarController)
+    }
+    
+    @objc private func nextToDelivery(sender: UIButton) {
+        guard let presenter else { return }
+        presenter.nextStepButtonTapped()
+    }
+    
+    @objc private func goToMenu(sender: UIButton) {
+        guard let presenter, let tabBarController else { return }
+        presenter.goToMenuButtonTapped(tabBar: tabBarController)
+    }
 }
 
-
+//MARK: - Extension for UITableView
 extension BasketVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let presenter else { return 0 }
@@ -227,6 +212,4 @@ extension BasketVC: UITableViewDelegate, UITableViewDataSource {
         guard let presenter else { return }
         presenter.getMenuInfoInPosition(indexPath: indexPath)
     }
-    
-    
 }

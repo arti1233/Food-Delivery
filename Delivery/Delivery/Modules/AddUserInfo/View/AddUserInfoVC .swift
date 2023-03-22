@@ -72,17 +72,11 @@ class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
         return textField
     }()
     
-    private lazy var saveButton: UIButton = {
-        var button = UIButton(type: .system)
+    private lazy var saveButton: BasicButton = {
+        var button = BasicButton()
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-        button.tintColor = .white
         button.setTitle("Save", for: .normal)
-        button.backgroundColor = .systemPink
         button.layer.cornerRadius = 25
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 5
-        button.layer.shadowOpacity = 0.2
-        button.layer.shadowOffset = CGSize(width: 5, height: 5)
         return button
     }()
     
@@ -91,7 +85,33 @@ class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         addElements()
+    }
+    
+//MARK: - Metod for protocol
+    
+    func fillTextField(userInfo: UserInfo) {
+        nameTextField.text = userInfo.name
+        lastNameTextField.text = userInfo.lastName
+        phoneNumberTextField.text = userInfo.phoneNumber
+        addressTextField.text = userInfo.userAddress
+        flatTextField.text = userInfo.flat.description
+        floorTextField.text = userInfo.floor?.description ?? ""
+        entranceTextField.text = userInfo.entrance?.description ?? ""
+    }
+    
+//MARK: - Actions 
+    @objc func saveButtonTapped(sender: UIButton) {
+        guard let presenter = presenter,
+              let name = nameTextField.text,
+              let lastName = lastNameTextField.text,
+              let phoneNumber = phoneNumberTextField.text,
+              let address = addressTextField.text,
+              let flat = Int(flatTextField.text!),
+              let floor = Int(floorTextField.text!),
+              let entrance = Int(entranceTextField.text!) else { return }
         
+        presenter.addUserInfo(phoneNumber: phoneNumber, name: name, lastName: lastName, userAddress: address, flat: flat, floor: floor, entrance: entrance)
+        dismiss(animated: true)
     }
     
     private func addElements() {
@@ -114,30 +134,6 @@ class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
         flatTextField.delegate = self
         floorTextField.delegate = self
         entranceTextField.delegate = self
-    }
-    
-    @objc func saveButtonTapped(sender: UIButton) {
-        guard let presenter = presenter,
-              let name = nameTextField.text,
-              let lastName = lastNameTextField.text,
-              let phoneNumber = phoneNumberTextField.text,
-              let address = addressTextField.text,
-              let flat = Int(flatTextField.text!),
-              let floor = Int(floorTextField.text!),
-              let entrance = Int(entranceTextField.text!) else { return }
-        
-        presenter.addUserInfo(phoneNumber: phoneNumber, name: name, lastName: lastName, userAddress: address, flat: flat, floor: floor, entrance: entrance)
-        dismiss(animated: true)
-    }
-    
-    func fillTextField(userInfo: UserInfo) {
-        nameTextField.text = userInfo.name
-        lastNameTextField.text = userInfo.lastName
-        phoneNumberTextField.text = userInfo.phoneNumber
-        addressTextField.text = userInfo.userAddress
-        flatTextField.text = userInfo.flat.description
-        floorTextField.text = userInfo.floor?.description ?? ""
-        entranceTextField.text = userInfo.entrance?.description ?? ""
     }
     
     private func animateEmptyTextField(textField: UITextField) {
@@ -234,6 +230,7 @@ class AddUserInfoVC: BaseVC, AddUserInfoVCProtocol {
     }
 }
 
+//MARK: - Extension for TextField
 extension AddUserInfoVC: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         switchBasedNextTextField(textField)

@@ -50,45 +50,26 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
         return view 
     }()
     
-    private lazy var addButton: UIButton = {
-        var button = UIButton(type: .system)
-        button.backgroundColor = .systemPink
+    private lazy var addButton: BasicButton = {
+        var button = BasicButton()
         button.setTitle("Add to basket", for: .normal)
         button.addTarget(self, action: #selector(addMenuPosition), for: .touchUpInside)
-        button.tintColor = .white
-        button.layer.cornerRadius = 20
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     
-    private lazy var plusButton: UIButton = {
-        var button = UIButton()
-        button.backgroundColor = .systemPink
+    private lazy var plusButton: BasicButton = {
+        var button = BasicButton()
         button.setImage(UIImage(systemName: "plus"), for: .normal)
         button.addTarget(self, action: #selector(plusButtonTap), for: .touchUpInside)
-        button.tintColor = .white
         button.layer.cornerRadius = 20
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     
-    private lazy var minusButton: UIButton = {
-        var button = UIButton()
-        button.backgroundColor = .systemPink
+    private lazy var minusButton: BasicButton = {
+        var button = BasicButton()
         button.setImage(UIImage(systemName: "minus"), for: .normal)
         button.addTarget(self, action: #selector(minusButtonTap), for: .touchUpInside)
-        button.tintColor = .white
         button.layer.cornerRadius = 20
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     
@@ -114,17 +95,11 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
         return label
     }()
     
-    private lazy var closeButton: UIButton = {
-        var button = UIButton(type: .system)
-        button.backgroundColor = .systemPink
+    private lazy var closeButton: BasicButton = {
+        var button = BasicButton()
         button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
         button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = .white
         button.layer.cornerRadius = 20
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 5, height: 4)
         return button
     }()
     
@@ -150,45 +125,6 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
         UIView.animate(withDuration: 0.8) {
             self.blurView.alpha = 1
         }
-    }
-
-    func configureVC(menuInfo: Menu, image: UIImage) {
-        guard let cost = menuInfo.cost else { return }
-        menuImage.image = image
-        namePositionLabel.text = menuInfo.name
-        costLabel.text =  "Cost: \(cost.description) $"
-        descriptionLabel.text = menuInfo.description
-    }
-    
-    @objc func plusButtonTap(sender: UIButton) {
-        presenter.plusPosition()
-    }
-    
-    @objc func minusButtonTap(sender: UIButton) {
-        presenter.minusPosition()
-    }
-    
-    @objc func addMenuPosition(sender: UIButton) {
-        presenter.addPositionInBasket()
-        presenter.closeVC(viewController: self)
-    }
-    
-    @objc func closeButtonTapped(sender: UIButton) {
-        presenter.closeVC(viewController: self)
-    }
-    
-    @objc func tapOnBlurView(_ sender: UITapGestureRecognizer) {
-        presenter.closeVC(viewController: self)
-    }
-    
-    func changeStatusButton(isMinusButton: Bool, isPlusButton: Bool) {
-        minusButton.isEnabled = isMinusButton
-        plusButton.isEnabled = isPlusButton
-    }
-    
-    func changeCountLabel(value: Int, cost: Int) {
-        countLabel.text = value.description
-        costLabel.text =  "Cost: \(cost.description) $"
     }
     
     override func updateViewConstraints() {
@@ -256,7 +192,47 @@ class AddPositionVC: BaseVC, AddPositionVCProtocol {
             $0.top.equalTo(closeButton.snp.top).offset(-16)
         }
     }
+
+//MARK: - Actions
+    func configureVC(menuInfo: Menu, image: UIImage) {
+        guard let cost = menuInfo.cost else { return }
+        menuImage.image = image
+        namePositionLabel.text = menuInfo.name
+        costLabel.text =  "Cost: \(cost.description) $"
+        descriptionLabel.text = menuInfo.description
+    }
     
+    @objc func plusButtonTap(sender: UIButton) {
+        presenter.plusPosition()
+    }
+    
+    @objc func minusButtonTap(sender: UIButton) {
+        presenter.minusPosition()
+    }
+    
+    @objc func addMenuPosition(sender: UIButton) {
+        presenter.addPositionInBasket()
+        presenter.closeVC(viewController: self)
+    }
+    
+    @objc func closeButtonTapped(sender: UIButton) {
+        presenter.closeVC(viewController: self)
+    }
+    
+    @objc func tapOnBlurView(_ sender: UITapGestureRecognizer) {
+        presenter.closeVC(viewController: self)
+    }
+    
+    func changeStatusButton(isMinusButton: Bool, isPlusButton: Bool) {
+        minusButton.isEnabled = isMinusButton
+        plusButton.isEnabled = isPlusButton
+    }
+    
+    func changeCountLabel(value: Int, cost: Int) {
+        countLabel.text = value.description
+        costLabel.text =  "Cost: \(cost.description) $"
+    }
+
     private func addElements() {
         view.addSubview(blurView)
         blurView.addGestureRecognizer(tapGestureToCloseVC)

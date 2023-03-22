@@ -10,8 +10,8 @@ class MyTextField: JVFloatLabeledTextField {
         spacerView.backgroundColor = .clear
         leftViewMode = .always
         leftView = spacerView
-        floatingLabelActiveTextColor = .systemPink
-        floatingLabelTextColor = .systemPink
+        floatingLabelActiveTextColor = .basicButtonColor
+        floatingLabelTextColor = .basicButtonColor
         floatingLabel.font = UIFont.systemFont(ofSize: 14, weight: .heavy)
         layer.shadowColor = UIColor.black.cgColor
         layer.shadowRadius = 5

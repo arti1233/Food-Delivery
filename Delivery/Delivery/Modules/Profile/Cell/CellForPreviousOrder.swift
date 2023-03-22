@@ -24,7 +24,6 @@ class CellForPreviousOrder: UITableViewCell {
     
     private lazy var dateLabel: UILabel = {
         var label = UILabel()
-        label.text = "14.09.2020 18:40"
         return label
     }()
     
@@ -38,21 +37,13 @@ class CellForPreviousOrder: UITableViewCell {
     
     private lazy var costLabel: UILabel = {
         var label = UILabel()
-        label.text = "Cost: 450$"
         return label
     }()
     
-    private lazy var repeatOrderButton: UIButton = {
-        var button = UIButton(type: .system)
+    private lazy var repeatOrderButton: BasicButton = {
+        var button = BasicButton()
         button.addTarget(self, action: #selector(repeatOrderButtonTapped), for: .touchUpInside)
-        button.tintColor = .white
         button.setTitle("Repeat order", for: .normal)
-        button.backgroundColor = .systemPink
-        button.layer.cornerRadius = 20
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowRadius = 4
-        button.layer.shadowOpacity = 0.4
-        button.layer.shadowOffset = CGSize(width: 3, height: 3)
         return button
     }()
 

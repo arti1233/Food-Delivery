@@ -128,7 +128,7 @@ class SlideMenuVC: UIViewController, SlideMenuVCProtocol {
         }
     }
     
-//MARK: Button actions
+//MARK: -Button actions
     
     @objc private func menuButtonPressed(sender: UIButton) {
         animationSlideMenuClose()
@@ -154,7 +154,7 @@ class SlideMenuVC: UIViewController, SlideMenuVCProtocol {
     }
 }
 
-//MARK:  Extension for animation open and close VC
+//MARK:  -Extension for animation open and close VC
 
 extension SlideMenuVC {
     private func animationSlideMenuOpen() {

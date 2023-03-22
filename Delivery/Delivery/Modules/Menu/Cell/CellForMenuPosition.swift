@@ -12,7 +12,7 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
     
     private lazy var mainView: UIView = {
         var view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .basicWhiteColor
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.4
@@ -46,15 +46,15 @@ class CellForMenuPosition: UITableViewCell, CellForMenuPositionProtocol {
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 6
         view.layer.borderWidth = 1
-        view.backgroundColor = .white
+        view.backgroundColor = .basicWhiteColor
         view.layer.cornerRadius = 16 
-        view.layer.borderColor = UIColor.systemPink.cgColor
+        view.layer.borderColor = UIColor.basicButtonColor.cgColor
         return view
     }()
     
     private lazy var costLabel: UILabel = {
         var label = UILabel()
-        label.textColor = .systemPink
+        label.textColor = .basicButtonColor
         label.font = UIFont.systemFont(ofSize: 13)
         label.textAlignment = .center
         return label

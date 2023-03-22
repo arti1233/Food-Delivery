@@ -3,7 +3,7 @@ import UIKit
 import SnapKit
 
 protocol BannerCellProtocol {
-    func configureCell(indexPath: IndexPath, cell: BannerCell)
+    
 }
 
 class BannerCell: UICollectionViewCell, BannerCellProtocol {
@@ -33,10 +33,6 @@ class BannerCell: UICollectionViewCell, BannerCellProtocol {
         imageView.snp.makeConstraints {
             $0.trailing.leading.bottom.top.equalToSuperview()
         }
-    }
-    
-    func configureCell(indexPath: IndexPath, cell: BannerCell) {
-        
     }
     
     func configureCell(image: UIImage) {

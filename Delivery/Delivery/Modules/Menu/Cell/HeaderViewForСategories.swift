@@ -71,6 +71,7 @@ class HeaderViewForСategories: UIView {
     }
 }
 
+//MARK: - Extension for UICollectionView
 extension HeaderViewForСategories: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         6
