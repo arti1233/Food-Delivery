@@ -39,6 +39,8 @@ protocol RealmServiceProtocol {
     func addUserInfoInRealm(newUserInfo: UserInfo)
     func getUserInfo() -> UserInfo?
     func getUserInfoResult() -> Results<UserInfo>
+    func deleteUserInfo()
+    func deleteOrderHistory()
 }
 
 class RealmService: RealmServiceProtocol {
@@ -92,6 +94,29 @@ class RealmService: RealmServiceProtocol {
             print("Чет не получилось")
         }
     }
+    
+    func deleteUserInfo() {
+        do {
+            try realm.write {
+                let allUserInfo = realm.objects(UserInfo.self)
+                realm.delete(allUserInfo)
+            }
+        } catch {
+            print("Не получилось удалить userInfo")
+        }
+    }
+    
+    func deleteOrderHistory() {
+        do {
+            try realm.write {
+                let allUserOrderHistory = realm.objects(OrdersUser.self)
+                realm.delete(allUserOrderHistory)
+            }
+        } catch {
+            print("Не получилось удалить orederHistory")
+        }
+    }
+    
     
     func deleteObject(basket: Basket) {
         do {

@@ -26,7 +26,7 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
     }()
     
     private lazy var logInButton: UIButton = {
-        var button = UIButton(type: .system)
+        var button = UIButton()
         button.addTarget(self, action: #selector(logInButtonTapped), for: .touchUpInside)
         button.tintColor = .white
         button.setTitle("Log in", for: .normal)
@@ -123,7 +123,8 @@ class ProfileVC: BaseVC, ProfileVCProtocol, CellForUserInfoProtocol {
     }
     
     func logOutButtonTapped() {
-        
+        guard let presenter else { return }
+        presenter.logOutButtonTapped()
     }
 
     override func updateViewConstraints() {

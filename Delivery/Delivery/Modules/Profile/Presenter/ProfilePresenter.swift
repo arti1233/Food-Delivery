@@ -8,6 +8,7 @@ protocol ProfilePresenterProtocol: AnyObject {
     func configureCellForUserInfo(indexPath: IndexPath, cell: CellForUserInfo)
     func getCountCellForOrder() -> Int
     func showAddUserInfoVC()
+    func logOutButtonTapped()
 }
 
 class ProfilePresenter: ProfilePresenterProtocol {
@@ -47,6 +48,12 @@ class ProfilePresenter: ProfilePresenterProtocol {
             }
         }
         
+    }
+    
+    func logOutButtonTapped() {
+        guard let realmService else { return }
+        realmService.deleteUserInfo()
+        realmService.deleteOrderHistory()
     }
     
     func showAddUserInfoVC() {

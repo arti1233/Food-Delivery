@@ -31,7 +31,11 @@ class BasketVC: BaseVC, BasketVCProtocol {
         button.addTarget(self, action: #selector(goToMenu), for: .touchUpInside)
         button.backgroundColor = .systemPink
         button.tintColor = .white
-        button.layer.cornerRadius = 25
+        button.layer.cornerRadius = 16
+        button.layer.shadowColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 4
+        button.layer.shadowOpacity = 0.4
+        button.layer.shadowOffset = CGSize(width: 3, height: 3)
         return button
     }()
     
@@ -87,9 +91,9 @@ class BasketVC: BaseVC, BasketVCProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
-        view.addSubview(emptyBasketLabel)
-        view.addSubview(transitionToMenuLabel)
         view.addSubview(menuButton)
+        view.addSubview(transitionToMenuLabel)
+        view.addSubview(emptyBasketLabel)
         view.addSubview(segmentController)
         view.addSubview(tableView)
         view.addSubview(nextButton)
@@ -104,8 +108,10 @@ class BasketVC: BaseVC, BasketVCProtocol {
     
     override func updateViewConstraints() {
         super.updateViewConstraints()
-        emptyBasketLabel.snp.makeConstraints {
-            $0.width.equalTo(view.frame.width * 0.6)
+        
+        menuButton.snp.makeConstraints {
+            $0.width.equalTo(view.frame.width / 2)
+            $0.height.equalTo(40)
             $0.centerX.equalTo(view.snp.centerX)
             $0.centerY.equalTo(view.snp.centerY)
         }
@@ -113,16 +119,15 @@ class BasketVC: BaseVC, BasketVCProtocol {
         transitionToMenuLabel.snp.makeConstraints {
             $0.width.equalTo(view.frame.width * 0.6)
             $0.centerX.equalTo(view.snp.centerX)
-            $0.top.equalTo(emptyBasketLabel.snp.bottom).offset(8)
+            $0.bottom.equalTo(menuButton.snp.top).offset(-16)
         }
         
-        menuButton.snp.makeConstraints {
+        emptyBasketLabel.snp.makeConstraints {
             $0.width.equalTo(view.frame.width * 0.6)
-            $0.height.equalTo(50)
             $0.centerX.equalTo(view.snp.centerX)
-            $0.top.equalTo(transitionToMenuLabel.snp.bottom).offset(16)
+            $0.bottom.equalTo(transitionToMenuLabel.snp.top).offset(-8)
         }
-        
+                
         segmentController.snp.makeConstraints {
             $0.trailing.leading.equalToSuperview().inset(16)
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
