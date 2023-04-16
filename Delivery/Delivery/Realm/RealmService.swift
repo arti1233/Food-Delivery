@@ -11,7 +11,7 @@ class UserInfo: Object {
     @Persisted var flat: Int
     @Persisted var entrance: Int?
     @Persisted var floor: Int?
-    @Persisted var orders: OrdersUser?
+    @Persisted var orders: MutableSet<OrdersUser>
 }
 
 class OrdersUser: Object {
@@ -61,7 +61,12 @@ class RealmService: RealmServiceProtocol {
         getAllPositionInBasket().forEach({order.basket.insert($0)})
         
         do {
-            try realm.write { realm.add(order) }
+            try realm.write {
+                let userInfo = getUserInfo()
+                guard let userInfo else { return }
+                userInfo.orders.insert(order) 
+                realm.add(userInfo, update: .modified)
+            }
         } catch {
             print("Чет не получилось")
         }

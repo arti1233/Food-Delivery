@@ -4,7 +4,7 @@ import SnapKit
 import JVFloatLabeledTextField
 
 protocol OrderRegistrationVCProtocol {
-    
+    func dismissOrderRegistrationVC()
 }
 
 class OrderRegistrationVC: BaseVC, OrderRegistrationVCProtocol {
@@ -152,6 +152,11 @@ class OrderRegistrationVC: BaseVC, OrderRegistrationVCProtocol {
     //MARK: - Actions
     @objc private func registrationButtonTapped(sender: UIButton) {
         presenter.saveOrderInRealm()
+        
+    }
+    
+    func dismissOrderRegistrationVC() {
+        dismiss(animated: true)
     }
     
     @objc private func fastDeliveryButtonTapped(sender: UIButton) {

@@ -47,7 +47,6 @@ class ProfilePresenter: ProfilePresenterProtocol {
                 self.view?.reloadTableView()
             }
         }
-        
     }
     
     func logOutButtonTapped() {
@@ -69,8 +68,8 @@ class ProfilePresenter: ProfilePresenterProtocol {
     }
     
     func configureCellForPreviousOrder(indexPath: IndexPath, cell: CellForPreviousOrder) {
-        guard let realmService = realmService else { return }
-        cell.configureCell(order: realmService.getOrderHistory()[indexPath.row])
+        guard let userInfo else { return }
+        cell.configureCell(order: userInfo.orders[indexPath.row])
     }
     
     func configureCellForUserInfo(indexPath: IndexPath, cell: CellForUserInfo) {
@@ -79,7 +78,7 @@ class ProfilePresenter: ProfilePresenterProtocol {
     }
     
     func getCountCellForOrder() -> Int {
-        guard let realmService = realmService else { return Int() }
-        return realmService.getOrderHistory().count
+        guard let userInfo else { return 0 }
+        return userInfo.orders.count
     }
 }
