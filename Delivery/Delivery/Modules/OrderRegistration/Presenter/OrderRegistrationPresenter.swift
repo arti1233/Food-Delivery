@@ -12,14 +12,16 @@ class OrderRegistrationPresenter: OrderRegistrationPresenterProtocol {
     private(set) var router: OrderRegistrationRouterProtocol?
     private(set) var realmService: RealmServiceProtocol?
     private(set) var resultsBasket: Results<Basket>?
+    private(set) var userInfo: UserInfo?
     
     required init(view: OrderRegistrationVCProtocol, router: OrderRegistrationRouterProtocol, realmService: RealmServiceProtocol) {
         self.view = view
         self.router = router
         self.realmService = realmService
-        
         resultsBasket = realmService.getAllPositionInBasket()
-        
+        userInfo = realmService.getUserInfo()
+        guard let userInfo else { return }
+        view.autoFillTextField(userInfo: userInfo)
     }
     
     func saveOrderInRealm() {

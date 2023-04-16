@@ -17,8 +17,6 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
         case loader
     }
     
-    
-    
     private lazy var mainTableView: UITableView = {
         var tableView = UITableView()
         tableView.delegate = self

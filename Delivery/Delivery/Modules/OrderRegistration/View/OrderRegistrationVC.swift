@@ -5,6 +5,7 @@ import JVFloatLabeledTextField
 
 protocol OrderRegistrationVCProtocol {
     func dismissOrderRegistrationVC()
+    func autoFillTextField(userInfo: UserInfo)
 }
 
 class OrderRegistrationVC: BaseVC, OrderRegistrationVCProtocol {
@@ -150,6 +151,17 @@ class OrderRegistrationVC: BaseVC, OrderRegistrationVCProtocol {
     }
     
     //MARK: - Actions
+    
+    func autoFillTextField(userInfo: UserInfo) {
+        addressTextField.text = userInfo.userAddress
+        flatTextField.text = userInfo.flat.description
+        entranceTextField.text = userInfo.entrance?.description ?? ""
+        floorTextField.text = userInfo.floor?.description ?? ""
+        nameTextField.text = userInfo.name
+        phoneNumberTextField.text = userInfo.phoneNumber
+    }
+    
+    
     @objc private func registrationButtonTapped(sender: UIButton) {
         presenter.saveOrderInRealm()
         
