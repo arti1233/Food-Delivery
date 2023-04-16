@@ -17,6 +17,8 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
         case loader
     }
     
+    
+    
     private lazy var mainTableView: UITableView = {
         var tableView = UITableView()
         tableView.delegate = self
@@ -122,6 +124,10 @@ extension MenuVC: UITableViewDelegate, UITableViewDataSource {
         switch TableSection.allCases[indexPath.section] {
         case .banners:
             presenter.configureBannerCell(indexPath: indexPath, cell: cellForBanners)
+            cellForBanners.delegate = { [weak self] in
+                guard let self else { return }
+                self.presenter.openWebSite()
+            }
             return cellForBanners
         case .menuPositions:
             presenter.configureCellForPositionMenu(indexPath: indexPath, cell: cellForPosition)

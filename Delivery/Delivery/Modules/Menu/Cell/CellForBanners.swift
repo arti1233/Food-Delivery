@@ -10,6 +10,7 @@ class CellForBanners: UITableViewCell, CellForBannersProtocol {
     
     static var key = "CellForBanners"
     private var banners: [UIImage] = []
+    var delegate: (() -> Void)?
  
     private lazy var collectonForBanner: UICollectionView = {
         var layout = UICollectionViewFlowLayout()
@@ -86,5 +87,10 @@ extension CellForBanners: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.layer.shadowOpacity = 0.4
         cell.layer.shadowOffset = CGSize(width: 5, height: 4)
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let delegate else { return }
+        delegate() 
     }
 }

@@ -13,6 +13,7 @@ protocol MenuPresenterProtocol: AnyObject {
     func showLoader() -> Bool
     func showSlideMenu(tabBarController: UITabBarController)
     func scrollCellByCategories(indexCategory: Int)
+    func openWebSite()
 }
 
 class MenuPresenter: MenuPresenterProtocol {
@@ -60,6 +61,12 @@ class MenuPresenter: MenuPresenterProtocol {
         }
         
         view?.scrollMenuCell(indexCategory: value)
+    }
+    
+    func openWebSite() {
+        if let url = URL(string: "https://burger-king.by") {
+            UIApplication.shared.open(url)
+        }
     }
     
     // Get cell limit for MenuVC 
