@@ -49,8 +49,9 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: slideMenuButton)
         view.addSubview(mainTableView)
         print(realm.configuration.fileURL?.description ?? "")
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadMainTableView), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.shouldRemoveShadow(true)
@@ -88,6 +89,10 @@ class MenuVC: BaseVC, MenuVCProtocol, HeaderViewForСategoriesProtocol {
     
     func tappedCategoriesMenu(indexCategory: Int) {
         presenter.scrollCellByCategories(indexCategory: indexCategory)
+    }
+    
+    @objc private func reloadMainTableView() {
+        presenter.getMenuInfo()
     }
     
 }

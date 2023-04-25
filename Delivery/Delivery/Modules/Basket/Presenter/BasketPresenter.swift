@@ -10,6 +10,7 @@ protocol BasketPresenterProtocol: AnyObject {
     func nextStepButtonTapped()
     func showSlideMenu(tabBarController: UITabBarController)
     func goToMenuButtonTapped(tabBar: UITabBarController)
+    func loadMenuImageToCache()
 }
 
 class BasketPresenter: BasketPresenterProtocol {

@@ -81,6 +81,7 @@ class BasketVC: BaseVC, BasketVCProtocol {
         view.addSubview(nextButton)
         view.addSubview(totalSumLabel)
         title = "Basket"
+        NotificationCenter.default.addObserver(self, selector: #selector(reloadMainTableView), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -181,6 +182,11 @@ class BasketVC: BaseVC, BasketVCProtocol {
     @objc private func goToMenu(sender: UIButton) {
         guard let presenter, let tabBarController else { return }
         presenter.goToMenuButtonTapped(tabBar: tabBarController)
+    }
+    
+    @objc private func reloadMainTableView() {
+        guard let presenter else { return }
+        presenter.loadMenuImageToCache()
     }
 }
 
